@@ -3,7 +3,7 @@
 ## Participantes:
 Marcos
 Joca
-Caio
+Caio VMG
 
 ## Tema:
 
