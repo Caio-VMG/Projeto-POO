@@ -9,7 +9,28 @@ public class Game {
         System.out.println("Game started!");
 
         while(!exitSelected) {
-            /*
+        	//talvez seja necessário salvar a referencia do deck
+        	Jogador jogador1 = new Jogador(new Deck()); 
+        	Jogador jogador2 = new Jogador(new Deck());
+        	//Começa o jogo
+        	jogador1.primeiraCompra(); // já tem incluso a possibilidade de trocar as cartas
+        	jogador2.primeiraCompra();
+        	Jogador atacante = jogador1;
+        	Jogador defensor = jogador2;
+        	//Começa o loop
+        	int passou = 0;      	
+      
+			atacante.comprarCarta();
+			atacante.ganharMana();
+			atacante.pegarEntrada();
+		
+			defensor.comprarCarta();
+			defensor.ganharMana();
+			defensor.pegarEntrada();
+        	
+        	inverterTurno(jogador1, jogador2);
+            //fim do loop
+        	/*
             1. Dois jogadores,
             2. Pescar 4 cartas,
             3. Trocar 4 cartas,
