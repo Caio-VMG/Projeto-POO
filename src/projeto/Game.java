@@ -1,35 +1,69 @@
 package projeto;
 
+import projeto.cartas.TipoTurno;
+
+import java.util.Scanner;
+
 public class Game {
 
-    private boolean exitSelected;
+	private Jogador jogador1;
+	private Jogador jogador2;
 
-    public void start(){
-        exitSelected = false;
-        System.out.println("Game started!");
+	private boolean exitSelected;
 
-        while(!exitSelected) {
-        	//talvez seja necessário salvar a referencia do deck
-        	Jogador jogador1 = new Jogador(new Deck()); 
-        	Jogador jogador2 = new Jogador(new Deck());
-        	//Começa o jogo
-        	jogador1.primeiraCompra(); // já tem incluso a possibilidade de trocar as cartas
-        	jogador2.primeiraCompra();
-        	Jogador atacante = jogador1;
-        	Jogador defensor = jogador2;
-        	//Começa o loop
-        	int passou = 0;      	
-      
-			atacante.comprarCarta();
-			atacante.ganharMana();
-			atacante.pegarEntrada();
-		
-			defensor.comprarCarta();
-			defensor.ganharMana();
-			defensor.pegarEntrada();
-        	
-        	inverterTurno(jogador1, jogador2);
-            //fim do loop
+	public void start() {
+		exitSelected = false;
+		System.out.println("Game started!");
+		IniciarJogadores();
+
+		while (!exitSelected) {
+
+			//ComeÃ§a o jogo
+
+			jogador1.primeiraCompra();// j tem incluso a possibilidade de trocar as cartas
+			jogador1.trocarCartas();
+			jogador2.primeiraCompra();
+			jogador2.trocarCartas();
+
+			Jogador atacante = jogador1;
+			jogador1.setTurno(TipoTurno.ATAQUE);
+			Jogador defensor = jogador2;
+			jogador2.setTurno(TipoTurno.DEFESA);
+
+			//ComeÃ§a o loop
+			boolean rodadaIsOver = false;
+			while (!rodadaIsOver) {
+
+				Jogador aux = atacante;
+				atacante = defensor;
+				atacante.setTurno(TipoTurno.ATAQUE);
+				defensor = aux;
+				defensor.setTurno(TipoTurno.DEFESA);
+
+				defensor.comprarCarta();
+				atacante.comprarCarta();
+				atacante.ganharMana();
+				defensor.ganharMana();
+
+				int passou = 0;
+
+				while (passou != 2) {
+					// Usar inteiros como comandos.
+
+					// drawBoard();
+					pegarEntradaAtacante(atacante);
+
+					// drawBoard();
+					pegarEntradaDefensor(defensor);
+				}
+			}
+
+		}
+
+		exitSelected = true;
+		System.out.println("Game terminated. Bye!");
+
+		//fim do loop
         	/*
             1. Dois jogadores,
             2. Pescar 4 cartas,
@@ -44,9 +78,40 @@ public class Game {
             6. Iniciar turno Jogador 2,
                 6.1. Sumonar cartas ou passa,
              */
-            exitSelected = true;
-        }
+	}
 
-        System.out.println("Game terminated. Bye!");
-    }
+	private void pegarEntradaAtacante(Jogador atacante){
+		Scanner scan = new Scanner(System.in);
+		int entrada = scan.nextInt();
+
+		if(entrada == 1){
+			atacante.sumonar();
+		} else if (entrada == 2) {
+			atacante.usarFeitico();
+		} else if (entrada == 3) {
+			atacante.passar();
+		} else if (entrada == 4) {
+			atacante.atacar();
+		}
+	}
+
+	private void pegarEntradaDefensor(Jogador defensor) {
+		Scanner scan = new Scanner(System.in);
+		int entrada = scan.nextInt();
+
+		if(entrada == 1){
+			defensor.sumonar();
+		} else if (entrada == 2) {
+			defensor.defender();
+		} else if (entrada == 3) {
+			defensor.passar();
+		}
+	}
+
+    private void IniciarJogadores(){
+		//talvez seja necessrio salvar a referencia do deck
+
+		Jogador jogador1 = new Jogador(new Deck("deck1"));
+		Jogador jogador2 = new Jogador(new Deck("deck2"));
+	}
 }

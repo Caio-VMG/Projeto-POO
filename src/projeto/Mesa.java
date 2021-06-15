@@ -1,5 +1,6 @@
 package projeto;
 
+import projeto.cartas.Unidade;
 import projeto.cartas.Carta;
 import projeto.cartas.TipoTurno;
 import projeto.cartas.Unidade;

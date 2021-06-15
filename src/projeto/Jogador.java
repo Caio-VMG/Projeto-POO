@@ -39,14 +39,39 @@ public class Jogador {
     	}    	
     	this.manaAtual = this.manaTotal;
     }
-    
-    /*
-    public void primeiraCompra()
-    */
-    
-    /*
-     public void comprarCarta()
-      */
+
+    public void comprarCarta(){
+        Carta carta = deck.getCarta(0);
+        mao.add(carta);
+        deck.remove(carta);
+    }
+
+    public void trocarCartas(){
+        // print as 4 primeiras cartas e digite os indices a serem trocados.
+        boolean terminou = false;
+        ArrayList<Integer> cartasTrocadas = new ArrayList<>();
+
+        while(!terminou){
+            int i;// Me da um indice da carta (0,1,2,3) ou (-1) se nao deseja trocar.
+
+            if(i == -1){
+                terminou = true;
+            } else {
+                if(!cartasTrocadas.contains(i)){
+                    cartasTrocadas.add(i);
+                    Carta carta = mao.remove(i);
+                    deck.add(carta);
+                }
+            }
+        }
+    }
+
+    public void primeiraCompra(){
+        for(int i = 0; i < 4; i++){
+            comprarCarta();
+        }
+        trocarCartas();
+    }
     
     /*
     public void evocarCarta()
@@ -59,4 +84,8 @@ public class Jogador {
     /*
     setDeck()
      */
+
+    public void setTurno(TipoTurno turno) {
+        this.turno = turno;
+    }
 }
