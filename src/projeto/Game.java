@@ -1,7 +1,8 @@
 package projeto;
 
-import projeto.cartas.TipoTurno;
+import projeto.cartas.*;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -14,7 +15,7 @@ public class Game {
 	public void start() {
 		exitSelected = false;
 		System.out.println("Game started!");
-		IniciarJogadores();
+		IniciarJogadores(jogador1, jogador2);
 
 		while (!exitSelected) {
 
@@ -79,6 +80,50 @@ public class Game {
                 6.1. Sumonar cartas ou passa,
              */
 	}
+	
+	private Deck criarDeckDummy() {
+		int j;
+		Deck deckrandom = new Deck("Dummy");
+		Random random = new Random();
+		for (int i = 0; i<40; i++) {			
+		    int valor = random.nextInt(11);
+		    if (valor == 0) {
+		    	Campeao garen = new Campeao("Garen", 5, 5, 5);
+		    	deckrandom.add(garen);
+		    } else if (valor == 1) {
+		    	Unidade tiana = new Unidade("Tiana", 8, 7, 7);
+		    	deckrandom.add(tiana);
+		    } else if (valor == 2) {
+		    	Unidade vanguarda = new Unidade("Vanguarda", 4, 3, 3);
+		    	deckrandom.add(vanguarda);
+		    } else if (valor == 3) {
+		    	Unidade duelista = new Unidade("Duelista", 3, 2, 3);
+		    	deckrandom.add(duelista);
+		    } else if (valor == 4) {
+		    	Unidade defensor = new Unidade("Defensor", 2, 2, 2);
+		    	deckrandom.add(defensor);
+		    } else if (valor == 5) {
+		    	Unidade poro = new Unidade("Poro", 1, 1, 2);
+		    	deckrandom.add(poro);
+		    } else if (valor == 6) {
+		    	Unidade poroD = new Unidade("Poro Defensor", 1, 2, 1);
+		    	deckrandom.add(poroD);
+		    } else if (valor == 7) {
+		    	Feitico julgamento = new Feitico("Julgamento", 8);
+		    	deckrandom.add(julgamento);
+		    } else if (valor == 8) {
+		    	Feitico valorR = new Feitico("Valor Redobrado", 6);
+		    	deckrandom.add(valorR);
+		    } else if (valor == 9) {
+		    	Feitico golpeC = new Feitico("Golpe Certeiro", 1);
+		    	deckrandom.add(golpeC);
+		    } else{
+		    	Feitico combate1a1 = new Feitico("Comabte um a um", 2);
+		    	deckrandom.add(combate1a1);
+		    }		    
+		}
+		return deckrandom;
+	}
 
 	private void pegarEntradaAtacante(Jogador atacante){
 		Scanner scan = new Scanner(System.in);
@@ -108,10 +153,9 @@ public class Game {
 		}
 	}
 
-    private void IniciarJogadores(){
+    private void IniciarJogadores(Jogador jogador1, Jogador jogador2){
 		//talvez seja necessrio salvar a referencia do deck
-
-		Jogador jogador1 = new Jogador(new Deck("deck1"));
-		Jogador jogador2 = new Jogador(new Deck("deck2"));
+		jogador1 = new Jogador(criarDeckDummy());
+		jogador2 = new Jogador(criarDeckDummy());
 	}
 }

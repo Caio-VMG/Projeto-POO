@@ -73,17 +73,13 @@ public class Jogador {
         trocarCartas();
     }
     
-    /*
-    public void evocarCarta()
-    */
+    public void sumonar() {
+    	
+    }
 
-    /*
-    public void finalizarTurno()
-     */
-
-    /*
-    setDeck()
-     */
+    public void setDeck(Deck deck){
+    	this.deck = deck;
+    }
 
     public void setTurno(TipoTurno turno) {
         this.turno = turno;
