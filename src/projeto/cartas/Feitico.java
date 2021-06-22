@@ -1,5 +1,8 @@
 package projeto.cartas;
 
+import projeto.Jogador;
+import projeto.cartas.efeitos.Efeito;
+
 public class Feitico extends Carta{
 	private Efeito efeito;
 	
@@ -10,5 +13,10 @@ public class Feitico extends Carta{
 	
 	public void usarFeitico() {
 		efeito.ativarEfeito();
+	}
+
+	@Override
+	public void usarCarta(Jogador atacante, Jogador defensor) {
+		System.out.println("Oi caio");
 	}
 }

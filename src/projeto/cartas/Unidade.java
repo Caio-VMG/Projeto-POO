@@ -3,6 +3,7 @@ package projeto.cartas;
 import java.util.ArrayList;
 
 import projeto.Jogador;
+import projeto.cartas.efeitos.Efeito;
 
 public class Unidade extends Carta{
     private int vida;
@@ -10,7 +11,7 @@ public class Unidade extends Carta{
     private ArrayList<Efeito> efeitos;
     private ArrayList<Traco> tracos;
 
-    //Construtor para quando a carta tem efeito e tem traço
+    //Construtor para quando a carta tem efeito e tem traï¿½o
     public Unidade(String nome, int custo, int vida, int poder, Efeito efeito, Traco traco) {
     	super(nome, custo);
     	this.vida = vida;
@@ -21,7 +22,7 @@ public class Unidade extends Carta{
     	efeitos.add(efeito);
     }
     
-  //Construtor para quando a carta tem efeito e não tem traço
+  //Construtor para quando a carta tem efeito e nï¿½o tem traï¿½o
     public Unidade(String nome, int custo, int vida, int poder, Efeito efeito) {
     	super(nome, custo);
     	this.vida = vida;
@@ -30,7 +31,7 @@ public class Unidade extends Carta{
     	efeitos.add(efeito);
     }
     
-    //Construtor para quando a carta não tem efeito mas tem traço
+    //Construtor para quando a carta nï¿½o tem efeito mas tem traï¿½o
     public Unidade(String nome, int custo, int vida, int poder, Traco traco ) {
     	super(nome, custo);
     	this.vida = vida;
@@ -40,7 +41,7 @@ public class Unidade extends Carta{
     	tracos.add(traco);
     }  
     
-  //Construtor para quando a carta não tem efeito e não tem traço
+  //Construtor para quando a carta nï¿½o tem efeito e nï¿½o tem traï¿½o
     public Unidade(String nome, int custo, int vida, int poder) {
     	super(nome, custo);
     	this.vida = vida;
@@ -60,15 +61,10 @@ public class Unidade extends Carta{
     public int getVida() {
         return vida;
     }
-    
-    public void usarCarta(Jogador jogador, int entrada) {
-    	if(jogador.getMana() >= jogador.getMao().get(entrada).getCusto()) {
-			jogador.getEvocadas().add(jogador.getMao().get(entrada));
-			jogador.setMana(jogador.getMao().get(entrada).getCusto());
-		}
-		else {
-			System.out.println("Você não possui mana suficiente");
-		}
+
+    @Override
+    public void usarCarta(Jogador atacante, Jogador defensor) {
+		atacante.sumonar(this);
     }
     
     

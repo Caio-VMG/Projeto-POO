@@ -51,10 +51,10 @@ public class Game {
 					// Usar inteiros como comandos.
 
 					// drawBoard();
-					pegarEntradaAtacante(atacante);
+					pegarEntradaAtacante(atacante, defensor);
 
 					// drawBoard();
-					pegarEntradaDefensor(defensor);
+					//pegarEntradaDefensor(defensor);
 				}
 			}
 		}
@@ -122,8 +122,11 @@ public class Game {
 		return deckrandom;
 	}
 
-	private void pegarEntradaAtacante(Jogador atacante){
-		System.out.printf("Jogador %s:\nmana: %d\nvida do nexus: %d\n", atacante.getNome(), atacante.getMana(), 
+	private void pegarEntradaAtacante(Jogador atacante, Jogador defensor){
+		//cheat
+		atacante.setMana(10);
+
+		System.out.printf("Jogador %s:\nmana: %d\nvida do nexus: %d\n", atacante.getNome(), atacante.getMana(),
 				atacante.getVida());
 		
 		System.out.printf("Vez de %s:\n[1] - Sumonar\n[2] - "
@@ -131,15 +134,19 @@ public class Game {
 		Scanner scan = new Scanner(System.in);
 		int entrada = scan.nextInt();
 		if(entrada == 1){
-			atacante.usarCarta();
+			Carta cartaEscolhida = atacante.escolherCarta();
+			if(cartaEscolhida != null){
+				cartaEscolhida.usarCarta(atacante, defensor);
+			}
 		} else if (entrada == 2) {
 			atacante.passar();
 		} else if (entrada == 3) {
 			atacante.atacar();
 		}
-		scan.close();
+		//scan.close();
 	}
 
+	/*
 	private void pegarEntradaDefensor(Jogador defensor) {
 		System.out.printf("Jogador %s:\nmana: %d\nvida do nexus: %d\n", defensor.getNome(), defensor.getMana(), 
 				defensor.getVida());
@@ -156,6 +163,7 @@ public class Game {
 			defensor.passar();
 		}
 		scan.close();
-		//defensor não pode usar feitiço?
+		//defensor nao pode usar feitico
 	}
+	 */
 }

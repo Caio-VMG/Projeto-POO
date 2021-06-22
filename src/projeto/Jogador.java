@@ -17,7 +17,7 @@ public class Jogador {
     private TipoTurno turno;
 
     private ArrayList<Carta> mao;
-    private ArrayList<Carta> evocadas;
+    private ArrayList<Carta> evocadas; // Cartas que ja foram compradas.
 
     public Jogador(Deck deck, String nome){
     	this.nome = nome;
@@ -30,12 +30,22 @@ public class Jogador {
         evocadas = new ArrayList<>();
     }
 
+    /**
+     * Causa dano x de ao nexus do jogador, onde x √© o par√¢metro.
+     */
+    public void sofrerDano(int dano){
+        this.nexus -= dano;
+    }
+
+    /**
+     * Causa dano ao nexus, correspondente ao poder da unidade passada.
+     */
     public void sofrerDano(Unidade unidade){
         this.nexus -= unidade.getPoder();
     }
     
     private void imprimeMao() {
-    	System.out.printf("M„o de %s:\n", this.nome);
+    	System.out.printf("Mao de %s:\n", this.nome);
     	for(int i = 0; i < mao.size(); i++) {
     		System.out.printf("[%d] - %s\n", i + 1, mao.get(i).getNome());
     	}
@@ -58,7 +68,7 @@ public class Jogador {
 
     public void trocarCartas(){
         // print as 4 primeiras cartas e digite os indices a serem trocados.
-    	System.out.printf("M„o de %s:\n", this.nome);
+    	System.out.printf("Mao de %s:\n", this.nome);
     	imprimeMao();
     	
         boolean terminou = false;
@@ -81,7 +91,7 @@ public class Jogador {
                     k++;
             	}
             	else {
-            		System.out.println("VocÍ n„o pode trocar a mesma carta");
+            		System.out.println("Voce nao pode trocar a mesma carta");
             	}
             }  
         }
@@ -97,26 +107,46 @@ public class Jogador {
         trocarCartas();
     }
 
-    public void setDeck(Deck deck){
-    	this.deck = deck;
+    /**
+     * A carta passada √© adicionada na lista de cartas evocadas do jogador.
+     */
+    public void sumonar(Carta carta){
+        this.evocadas.add(carta);
     }
 
-    public void setTurno(TipoTurno turno) {
-        this.turno = turno;
+    /**
+     * O jogador escolhe a carta que vai sumonar.
+     * Se houver mana o suficiente, retorna a carta escolhida.
+     */
+    public Carta escolherCarta(){
+        imprimeMao();
+        Scanner scan = new Scanner(System.in);
+        int entrada = scan.nextInt();
+        Carta carta = mao.get(entrada - 1);
+
+        if(canSummon(carta)) {
+            manaAtual -= carta.getCusto();
+            return mao.remove(entrada - 1);
+        } else {
+            System.out.println("Faltou mana");
+            return null;
+        }
     }
-    
-    public String getNome() {
-    	return this.nome;
+
+    /**
+     * Retorna true se o jogador tem mana o suficiente para sumonar a carta.
+     * Retorn false do contrario.
+     */
+    private boolean canSummon(Carta carta){
+        if(manaAtual >= carta.getCusto()){
+            return true;
+        } else {
+            return false;
+        }
     }
-    
-    public int getMana() {
-    	return this.manaAtual;
-    }
-    
-    public int getVida() {
-    	return this.nexus;
-    }
-    
+
+
+    /*
     public void usarCarta() {
     	System.out.printf("Selecione a carta:\n");
     	imprimeMao();
@@ -125,6 +155,7 @@ public class Jogador {
 		mao.get(entrada - 1).usarCarta(this, entrada - 1);
 		scan.close();
     }
+     */
     
     public void passar() {}
     
@@ -133,7 +164,21 @@ public class Jogador {
     public void defender() {
     	
     }
-    
+
+    //========================= Getters & Setters =========================
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public int getMana() {
+        return this.manaAtual;
+    }
+
+    public int getVida() {
+        return this.nexus;
+    }
+
     public ArrayList<Carta> getMao() {
     	return this.mao;
     }
@@ -145,6 +190,13 @@ public class Jogador {
     public void setMana(int pontos) {
     	this.manaAtual += pontos;
     }
-    
-  
+
+    public void setDeck(Deck deck){
+        this.deck = deck;
+    }
+
+    public void setTurno(TipoTurno turno) {
+        this.turno = turno;
+    }
+
 }

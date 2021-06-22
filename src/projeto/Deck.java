@@ -3,7 +3,6 @@ package projeto;
 import projeto.cartas.Carta;
 import java.util.ArrayList;
 
-import com.unicamp.mc322.lab10.app.restaurante.Lanche;
 
 public class Deck {
     private String nome;
