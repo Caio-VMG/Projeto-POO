@@ -15,4 +15,10 @@ public class Feitico extends Carta{
 	public void usarCarta(Jogador atacante, Jogador defensor) {
 		efeito.aplicarEfeito(atacante, defensor);
 	}
+
+
+	@Override
+	public Carta getUnidade(){
+		return null;
+	}
 }

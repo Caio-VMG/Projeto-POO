@@ -49,12 +49,13 @@ public class Game {
 
 				while (passou != 2) {
 					// Usar inteiros como comandos.
+					passou = 0;
 
 					// drawBoard();
-					pegarEntradaAtacante(atacante, defensor);
+					passou += pegarEntradaAtacante(atacante, defensor);
 
 					// drawBoard();
-					pegarEntradaDefensor(atacante, defensor);
+					passou += pegarEntradaDefensor(atacante, defensor);
 				}
 			}
 		}
@@ -122,7 +123,7 @@ public class Game {
 		return deckrandom;
 	}
 
-	private void pegarEntradaAtacante(Jogador atacante, Jogador defensor){
+	private int pegarEntradaAtacante(Jogador atacante, Jogador defensor){
 		//cheat
 		atacante.setMana(10);
 
@@ -139,15 +140,15 @@ public class Game {
 				cartaEscolhida.usarCarta(atacante, defensor);
 			}
 		} else if (entrada == 2) {
-			atacante.passar();
+			return 1;
 		} else if (entrada == 3) {
 			atacante.atacar();
 		}
-		//scan.close();
+		return 0;
 	}
 
 	
-	private void pegarEntradaDefensor(Jogador atacante, Jogador defensor) {
+	private int pegarEntradaDefensor(Jogador atacante, Jogador defensor) {
 		//cheat
 			defensor.setMana(10);
 
@@ -159,16 +160,17 @@ public class Game {
 			Scanner scan = new Scanner(System.in);
 			int entrada = scan.nextInt();
 			if(entrada == 1){
-				Carta cartaEscolhida = defensor.escolherCarta();
+				Carta cartaEscolhida = defensor.escolherUnidade();
 				if(cartaEscolhida != null){
 					cartaEscolhida.usarCarta(defensor, atacante);
 				}
 			} else if (entrada == 2) {
-				atacante.passar();
+				return 1;
 			} else if (entrada == 3) {
 				atacante.defender();
 			}
 			//scan.close();
 		//defensor nao pode usar feitico
+		return 0;
 	}
 }

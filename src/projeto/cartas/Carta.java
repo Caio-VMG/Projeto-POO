@@ -20,6 +20,12 @@ public abstract class Carta {
     }
     
     public abstract void usarCarta(Jogador jogador1, Jogador jogador2);
+
+    /**
+     * Devolve a unidade.
+     * Devolve null se a carta for um feitico.
+     */
+    public abstract Carta getUnidade();
     	
     /*
     public abstract void sumonar()

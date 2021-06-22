@@ -54,20 +54,26 @@ public class Unidade extends Carta{
         unidade2.vida -= unidade1.poder;
     }
 
-    public int getPoder() {
-        return poder;
-    }
-    
-    public int getVida() {
-        return vida;
-    }
-
     @Override
     public void usarCarta(Jogador jogador1, Jogador jogador2) {
 		jogador1.sumonar(this);
 		//Se a carta tiver efeitos, a gente coloca pra ativar aqui
 		//pensar como implementar efeitos que ativam na morte
     }
+
+    @Override
+    public Carta getUnidade(){
+    	return this;
+	}
+
+	public int getPoder() {
+		return poder;
+	}
+
+	public int getVida() {
+		return vida;
+	}
+
     
     
 }

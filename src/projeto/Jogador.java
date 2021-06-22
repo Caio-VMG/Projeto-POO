@@ -3,7 +3,6 @@ package projeto;
 import projeto.cartas.Carta;
 import projeto.cartas.TipoTurno;
 import projeto.cartas.Unidade;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -51,8 +50,7 @@ public class Jogador {
     	}
     	System.out.println("");
     }
-    
-    
+
     public void ganharMana() {
     	if (this.manaTotal < 10) {
     		this.manaTotal +=1;
@@ -132,6 +130,35 @@ public class Jogador {
             return null;
         }
     }
+
+    /**
+     * O defensor escolhe a unidade para evocar.
+     */
+    public Carta escolherUnidade(){
+        int entrada = 0;
+        imprimeMao();
+        Scanner scan = new Scanner(System.in);
+
+        Carta carta = null;
+        while(carta == null){
+            entrada = scan.nextInt();
+            if(entrada == 0){
+                return null;
+            }
+            carta = mao.get(entrada - 1);
+            carta = carta.getUnidade();
+        }
+
+        if(canSummon(carta)) {
+            manaAtual -= carta.getCusto();
+            return mao.remove(entrada - 1);
+        } else {
+            System.out.println("Não há mana suficiente.");
+            return null;
+        }
+    }
+
+
 
     /**
      * Retorna true se o jogador tem mana o suficiente para sumonar a carta.
