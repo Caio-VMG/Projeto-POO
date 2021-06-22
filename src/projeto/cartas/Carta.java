@@ -19,7 +19,7 @@ public abstract class Carta {
     	return custo;
     }
     
-    public abstract void usarCarta(Jogador atacante, Jogador defensor);
+    public abstract void usarCarta(Jogador jogador1, Jogador jogador2);
     	
     /*
     public abstract void sumonar()

@@ -54,7 +54,7 @@ public class Game {
 					pegarEntradaAtacante(atacante, defensor);
 
 					// drawBoard();
-					//pegarEntradaDefensor(defensor);
+					pegarEntradaDefensor(atacante, defensor);
 				}
 			}
 		}
@@ -146,24 +146,29 @@ public class Game {
 		//scan.close();
 	}
 
-	/*
-	private void pegarEntradaDefensor(Jogador defensor) {
-		System.out.printf("Jogador %s:\nmana: %d\nvida do nexus: %d\n", defensor.getNome(), defensor.getMana(), 
-				defensor.getVida());
-		
-		
-		System.out.printf("Vez de %s:\n[1] - Sumonar\n[2] - Defender\n[3] - Passar a vez\n", defensor.getNome());
-		Scanner scan = new Scanner(System.in);
-		int entrada = scan.nextInt();
-		if(entrada == 1){
-			defensor.usarCarta();
-		} else if (entrada == 2) {
-			defensor.defender();
-		} else if (entrada == 3) {
-			defensor.passar();
-		}
-		scan.close();
+	
+	private void pegarEntradaDefensor(Jogador atacante, Jogador defensor) {
+		//cheat
+			defensor.setMana(10);
+
+			System.out.printf("Jogador %s:\nmana: %d\nvida do nexus: %d\n", defensor.getNome(), defensor.getMana(),
+					defensor.getVida());
+			
+			System.out.printf("Vez de %s:\n[1] - Sumonar\n[2] - "
+					+ "Passar a vez\n[3] - Defender\n", defensor.getNome());
+			Scanner scan = new Scanner(System.in);
+			int entrada = scan.nextInt();
+			if(entrada == 1){
+				Carta cartaEscolhida = defensor.escolherCarta();
+				if(cartaEscolhida != null){
+					cartaEscolhida.usarCarta(defensor, atacante);
+				}
+			} else if (entrada == 2) {
+				atacante.passar();
+			} else if (entrada == 3) {
+				atacante.defender();
+			}
+			//scan.close();
 		//defensor nao pode usar feitico
 	}
-	 */
 }

@@ -63,8 +63,10 @@ public class Unidade extends Carta{
     }
 
     @Override
-    public void usarCarta(Jogador atacante, Jogador defensor) {
-		atacante.sumonar(this);
+    public void usarCarta(Jogador jogador1, Jogador jogador2) {
+		jogador1.sumonar(this);
+		//Se a carta tiver efeitos, a gente coloca pra ativar aqui
+		//pensar como implementar efeitos que ativam na morte
     }
     
     
