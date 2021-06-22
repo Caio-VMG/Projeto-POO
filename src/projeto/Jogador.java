@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Jogador {
+	private String nome;
     private int nexus;
     private int manaAtual;
     private int manaTotal;
@@ -18,7 +19,8 @@ public class Jogador {
     private ArrayList<Carta> mao;
     private ArrayList<Carta> evocadas;
 
-    public Jogador(Deck deck){
+    public Jogador(Deck deck, String nome){
+    	this.nome = nome;
         this.deck = deck;
         this.manaTotal = 0;
         this.manaAtual = 0;
@@ -30,6 +32,14 @@ public class Jogador {
 
     public void sofrerDano(Unidade unidade){
         this.nexus -= unidade.getPoder();
+    }
+    
+    private void imprimeMao() {
+    	System.out.printf("Mão de %s:\n", this.nome);
+    	for(int i = 0; i < mao.size(); i++) {
+    		System.out.printf("[%d] - %s\n", i + 1, mao.get(i).getNome());
+    	}
+    	System.out.println("");
     }
     
     
@@ -48,21 +58,35 @@ public class Jogador {
 
     public void trocarCartas(){
         // print as 4 primeiras cartas e digite os indices a serem trocados.
+    	System.out.printf("Mão de %s:\n", this.nome);
+    	imprimeMao();
+    	
         boolean terminou = false;
+        boolean trocou = false;
         ArrayList<Integer> cartasTrocadas = new ArrayList<>();
-
-        while(!terminou){
-            int i;// Me da um indice da carta (0,1,2,3) ou (-1) se nao deseja trocar.
-
-            if(i == -1){
+        // Me da um indice da carta (1,2,3,4) ou (0) se nao deseja mais trocar.
+        int k = 0;
+        while(!terminou && k < 4){
+        	Scanner scan = new Scanner(System.in);
+        	int i = scan.nextInt();
+            if(i == 0){
                 terminou = true;
             } else {
-                if(!cartasTrocadas.contains(i)){
-                    cartasTrocadas.add(i);
-                    Carta carta = mao.remove(i);
+            	trocou = true;
+            	if(!cartasTrocadas.contains(i - 1)) {
+            		cartasTrocadas.add(i - 1);
+            		Carta carta = mao.remove(i - 1);
                     deck.add(carta);
-                }
-            }
+                    this.comprarCarta();
+                    k++;
+            	}
+            	else {
+            		System.out.println("Você não pode trocar a mesma carta");
+            	}
+            }  
+        }
+        if(trocou) {
+        	imprimeMao();
         }
     }
 
@@ -72,10 +96,6 @@ public class Jogador {
         }
         trocarCartas();
     }
-    
-    public void sumonar() {
-    	
-    }
 
     public void setDeck(Deck deck){
     	this.deck = deck;
@@ -84,4 +104,39 @@ public class Jogador {
     public void setTurno(TipoTurno turno) {
         this.turno = turno;
     }
+    
+    public String getNome() {
+    	return this.nome;
+    }
+    
+    public int getMana() {
+    	return this.manaAtual;
+    }
+    
+    public int getVida() {
+    	return this.nexus;
+    }
+    
+    public void usarCarta() {
+    	System.out.printf("Selecione a carta:\n");
+    	imprimeMao();
+    	Scanner scan = new Scanner(System.in);
+		int entrada = scan.nextInt();
+		mao.get(entrada - 1).usarCarta(this);
+		scan.close();
+    }
+    
+    public void passar() {}
+    
+    public void atacar() {}
+    
+    public void defender() {
+    	
+    }
+    
+    public ArrayList<Carta> getMao() {
+    	return this.mao;
+    }
+    
+  
 }

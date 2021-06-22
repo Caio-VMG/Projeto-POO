@@ -6,25 +6,24 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
-
 	private Jogador jogador1;
 	private Jogador jogador2;
-
 	private boolean exitSelected;
 
 	public void start() {
 		exitSelected = false;
 		System.out.println("Game started!");
-		IniciarJogadores(jogador1, jogador2);
+		System.out.println("");
+		this.jogador1 = new Jogador(criarDeckDummy(), "Player1");
+		this.jogador2 = new Jogador(criarDeckDummy(), "Player2");
+		//IniciarJogadores(jogador1, jogador2);
 
 		while (!exitSelected) {
 
 			//ComeÃ§a o jogo
 
 			jogador1.primeiraCompra();// j tem incluso a possibilidade de trocar as cartas
-			jogador1.trocarCartas();
 			jogador2.primeiraCompra();
-			jogador2.trocarCartas();
 
 			Jogador atacante = jogador1;
 			jogador1.setTurno(TipoTurno.ATAQUE);
@@ -58,9 +57,7 @@ public class Game {
 					pegarEntradaDefensor(defensor);
 				}
 			}
-
 		}
-
 		exitSelected = true;
 		System.out.println("Game terminated. Bye!");
 
@@ -126,36 +123,39 @@ public class Game {
 	}
 
 	private void pegarEntradaAtacante(Jogador atacante){
+		System.out.printf("Jogador %s:\nmana: %d\nvida do nexus: %d\n", atacante.getNome(), atacante.getMana(), 
+				atacante.getVida());
+		
+		System.out.printf("Vez de %s:\n[1] - Sumonar\n[2] - "
+				+ "Passar a vez\n[3] - Atacar\n", atacante.getNome());
 		Scanner scan = new Scanner(System.in);
 		int entrada = scan.nextInt();
-
 		if(entrada == 1){
-			atacante.sumonar();
+			atacante.usarCarta();
 		} else if (entrada == 2) {
-			atacante.usarFeitico();
-		} else if (entrada == 3) {
 			atacante.passar();
-		} else if (entrada == 4) {
+		} else if (entrada == 3) {
 			atacante.atacar();
 		}
+		scan.close();
 	}
 
 	private void pegarEntradaDefensor(Jogador defensor) {
+		System.out.printf("Jogador %s:\nmana: %d\nvida do nexus: %d\n", defensor.getNome(), defensor.getMana(), 
+				defensor.getVida());
+		
+		
+		System.out.printf("Vez de %s:\n[1] - Sumonar\n[2] - Defender\n[3] - Passar a vez\n", defensor.getNome());
 		Scanner scan = new Scanner(System.in);
 		int entrada = scan.nextInt();
-
 		if(entrada == 1){
-			defensor.sumonar();
+			defensor.usarCarta();
 		} else if (entrada == 2) {
 			defensor.defender();
 		} else if (entrada == 3) {
 			defensor.passar();
 		}
-	}
-
-    private void IniciarJogadores(Jogador jogador1, Jogador jogador2){
-		//talvez seja necessrio salvar a referencia do deck
-		jogador1 = new Jogador(criarDeckDummy());
-		jogador2 = new Jogador(criarDeckDummy());
+		scan.close();
+		//defensor não pode usar feitiço?
 	}
 }

@@ -8,5 +8,9 @@ public abstract class Carta {
     	this.nome = nome;    	
     	this.custo = custo;
     }
+    
+    public String getNome() {
+    	return this.nome;
+    }
     /* * */
 }
