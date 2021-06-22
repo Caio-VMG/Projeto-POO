@@ -122,7 +122,7 @@ public class Jogador {
     	imprimeMao();
     	Scanner scan = new Scanner(System.in);
 		int entrada = scan.nextInt();
-		mao.get(entrada - 1).usarCarta(this);
+		mao.get(entrada - 1).usarCarta(this, entrada - 1);
 		scan.close();
     }
     
@@ -136,6 +136,14 @@ public class Jogador {
     
     public ArrayList<Carta> getMao() {
     	return this.mao;
+    }
+    
+    public ArrayList<Carta> getEvocadas(){
+    	return this.evocadas;
+    }
+    
+    public void setMana(int pontos) {
+    	this.manaAtual += pontos;
     }
     
   

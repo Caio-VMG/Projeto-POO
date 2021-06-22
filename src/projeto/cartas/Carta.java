@@ -1,5 +1,7 @@
 package projeto.cartas;
 
+import projeto.Jogador;
+
 public abstract class Carta {
     private String nome;
     private int custo;
@@ -12,5 +14,14 @@ public abstract class Carta {
     public String getNome() {
     	return this.nome;
     }
+    
+    public int getCusto() {
+    	return custo;
+    }
+    
+    public abstract void usarCarta(Jogador jogador, int entrada);
+    	
+    
+    public abstract void sumonar();
     /* * */
 }

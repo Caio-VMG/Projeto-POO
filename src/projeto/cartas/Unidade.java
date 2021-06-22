@@ -2,6 +2,8 @@ package projeto.cartas;
 
 import java.util.ArrayList;
 
+import projeto.Jogador;
+
 public class Unidade extends Carta{
     private int vida;
     private int poder;
@@ -58,4 +60,16 @@ public class Unidade extends Carta{
     public int getVida() {
         return vida;
     }
+    
+    public void usarCarta(Jogador jogador, int entrada) {
+    	if(jogador.getMana() >= jogador.getMao().get(entrada).getCusto()) {
+			jogador.getEvocadas().add(jogador.getMao().get(entrada));
+			jogador.setMana(jogador.getMao().get(entrada).getCusto());
+		}
+		else {
+			System.out.println("Você não possui mana suficiente");
+		}
+    }
+    
+    
 }
