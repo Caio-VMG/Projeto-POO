@@ -50,6 +50,14 @@ public class Jogador {
     	}
     	System.out.println("");
     }
+    
+    private void imprimeEvocadas() {
+    	System.out.printf("Cartas evocadas de %s:\n", this.nome);
+    	for(int i = 0; i < evocadas.size(); i++) {
+    		System.out.printf("[%d] - %s\n", i + 1, evocadas.get(i).getNome());
+    	}
+    	System.out.println("");
+    }
 
     public void ganharMana() {
     	if (this.manaTotal < 10) {
@@ -66,7 +74,6 @@ public class Jogador {
 
     public void trocarCartas(){
         // print as 4 primeiras cartas e digite os indices a serem trocados.
-    	System.out.printf("Mao de %s:\n", this.nome);
     	imprimeMao();
     	
         boolean terminou = false;
@@ -148,6 +155,8 @@ public class Jogador {
             carta = mao.get(entrada - 1);
             carta = carta.getUnidade();
         }
+        
+        //precisa de escolherUnidade quando já temos escolherCarta?
 
         if(canSummon(carta)) {
             manaAtual -= carta.getCusto();
@@ -186,10 +195,24 @@ public class Jogador {
     
     public void passar() {}
     
-    public void atacar() {}
+    public Carta atacar() {
+    	System.out.println("Escolha a carta para atacar:\n");
+    	imprimeEvocadas();
+    	Scanner scan = new Scanner(System.in);
+        int entrada = scan.nextInt();
+    	Carta cartaEscolhida = evocadas.get(entrada - 1);
+    	evocadas.remove(entrada - 1);
+    	return cartaEscolhida;
+    }
     
-    public void defender() {
-    	
+    public Carta defender() {
+    	System.out.println("Escolha a carta para defender:\n");
+    	imprimeEvocadas();
+    	Scanner scan = new Scanner(System.in);
+        int entrada = scan.nextInt();
+    	Carta cartaEscolhida = evocadas.get(entrada - 1);
+    	evocadas.remove(entrada - 1);
+    	return cartaEscolhida;
     }
 
     //========================= Getters & Setters =========================

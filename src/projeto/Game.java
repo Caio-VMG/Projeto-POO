@@ -2,6 +2,7 @@ package projeto;
 
 import projeto.cartas.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,15 +10,35 @@ public class Game {
 	private Jogador jogador1;
 	private Jogador jogador2;
 	private boolean exitSelected;
+	private ArrayList<Carta> mesaAtaque;
+	private ArrayList<Carta> mesaDefesa;
+	
+	private void inverteMesa() {
+		ArrayList<Carta> aux = mesaAtaque;
+		mesaAtaque = mesaDefesa;
+		mesaDefesa = aux;
+	}
+	
+	private void preencheMesas() {
+		Carta carta = null;
+		for(int i = 0; i < 4; i++) {
+			mesaAtaque.add(i, carta);
+			mesaDefesa.add(i, carta);
+		}
+	}
 
 	public void start() {
 		exitSelected = false;
 		System.out.println("Game started!");
 		System.out.println("");
+		mesaAtaque = new ArrayList<>();
+		mesaDefesa = new ArrayList<>();
+		preencheMesas();
 		this.jogador1 = new Jogador(criarDeckDummy(), "Player1");
 		this.jogador2 = new Jogador(criarDeckDummy(), "Player2");
 		//IniciarJogadores(jogador1, jogador2);
-
+	
+		
 		while (!exitSelected) {
 
 			//ComeÃ§a o jogo
@@ -127,8 +148,8 @@ public class Game {
 		//cheat
 		atacante.setMana(10);
 
-		System.out.printf("Jogador %s:\nmana: %d\nvida do nexus: %d\n", atacante.getNome(), atacante.getMana(),
-				atacante.getVida());
+		System.out.printf("Jogador %s (atacante):\nmana: %d\nvida do nexus: %d\n", atacante.getNome()
+				,atacante.getMana(),atacante.getVida());
 		
 		System.out.printf("Vez de %s:\n[1] - Sumonar\n[2] - "
 				+ "Passar a vez\n[3] - Atacar\n", atacante.getNome());
@@ -140,37 +161,67 @@ public class Game {
 				cartaEscolhida.usarCarta(atacante, defensor);
 			}
 		} else if (entrada == 2) {
-			return 1;
+			atacante.passar();
+			System.out.printf("%s passou a vez\n", atacante.getNome());
+			System.out.println("Posição inválida");
+		
 		} else if (entrada == 3) {
-			atacante.atacar();
+			Carta cartaEscolhida = atacante.atacar();
+			//talvez seja interessante criar um enum pras posições?
+			System.out.println("Escolha a posição do atacante (de 1 a 4)\n");
+			entrada = scanNextInt();
+			if(entrada < 1 || entrada > 4) {
+				System.out.println("Posição inválida");
+			}
+			else {
+				mesaAtaque.add(entrada, cartaEscolhida);
+			}
 		}
+		return 1;
+	}
+	
+	
+
+	
+	private int scanNextInt() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	
 	private int pegarEntradaDefensor(Jogador atacante, Jogador defensor) {
 		//cheat
 			defensor.setMana(10);
 
-			System.out.printf("Jogador %s:\nmana: %d\nvida do nexus: %d\n", defensor.getNome(), defensor.getMana(),
-					defensor.getVida());
+			System.out.printf("Jogador %s (defensor):\nmana: %d\nvida do nexus: %d\n", defensor.getNome(), 
+					defensor.getMana(),defensor.getVida());
 			
 			System.out.printf("Vez de %s:\n[1] - Sumonar\n[2] - "
 					+ "Passar a vez\n[3] - Defender\n", defensor.getNome());
+			
 			Scanner scan = new Scanner(System.in);
 			int entrada = scan.nextInt();
+			
 			if(entrada == 1){
-				Carta cartaEscolhida = defensor.escolherUnidade();
+				Carta cartaEscolhida = defensor.escolherCarta();
 				if(cartaEscolhida != null){
 					cartaEscolhida.usarCarta(defensor, atacante);
 				}
 			} else if (entrada == 2) {
 				return 1;
+			
 			} else if (entrada == 3) {
-				atacante.defender();
+				Carta cartaEscolhida = atacante.defender();
+				System.out.println("Escolha a posição do defensor (de 1 a 4)\n");
+				entrada = scanNextInt();
+				if(entrada < 1 || entrada > 4) {
+					System.out.println("Posição inválida");
+				}
+				else {
+					mesaDefesa.add(entrada, cartaEscolhida);
+				}
 			}
 			//scan.close();
 		//defensor nao pode usar feitico
-		return 0;
+		return 1;
 	}
 }

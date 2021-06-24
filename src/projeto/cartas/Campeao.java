@@ -28,7 +28,7 @@ public class Campeao extends Unidade{
 			jogador.setMana(jogador.getMao().get(entrada).getCusto());
 		}
 		else {
-			System.out.println("Vocï¿½ nï¿½o possui mana suficiente");
+			System.out.println("Você não possui mana suficiente");
 		}
     }
 	
