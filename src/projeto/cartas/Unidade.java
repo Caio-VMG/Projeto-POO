@@ -6,8 +6,8 @@ import projeto.Jogador;
 import projeto.cartas.efeitos.Efeito;
 
 public class Unidade extends Carta{
-    private int vida;
-    private int poder;
+    protected int vida;
+    protected int poder;
     private ArrayList<Efeito> efeitos;
     private ArrayList<Traco> tracos;
 
@@ -66,12 +66,16 @@ public class Unidade extends Carta{
     	return this;
 	}
 
-	public int getPoder() {
+	public int getDano() {
 		return poder;
 	}
 
 	public int getVida() {
 		return vida;
+	}
+	
+	public void sofrerDano(int danoRecebido) {
+		this.vida -= danoRecebido;
 	}
 
     

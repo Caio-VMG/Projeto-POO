@@ -15,17 +15,56 @@ public class Mesa {
         atacantes = new ArrayList<>();
         defensores = new ArrayList<>();
     }
-
-    public void adicionarAtacante(Unidade unidade){
-        atacantes.add(unidade);
+    
+    public void preencheMesas() {
+    	for(int i = 0; i < 4; i++) {
+    		atacantes.add(i, null);
+    		defensores.add(i, null);
+    	}
+    }
+    
+    private void mensagemMorte(Unidade derrotada) {
+    	System.out.printf("%s foi derrotado(a)\n", derrotada.getNome());
+    	System.out.println("");
+    }
+    
+    public void inverteMesa() {
+    	ArrayList<Unidade> aux = atacantes;
+    	atacantes = defensores;
+    	defensores = aux;
     }
 
-    public void adicionarDefensor(Unidade unidade, int pos){
+    public void adicionarAtacante(Unidade unidade, int posicao){
+        atacantes.add(posicao - 1, unidade);
+    }
+
+    public void adicionarDefensor(Unidade unidade, int posicao){
         // Condicao Elusivo deve ser respeitada.
-        if(pos < atacantes.size())
-            defensores.add(pos, unidade);
-        else
-            System.out.println("Não é possível adicionar a carta nessa posição.");
+        defensores.add(posicao - 1, unidade);
+    }
+    
+    public void batalha(Jogador atacante, Jogador defensor) {
+    	for(int i = 0; i < 4; i++) {
+    		if(atacantes.get(i) != null) {
+    			if(defensores.get(i) == null) {
+    				defensor.sofrerDanoNexus(atacantes.get(i).getDano());
+    			}
+    			else {
+    				defensores.get(i).sofrerDano(atacantes.get(i).getDano());
+    				atacantes.get(i).sofrerDano(defensores.get(i).getDano());
+    			}
+    		}
+    	}
+    	for(int i = 0; i < 4; i++) {
+    		if(defensores.get(i).getVida() <= 0) {
+    			mensagemMorte(defensores.get(i));
+    			defensores.remove(i);
+    		}
+    		if(atacantes.get(i).getVida() <= 0) {
+    			mensagemMorte(atacantes.get(i));
+    			atacantes.remove(i);
+    		}
+    	}
     }
 
     /**

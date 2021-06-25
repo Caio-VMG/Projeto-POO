@@ -10,38 +10,25 @@ public class Game {
 	private Jogador jogador1;
 	private Jogador jogador2;
 	private boolean exitSelected;
-	private ArrayList<Carta> mesaAtaque;
-	private ArrayList<Carta> mesaDefesa;
+	Mesa mesa;
 	
-	private void inverteMesa() {
-		ArrayList<Carta> aux = mesaAtaque;
-		mesaAtaque = mesaDefesa;
-		mesaDefesa = aux;
-	}
-	
-	private void preencheMesas() {
-		Carta carta = null;
-		for(int i = 0; i < 4; i++) {
-			mesaAtaque.add(i, carta);
-			mesaDefesa.add(i, carta);
-		}
+	private void iniciarBatalha(Jogador atacante, Jogador defensor) {
+		mesa.batalha(atacante, defensor);
 	}
 
 	public void start() {
 		exitSelected = false;
 		System.out.println("Game started!");
 		System.out.println("");
-		mesaAtaque = new ArrayList<>();
-		mesaDefesa = new ArrayList<>();
-		preencheMesas();
+		mesa = new Mesa();
+		mesa.preencheMesas();
 		this.jogador1 = new Jogador(criarDeckDummy(), "Player1");
 		this.jogador2 = new Jogador(criarDeckDummy(), "Player2");
 		//IniciarJogadores(jogador1, jogador2);
 	
 		
 		while (!exitSelected) {
-
-			//ComeÃ§a o jogo
+			//Começa o jogo
 
 			jogador1.primeiraCompra();// j tem incluso a possibilidade de trocar as cartas
 			jogador2.primeiraCompra();
@@ -77,6 +64,10 @@ public class Game {
 
 					// drawBoard();
 					passou += pegarEntradaDefensor(atacante, defensor);
+					if(passou == 3) {
+						iniciarBatalha(atacante, defensor);
+					}
+					mesa.inverteMesa();
 				}
 			}
 		}
@@ -169,19 +160,18 @@ public class Game {
 			Carta cartaEscolhida = atacante.atacar();
 			//talvez seja interessante criar um enum pras posições?
 			System.out.println("Escolha a posição do atacante (de 1 a 4)\n");
-			entrada = scanNextInt();
-			if(entrada < 1 || entrada > 4) {
+			Scanner ler = new Scanner(System.in);
+			int posicao = ler.nextInt();
+			if(posicao < 1 || posicao > 4) {
 				System.out.println("Posição inválida");
 			}
 			else {
-				mesaAtaque.add(entrada, cartaEscolhida);
+				mesa.adicionarAtacante((Unidade) cartaEscolhida, posicao);
+				return 2;
 			}
 		}
 		return 1;
 	}
-	
-	
-
 	
 	private int scanNextInt() {
 		// TODO Auto-generated method stub
@@ -212,12 +202,13 @@ public class Game {
 			} else if (entrada == 3) {
 				Carta cartaEscolhida = atacante.defender();
 				System.out.println("Escolha a posição do defensor (de 1 a 4)\n");
-				entrada = scanNextInt();
-				if(entrada < 1 || entrada > 4) {
+				Scanner ler = new Scanner(System.in);
+				int posicao = ler.nextInt();
+				if(posicao < 1 || posicao > 4) {
 					System.out.println("Posição inválida");
 				}
 				else {
-					mesaDefesa.add(entrada, cartaEscolhida);
+					mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
 				}
 			}
 			//scan.close();

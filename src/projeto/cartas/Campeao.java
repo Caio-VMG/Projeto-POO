@@ -32,5 +32,11 @@ public class Campeao extends Unidade{
 		}
     }
 	
+	public int getDano() {
+		return this.poder;
+	}
 	
+	public void sofrerDano(int danoRecebido) {
+		this.vida -= danoRecebido;
+	}
 }

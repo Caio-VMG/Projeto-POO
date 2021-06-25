@@ -32,15 +32,8 @@ public class Jogador {
     /**
      * Causa dano x de ao nexus do jogador, onde x é o parâmetro.
      */
-    public void sofrerDano(int dano){
+    public void sofrerDanoNexus(int dano){
         this.nexus -= dano;
-    }
-
-    /**
-     * Causa dano ao nexus, correspondente ao poder da unidade passada.
-     */
-    public void sofrerDano(Unidade unidade){
-        this.nexus -= unidade.getPoder();
     }
     
     private void imprimeMao() {

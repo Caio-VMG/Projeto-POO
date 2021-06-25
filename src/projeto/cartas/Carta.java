@@ -19,6 +19,10 @@ public abstract class Carta {
     	return custo;
     }
     
+    public int getDano() {
+    	return 0;
+    }
+    
     public abstract void usarCarta(Jogador jogador1, Jogador jogador2);
 
     /**
