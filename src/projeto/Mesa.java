@@ -56,13 +56,17 @@ public class Mesa {
     		}
     	}
     	for(int i = 0; i < 4; i++) {
-    		if(defensores.get(i).getVida() <= 0) {
-    			mensagemMorte(defensores.get(i));
-    			defensores.remove(i);
+    		if(defensores.get(i) != null) {
+    			if(defensores.get(i).getVida() <= 0) {
+    				mensagemMorte(defensores.get(i));
+    				defensores.remove(i);
+    			}
     		}
-    		if(atacantes.get(i).getVida() <= 0) {
-    			mensagemMorte(atacantes.get(i));
-    			atacantes.remove(i);
+    		if(atacantes.get(i) != null) {
+    			if(atacantes.get(i).getVida() <= 0) {
+    				mensagemMorte(atacantes.get(i));
+    				atacantes.remove(i);
+    			}
     		}
     	}
     }
