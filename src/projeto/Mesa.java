@@ -16,22 +16,15 @@ public class Mesa {
         defensores = new ArrayList<>();
     }
     
-    public void preencheMesas() {
-    	for(int i = 0; i < 4; i++) {
-    		atacantes.add(i, null);
-    		defensores.add(i, null);
-    	}
-    }
-    
     private void mensagemMorte(Unidade derrotada) {
     	System.out.printf("%s foi derrotado(a)\n", derrotada.getNome());
     	System.out.println("");
     }
     
     public void inverteMesa() {
-    	ArrayList<Unidade> aux = atacantes;
-    	atacantes = defensores;
-    	defensores = aux;
+    	ArrayList<Unidade> aux = this.atacantes;
+    	this.atacantes = defensores;
+    	this.defensores = aux;
     }
 
     public void adicionarAtacante(Unidade unidade){
@@ -51,7 +44,7 @@ public class Mesa {
     }
     
     public void batalha(Jogador atacante, Jogador defensor) {
-    	for(int i = 0; i < 4; i++) {
+    	for(int i = 0; i < atacantes.size(); i++) {
     		if(atacantes.get(i) != null) {
     			if(defensores.get(i) == null) {
     				defensor.sofrerDanoNexus(atacantes.get(i).getDano());
@@ -62,19 +55,22 @@ public class Mesa {
     			}
     		}
     	}
-    	for(int i = 0; i < 4; i++) {
+    	for(int i = 0; i < defensores.size(); i++) {
     		if(defensores.get(i) != null) {
     			if(defensores.get(i).getVida() <= 0) {
     				mensagemMorte(defensores.get(i));
     				defensores.remove(i);
     			}
-    		}
-    		if(atacantes.get(i) != null) {
-    			if(atacantes.get(i).getVida() <= 0) {
-    				mensagemMorte(atacantes.get(i));
-    				atacantes.remove(i);
-    			}
-    		}
+    		}    		
+    	}
+    	
+    	for(int i = 0; i < atacantes.size(); i++) {
+			if(atacantes.get(i) != null) {
+				if(atacantes.get(i).getVida() <= 0) {
+					mensagemMorte(atacantes.get(i));
+					atacantes.remove(i);
+				}
+			}
     	}
     }
 

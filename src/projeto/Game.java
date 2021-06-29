@@ -21,7 +21,6 @@ public class Game {
 		System.out.println("Game started!");
 		System.out.println("");
 		mesa = new Mesa();
-		mesa.preencheMesas();
 		this.jogador1 = new Jogador(criarDeckDummy(), "Player1");
 		this.jogador2 = new Jogador(criarDeckDummy(), "Player2");
 		//IniciarJogadores(jogador1, jogador2);
@@ -41,13 +40,14 @@ public class Game {
 			//ComeÃ§a o loop
 			boolean rodadaIsOver = false;
 			while (!rodadaIsOver) {
-
+				
 				Jogador aux = atacante;
 				atacante = defensor;
 				atacante.setTurno(TipoTurno.ATAQUE);
 				defensor = aux;
 				defensor.setTurno(TipoTurno.DEFESA);
-
+				
+				
 				defensor.comprarCarta();
 				atacante.comprarCarta();
 				atacante.ganharMana();
@@ -69,6 +69,7 @@ public class Game {
 					}
 					mesa.inverteMesa();
 				}
+				//mesa.inverteMesa();
 			}
 		}
 		exitSelected = true;
@@ -150,6 +151,8 @@ public class Game {
 			Carta cartaEscolhida = atacante.escolherCarta();
 			if(cartaEscolhida != null){
 				cartaEscolhida.usarCarta(atacante, defensor);
+			} else {
+				return pegarEntradaAtacante(atacante, defensor);
 			}
 		} else if (entrada == 2) {
 			atacante.passar();
@@ -158,17 +161,17 @@ public class Game {
 		
 		} else if (entrada == 3) {
 			Carta cartaEscolhida = atacante.atacar();
-			//talvez seja interessante criar um enum pras posições?
-			mesa.adicionarAtacante((Unidade) cartaEscolhida);
-			return 2;
+			if (cartaEscolhida != null) {
+				//talvez seja interessante criar um enum pras posições?
+				mesa.adicionarAtacante((Unidade) cartaEscolhida);	
+				return 2;
+			}				
 			
+		} else {
+			System.out.printf("%s esse comando não é válido\n", atacante.getNome());
+			return pegarEntradaAtacante(atacante, defensor);
 		}
 		return 1;
-	}
-	
-	private int scanNextInt() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	private int pegarEntradaDefensor(Jogador atacante, Jogador defensor) {
@@ -193,7 +196,7 @@ public class Game {
 				return 1;
 			
 			} else if (entrada == 3) {
-				Carta cartaEscolhida = atacante.defender();
+				Carta cartaEscolhida = defensor.defender();
 				System.out.println("Escolha a posição do defensor (de 1 a 4)\n");
 				Scanner ler = new Scanner(System.in);
 				int posicao = ler.nextInt();
@@ -203,6 +206,9 @@ public class Game {
 				else {
 					mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
 				}
+			} else {
+				System.out.printf("%s esse comando não é válido\n", defensor.getNome());
+				return pegarEntradaDefensor(atacante, defensor);
 			}
 			//scan.close();
 		//defensor nao pode usar feitico
