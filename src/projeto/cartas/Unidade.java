@@ -10,6 +10,7 @@ public class Unidade extends Carta{
     protected int poder;
     private ArrayList<Efeito> efeitos;
     private ArrayList<Traco> tracos;
+    private int kills;
 
     //Construtor para quando a carta tem efeito e tem tra�o
     public Unidade(String nome, int custo, int vida, int poder, Efeito efeito, Traco traco) {
@@ -18,6 +19,7 @@ public class Unidade extends Carta{
     	this.poder = poder;
     	this.efeitos = new ArrayList<>();
     	this.tracos = new ArrayList<>();
+    	this.kills = 0;
     	tracos.add(traco);
     	efeitos.add(efeito);
     }
@@ -49,9 +51,15 @@ public class Unidade extends Carta{
     	this.efeitos = new ArrayList<>();
     }
     
-    public static void batalhar(Unidade unidade1, Unidade unidade2){
+    public void batalhar(Unidade unidade1, Unidade unidade2){
         unidade1.vida -= unidade2.poder;
         unidade2.vida -= unidade1.poder;
+        if(unidade1.vida <= 0) {
+        	unidade2.kills++;
+        }
+        if(unidade2.vida <= 0) {
+        	unidade1.kills++;
+        }
     }
 
     @Override
@@ -65,6 +73,12 @@ public class Unidade extends Carta{
     public Carta getUnidade(){
     	return this;
 	}
+    
+    public void confereEfeitoKill(Jogador jogador) {
+    	for(int i = 0; i < efeitos.size(); i++) {
+    		efeitos.get(i).ativarEfeito(jogador);
+    	}
+    }
 
 	public int getDano() {
 		return poder;
@@ -78,7 +92,29 @@ public class Unidade extends Carta{
 		this.vida -= danoRecebido;
 	}
 	
-	public void
+	public void aumentarDano(int danoMais) {
+		this.poder += danoMais;
+	}
+	
+	public void aumentarVida(int vidaMais) {
+		this.vida += vidaMais;
+	}
+	
+	public void diminuiDano(int vidaMenos) {
+		this.poder -= vidaMenos;
+	}
+	
+	public void diminuiVida(int vidaMenos) {
+		this.vida -= vidaMenos;
+	}
+	
+	public void addEfeito(Efeito efeito) {
+		this.efeitos.add(efeito);
+	}
+	
+	public void removerEfeito(Efeito efeito) {
+		this.efeitos.remove(efeito);
+	}
 
     
     

@@ -54,8 +54,7 @@ public class Mesa {
     				defensor.sofrerDanoNexus(atacantes.get(i).getDano());
     			}
     			else {
-    				defensores.get(i).sofrerDano(atacantes.get(i).getDano());
-    				atacantes.get(i).sofrerDano(defensores.get(i).getDano());
+    				atacantes.get(i).batalhar(atacantes.get(i), defensores.get(i));
     			}
     		}
     	}
@@ -84,6 +83,18 @@ public class Mesa {
     public void limparMesa(){
         atacantes.clear();
         defensores.clear();
+    }
+    
+    private void confereEfeitoKillAtacante(Jogador atacante) {
+    	for(int i = 0; i < atacantes.size(); i++) {
+    		atacantes.get(i).confereEfeitoKill(atacante);
+    	}
+    }
+    
+    private void confereEfeitoKillDefensor(Jogador defensor) {
+    	for(int i = 0; i < defensores.size(); i++) {
+    		atacantes.get(i).confereEfeitoKill(defensor);
+    	}
     }
 
     /**

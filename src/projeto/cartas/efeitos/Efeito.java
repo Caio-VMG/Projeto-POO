@@ -1,6 +1,6 @@
 package projeto.cartas.efeitos;
-
 import projeto.Jogador;
+import projeto.cartas.Unidade;
 
 public abstract class Efeito {
 	//Atributos???
@@ -9,5 +9,9 @@ public abstract class Efeito {
 		//finge que faz alguma coisa
 	}
 	
-	public abstract void aplicarEfeito(Jogador atacante, Jogador defensor);
+	public abstract void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado);
+	
+	public abstract void removerEfeito(Unidade unidade);
+	
+	public abstract void ativarEfeito(Jogador jogador);
 }

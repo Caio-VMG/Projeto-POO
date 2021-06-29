@@ -11,6 +11,6 @@ public class AtaqueAoNexus extends Efeito{
 
     @Override
     public void aplicarEfeito(Jogador atacante, Jogador defensor) {
-        defensor.sofrerDano(dano);
+        defensor.sofrerDanoNexus(dano);
     }
 }
