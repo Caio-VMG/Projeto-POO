@@ -77,8 +77,14 @@ public class Unidade extends Carta{
 	public void sofrerDano(int danoRecebido) {
 		this.vida -= danoRecebido;
 	}
-	
-	public void
+
+	/**
+	 * Imprime a unidade seguindo o padrão:
+	 * Nome - [vida|dano]
+	 */
+	public void printUnidade(){
+		System.out.printf("%s - [%d|%d]", super.getNome(), vida, poder);
+	}
 
     
     

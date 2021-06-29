@@ -37,11 +37,15 @@ public class Jogador {
     }
     
     private void imprimeMao() {
-    	System.out.printf("Mao de %s:\n", this.nome);
+        System.out.println();
+        System.out.printf("Mão de %s:\n", this.nome);
+        System.out.println("=================================================================================");
     	for(int i = 0; i < mao.size(); i++) {
-    		System.out.printf("[%d] - %s\n", i + 1, mao.get(i).getNome());
+    		System.out.printf("[%d] %s \t ", i + 1,mao.get(i).getNome());
     	}
-    	System.out.println("");
+        System.out.println();
+    	System.out.println("=================================================================================");
+        System.out.println();
     }
     
     private void imprimeEvocadas() {
@@ -65,37 +69,58 @@ public class Jogador {
         deck.remove(carta);
     }
 
+    /**
+     * No
+     */
     public void trocarCartas(){
-        // print as 4 primeiras cartas e digite os indices a serem trocados.
-    	imprimeMao();
-    	
+        int i;
+        boolean erro = true;
         boolean terminou = false;
         boolean trocou = false;
+        Scanner scan = new Scanner(System.in);
+
         ArrayList<Integer> cartasTrocadas = new ArrayList<>();
-        // Me da um indice da carta (1,2,3,4) ou (0) se nao deseja mais trocar.
-        int k = 0;
-        while(!terminou && k < 4){
-        	Scanner scan = new Scanner(System.in);
-        	int i = scan.nextInt();
-            if(i == 0){
-                terminou = true;
-            } else {
-            	trocou = true;
-            	if(!cartasTrocadas.contains(i - 1)) {
-            		cartasTrocadas.add(i - 1);
-            		Carta carta = mao.remove(i - 1);
-                    deck.add(carta);
-                    this.comprarCarta();
-                    k++;
-            	}
-            	else {
-            		System.out.println("Voce nao pode trocar a mesma carta");
-            	}
-            }  
-        }
-        if(trocou) {
-        	imprimeMao();
-        }
+        imprimeMao();
+        System.out.println("Quais cartas serão trocadas? (Digite 0 quando finalizar)");
+
+        int trocadas = 0;
+
+        do{
+            while(!terminou && trocadas < 4) {
+                try {
+                    i = scan.nextInt();
+                    if (i == 0) {
+                        terminou = true;
+                    } else {
+                        trocou = true;
+
+                        if (!cartasTrocadas.contains(i - 1)) {
+                            substituirCartadaMao(i-1);
+                            trocadas++;
+                        } else {
+                            System.out.println("Esta carta já foi trocada.");
+                        }
+                    }
+                    erro = false;
+                } catch (Exception InputMismatchException) {
+                    System.out.println("Entrada Inválida");
+                }
+                if (terminou) {
+                    imprimeMao();
+                }
+            }
+        }while(erro);
+    }
+
+    /**
+     * Substitui a carta da mao (de indice passado).
+     */
+    private void substituirCartadaMao(int indice){
+        Carta removida = mao.remove(indice);
+        deck.add(removida);
+
+        Carta adicionada = deck.comprarCarta();
+        mao.add(indice, adicionada);
     }
 
     public void primeiraCompra(){
@@ -149,7 +174,7 @@ public class Jogador {
             carta = carta.getUnidade();
         }
         
-        //precisa de escolherUnidade quando j� temos escolherCarta?
+        //precisa de escolherUnidade quando já temos escolherCarta?
 
         if(canSummon(carta)) {
             manaAtual -= carta.getCusto();

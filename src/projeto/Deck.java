@@ -13,12 +13,27 @@ public class Deck {
         this.cartas = new ArrayList<Carta>();
     }
 
+    /**
+     * Remove do Deck a carta passada.
+     */
     public void remove(Carta carta){
         cartas.remove(carta);
     }
 
+    /**
+     * Adiciona uma carta no último lugar do deck.
+     */
     public void add(Carta carta){
     	cartas.add(carta);
+    }
+
+    /**
+     * Compra a carta na primeira posição do deck.
+     */
+    public Carta comprarCarta(){
+        Carta carta = cartas.get(0);
+        remove(carta);
+        return carta;
     }
 
     public Carta getCarta(int i){
