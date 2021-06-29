@@ -4,6 +4,8 @@ import projeto.Jogador;
 import projeto.cartas.efeitos.Efeito;
 
 public class Campeao extends Unidade{
+	int ataques = 0;
+	
 	//atributos???
 
 	public Campeao(String nome, int custo, int vida, int poder, Efeito efeito, Traco traco) {

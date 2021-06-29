@@ -21,6 +21,7 @@ public class Game {
 		System.out.println("Game started!");
 		System.out.println("");
 		mesa = new Mesa();
+		mesa.preencheMesa();
 		this.jogador1 = new Jogador(criarDeckDummy(), "Player1");
 		this.jogador2 = new Jogador(criarDeckDummy(), "Player2");
 		//IniciarJogadores(jogador1, jogador2);
@@ -160,13 +161,17 @@ public class Game {
 			System.out.println("");
 		
 		} else if (entrada == 3) {
-			Carta cartaEscolhida = atacante.atacar();
-			if (cartaEscolhida != null) {
-				//talvez seja interessante criar um enum pras posições?
-				mesa.adicionarAtacante((Unidade) cartaEscolhida);	
-				return 2;
-			}				
-			
+			if(atacante.getQtdEvocadas() >= 1) {
+				Carta cartaEscolhida = atacante.atacar();
+				if (cartaEscolhida != null) {
+					//talvez seja interessante criar um enum pras posições?
+					mesa.adicionarAtacante((Unidade) cartaEscolhida);	
+					return 2;
+				}
+			}
+			else {
+				return pegarEntradaAtacante(atacante, defensor);
+			}
 		} else {
 			System.out.printf("%s esse comando não é válido\n", atacante.getNome());
 			return pegarEntradaAtacante(atacante, defensor);
@@ -196,17 +201,23 @@ public class Game {
 				return 1;
 			
 			} else if (entrada == 3) {
-				Carta cartaEscolhida = defensor.defender();
-				System.out.println("Escolha a posição do defensor (de 1 a 4)\n");
-				Scanner ler = new Scanner(System.in);
-				int posicao = ler.nextInt();
-				if(posicao < 1 || posicao > 4) {
-					System.out.println("Posição inválida");
+				if(mesa.temAtacante() >= 1) {
+					Carta cartaEscolhida = defensor.defender();
+					System.out.println("Escolha a posição do defensor (de 1 a 4)\n");
+					Scanner ler = new Scanner(System.in);
+					int posicao = ler.nextInt();
+					if(posicao < 1 || posicao > 4) {
+						System.out.println("Posição inválida");
+					}
+					else {
+						mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
+					}
 				}
 				else {
-					mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
+					return pegarEntradaDefensor(atacante, defensor);
 				}
-			} else {
+			}
+			else {
 				System.out.printf("%s esse comando não é válido\n", defensor.getNome());
 				return pegarEntradaDefensor(atacante, defensor);
 			}

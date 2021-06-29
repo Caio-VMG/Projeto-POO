@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class Mesa {
     private ArrayList<Unidade> atacantes;
     private ArrayList<Unidade> defensores;
+    private int qtdAtacantes = 0;
+    private int qtdDefensores = 0;
 
     public Mesa(){
         atacantes = new ArrayList<>();
@@ -28,8 +30,9 @@ public class Mesa {
     }
 
     public void adicionarAtacante(Unidade unidade){
-        if(atacantes.size() < 4) {
-        	atacantes.add(unidade);
+        if(qtdAtacantes < 4) {
+        	atacantes.add(qtdAtacantes, unidade);
+        	this.qtdAtacantes++;
         }
         else {
         	System.out.println("Não é possível atacar com mais de 4 cartas");
@@ -41,10 +44,11 @@ public class Mesa {
     public void adicionarDefensor(Unidade unidade, int posicao){
         // Condicao Elusivo deve ser respeitada.
         defensores.add(posicao - 1, unidade);
+        this.qtdDefensores++;
     }
     
     public void batalha(Jogador atacante, Jogador defensor) {
-    	for(int i = 0; i < atacantes.size(); i++) {
+    	for(int i = 0; i < qtdAtacantes; i++) {
     		if(atacantes.get(i) != null) {
     			if(defensores.get(i) == null) {
     				defensor.sofrerDanoNexus(atacantes.get(i).getDano());
@@ -55,7 +59,7 @@ public class Mesa {
     			}
     		}
     	}
-    	for(int i = 0; i < defensores.size(); i++) {
+    	for(int i = 0; i < qtdDefensores; i++) {
     		if(defensores.get(i) != null) {
     			if(defensores.get(i).getVida() <= 0) {
     				mensagemMorte(defensores.get(i));
@@ -64,7 +68,7 @@ public class Mesa {
     		}    		
     	}
     	
-    	for(int i = 0; i < atacantes.size(); i++) {
+    	for(int i = 0; i < qtdAtacantes; i++) {
 			if(atacantes.get(i) != null) {
 				if(atacantes.get(i).getVida() <= 0) {
 					mensagemMorte(atacantes.get(i));
@@ -94,6 +98,17 @@ public class Mesa {
                 defensor.sofrerDano(atacantes.get(i));
             }
         }
+    }
+    
+    public int temAtacante() {
+    	return this.qtdAtacantes;    
+    }
+    
+    public void preencheMesa() {
+    	for(int i = 0; i < 4; i++) {
+    		atacantes.add(null);
+    		defensores.add(null);
+    	}
     }
 
 }

@@ -230,6 +230,10 @@ public class Jogador {
     	return this.evocadas;
     }
     
+    public int getQtdEvocadas() {
+    	return this.evocadas.size();
+    }
+    
     public void setMana(int pontos) {
     	this.manaAtual += pontos;
     }

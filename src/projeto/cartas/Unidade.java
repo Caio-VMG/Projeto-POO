@@ -77,6 +77,8 @@ public class Unidade extends Carta{
 	public void sofrerDano(int danoRecebido) {
 		this.vida -= danoRecebido;
 	}
+	
+	public void
 
     
     
