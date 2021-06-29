@@ -210,6 +210,7 @@ public class Game {
 				System.out.printf("%s esse comando não é válido\n", defensor.getNome());
 				return pegarEntradaDefensor(atacante, defensor);
 			}
+			//asokapsokaposkpaoskpoaksposak
 			//scan.close();
 		//defensor nao pode usar feitico
 		return 1;
