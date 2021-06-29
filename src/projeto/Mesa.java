@@ -34,8 +34,15 @@ public class Mesa {
     	defensores = aux;
     }
 
-    public void adicionarAtacante(Unidade unidade, int posicao){
-        atacantes.add(posicao - 1, unidade);
+    public void adicionarAtacante(Unidade unidade){
+        if(atacantes.size() < 4) {
+        	atacantes.add(unidade);
+        }
+        else {
+        	System.out.println("Não é possível atacar com mais de 4 cartas");
+        	System.out.println("");
+        	
+        }
     }
 
     public void adicionarDefensor(Unidade unidade, int posicao){

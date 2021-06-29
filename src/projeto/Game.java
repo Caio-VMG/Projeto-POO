@@ -154,21 +154,14 @@ public class Game {
 		} else if (entrada == 2) {
 			atacante.passar();
 			System.out.printf("%s passou a vez\n", atacante.getNome());
-			System.out.println("Posição inválida");
+			System.out.println("");
 		
 		} else if (entrada == 3) {
 			Carta cartaEscolhida = atacante.atacar();
 			//talvez seja interessante criar um enum pras posições?
-			System.out.println("Escolha a posição do atacante (de 1 a 4)\n");
-			Scanner ler = new Scanner(System.in);
-			int posicao = ler.nextInt();
-			if(posicao < 1 || posicao > 4) {
-				System.out.println("Posição inválida");
-			}
-			else {
-				mesa.adicionarAtacante((Unidade) cartaEscolhida, posicao);
-				return 2;
-			}
+			mesa.adicionarAtacante((Unidade) cartaEscolhida);
+			return 2;
+			
 		}
 		return 1;
 	}
