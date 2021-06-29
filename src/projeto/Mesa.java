@@ -101,15 +101,6 @@ public class Mesa {
      * Cada atacante vai atacar um defensor, se este estiver na coluna, ou
      * o nexus do "defensor", se não houver defensor.
      */
-    public void realizarCombate(Jogador defensor){
-        for(int i = 0; i < atacantes.size(); i++){
-            if(defensores.get(i) != null){
-                Unidade.batalhar(atacantes.get(i), defensores.get(i));
-            } else {
-                defensor.sofrerDano(atacantes.get(i));
-            }
-        }
-    }
     
     public int temAtacante() {
     	return this.qtdAtacantes;    
@@ -120,6 +111,24 @@ public class Mesa {
     		atacantes.add(null);
     		defensores.add(null);
     	}
+    }
+
+    public void printMesa(){
+		for(int i = 0; i < 4; i++){
+			Unidade atacante = atacantes.get(i);
+			Unidade defensor = defensores.get(i);
+			if(atacante != null){
+				atacante.printUnidade();
+			} else {
+				System.out.printf("--");
+			}
+			System.out.printf("\t \t");
+			if(defensor != null){
+				defensor.printUnidade();
+			} else {
+				System.out.printf("--");
+			}
+		}
     }
 
 }

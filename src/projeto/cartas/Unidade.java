@@ -116,6 +116,14 @@ public class Unidade extends Carta{
 		this.efeitos.remove(efeito);
 	}
 
+	/**
+	 * Imprime a unidade seguindo o padrão:
+	 * Nome - [vida|dano]
+	 */
+	public void printUnidade(){
+		System.out.printf("%s - [%d|%d]", super.getNome(), vida, poder);
+	}
+
     
     
 }

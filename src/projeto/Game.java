@@ -28,7 +28,7 @@ public class Game {
 	
 		
 		while (!exitSelected) {
-			//Começa o jogo
+			//ComeÃ§a o jogo
 
 			jogador1.primeiraCompra();// j tem incluso a possibilidade de trocar as cartas
 			jogador2.primeiraCompra();
@@ -60,37 +60,20 @@ public class Game {
 					// Usar inteiros como comandos.
 					passou = 0;
 
-					// drawBoard();
+					mesa.printMesa();
 					passou += pegarEntradaAtacante(atacante, defensor);
 
-					// drawBoard();
+					mesa.printMesa();
 					passou += pegarEntradaDefensor(atacante, defensor);
 					if(passou == 3) {
 						iniciarBatalha(atacante, defensor);
 					}
-					mesa.inverteMesa();
 				}
-				//mesa.inverteMesa();
+				mesa.inverteMesa();
 			}
 		}
 		exitSelected = true;
 		System.out.println("Game terminated. Bye!");
-
-		//fim do loop
-        	/*
-            1. Dois jogadores,
-            2. Pescar 4 cartas,
-            3. Trocar 4 cartas,
-            --> Loop
-            4. Iniciar rodada (Jogador 1: atacante, Jogador 2: defensor),
-                4.1. Dar + uma carta para cada.
-                4.2. Ganha mana,
-            5. Iniciar turno Jogador 1,
-                5.1. Sumonar cartas ou passa,
-
-            6. Iniciar turno Jogador 2,
-                6.1. Sumonar cartas ou passa,
-             */
 	}
 	
 	private Deck criarDeckDummy() {
@@ -130,7 +113,7 @@ public class Game {
 		    	Feitico golpeC = new Feitico("Golpe Certeiro", 1);
 		    	deckrandom.add(golpeC);
 		    } else{
-		    	Feitico combate1a1 = new Feitico("Comabte um a um", 2);
+		    	Feitico combate1a1 = new Feitico("Combate um a um", 2);
 		    	deckrandom.add(combate1a1);
 		    }		    
 		}
@@ -164,7 +147,7 @@ public class Game {
 			if(atacante.getQtdEvocadas() >= 1) {
 				Carta cartaEscolhida = atacante.atacar();
 				if (cartaEscolhida != null) {
-					//talvez seja interessante criar um enum pras posições?
+					//talvez seja interessante criar um enum pras posiï¿½ï¿½es?
 					mesa.adicionarAtacante((Unidade) cartaEscolhida);	
 					return 2;
 				}
@@ -173,7 +156,7 @@ public class Game {
 				return pegarEntradaAtacante(atacante, defensor);
 			}
 		} else {
-			System.out.printf("%s esse comando não é válido\n", atacante.getNome());
+			System.out.printf("%s esse comando nÃ£o Ã© vÃ¡lido\n", atacante.getNome());
 			return pegarEntradaAtacante(atacante, defensor);
 		}
 		return 1;
@@ -203,11 +186,11 @@ public class Game {
 			} else if (entrada == 3) {
 				if(mesa.temAtacante() >= 1) {
 					Carta cartaEscolhida = defensor.defender();
-					System.out.println("Escolha a posição do defensor (de 1 a 4)\n");
+					System.out.println("Escolha a posiï¿½ï¿½o do defensor (de 1 a 4)\n");
 					Scanner ler = new Scanner(System.in);
 					int posicao = ler.nextInt();
 					if(posicao < 1 || posicao > 4) {
-						System.out.println("Posição inválida");
+						System.out.println("Posiï¿½ï¿½o invï¿½lida");
 					}
 					else {
 						mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
@@ -218,7 +201,7 @@ public class Game {
 				}
 			}
 			else {
-				System.out.printf("%s esse comando não é válido\n", defensor.getNome());
+				System.out.printf("%s esse comando nï¿½o ï¿½ vï¿½lido\n", defensor.getNome());
 				return pegarEntradaDefensor(atacante, defensor);
 			}
 			//asokapsokaposkpaoskpoaksposak
