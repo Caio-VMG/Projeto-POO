@@ -25,7 +25,7 @@ public class MatouComprou extends Efeito {
 		Scanner ler = new Scanner(System.in);
 		int escolha = ler.nextInt();
 		while(escolha > beneficiado.getEvocadas().size()) {
-			System.out.println("Escolha inválida");
+			System.out.println("Escolha invï¿½lida");
 			escolha = ler.nextInt();
 		}
 		Unidade aux = (Unidade)beneficiado.getEvocadas().get(escolha - 1);
@@ -34,7 +34,7 @@ public class MatouComprou extends Efeito {
 	
 	@Override
 	public void ativarEfeito(Jogador jogador) {
-		jogador.comprarCarta();
+		jogador.pegarCarta();
 	}
 	
 	@Override

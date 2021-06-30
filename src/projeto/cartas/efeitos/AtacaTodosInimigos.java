@@ -10,8 +10,10 @@ public class AtacaTodosInimigos {
 		this.poder = poder;
 		this.vida = vida;
 	}
-	
+
+	/*
 	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
 		for(int i = 0; i < )
 	}
+	 */
 }

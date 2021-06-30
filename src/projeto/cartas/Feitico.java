@@ -10,10 +10,10 @@ public class Feitico extends Carta{
 		super(nome, custo);
 		//this.efeito = efeito;
 	}
-
+	
 	@Override
 	public void usarCarta(Jogador atacante, Jogador defensor) {
-		efeito.aplicarEfeito(atacante, defensor);
+
 	}
 
 

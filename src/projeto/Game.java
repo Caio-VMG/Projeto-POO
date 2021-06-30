@@ -2,41 +2,37 @@ package projeto;
 
 import projeto.cartas.*;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
 	private Jogador jogador1;
 	private Jogador jogador2;
+	private Mesa mesa;
+
+	private int passadas;
+	private boolean batalha;
 	private boolean exitSelected;
-	Mesa mesa;
-	
-	private void iniciarBatalha(Jogador atacante, Jogador defensor) {
-		mesa.batalha(atacante, defensor);
-	}
+
+	// ============================== START ==============================
+
 
 	public void start() {
-		exitSelected = false;
-		System.out.println("Game started!");
-		System.out.println("");
-		mesa = new Mesa();
-		mesa.preencheMesa();
-		this.jogador1 = new Jogador(criarDeckDummy(), "Player1");
-		this.jogador2 = new Jogador(criarDeckDummy(), "Player2");
-		//IniciarJogadores(jogador1, jogador2);
-	
-		
+		exitSelected = batalha = false;
+		passadas = 0;
+
+		System.out.println("Game started!\n");
+
+		iniciarMesa();
+		iniciarJogadores();
+		Jogador atacante = jogador1;
+		Jogador defensor = jogador2;
+
+
 		while (!exitSelected) {
-			//Começa o jogo
 
-			jogador1.primeiraCompra();// j tem incluso a possibilidade de trocar as cartas
+			jogador1.primeiraCompra();
 			jogador2.primeiraCompra();
-
-			Jogador atacante = jogador1;
-			jogador1.setTurno(TipoTurno.ATAQUE);
-			Jogador defensor = jogador2;
-			jogador2.setTurno(TipoTurno.DEFESA);
 
 			//Começa o loop
 			boolean rodadaIsOver = false;
@@ -49,164 +45,239 @@ public class Game {
 				defensor.setTurno(TipoTurno.DEFESA);
 				
 				
-				defensor.comprarCarta();
-				atacante.comprarCarta();
+				defensor.pegarCarta();
+				atacante.pegarCarta();
 				atacante.ganharMana();
 				defensor.ganharMana();
 
-				int passou = 0;
-
-				while (passou != 2) {
-					// Usar inteiros como comandos.
-					passou = 0;
-
-					mesa.printMesa();
-					passou += pegarEntradaAtacante(atacante, defensor);
-
-					mesa.printMesa();
-					passou += pegarEntradaDefensor(atacante, defensor);
-					if(passou == 3) {
-						iniciarBatalha(atacante, defensor);
+				passadas = 0;
+				while (batalha != true && passadas != 2) {
+					pegarEntrada(atacante, defensor);
+					if(batalha == false){
+						pegarEntrada(defensor, atacante);
+					} else {
+						perguntarDefesa(defensor, atacante);
 					}
 				}
+				batalha = false;
 				mesa.inverteMesa();
 			}
 		}
 		exitSelected = true;
 		System.out.println("Game terminated. Bye!");
 	}
-	
+
+
+	// ============================== Funções de Interação com Jogadores ==============================
+
+	/**
+	 * A aplicação obtem as entradas do jogador.
+	 * O atacante pode escolher entre: Sumonar, Passar ou Atacar.
+	 * O defensor pode escolher entre: Sumonar ou Passar.
+	 */
+	private void pegarEntrada(Jogador jogando, Jogador observando){
+		//Cheat
+		jogando.setMana(10);
+
+		jogando.imprimirDadosIniciais();
+		System.out.printf("Vez de %s:\n" +
+				"[1] - Sumonar\n" +
+				"[2] - Passar a vez\n", jogando.getNome());
+		if(jogando.getTurno() == TipoTurno.ATAQUE){
+			System.out.printf("[3] - Ataque\n\n");
+		}
+
+		Scanner scan = new Scanner(System.in);
+		int entrada = scan.nextInt();
+
+		if(entrada == 1){
+			sumonar(jogando, observando);
+			passadas = 0;
+
+		} else if (entrada == 2) {
+			System.out.printf("%s passou a vez\n\n", jogando.getNome());
+			passadas += 1;
+
+		} else if (entrada == 3 && jogando.getTurno() == TipoTurno.ATAQUE) {
+			batalha = true;
+			atacar(jogando, observando);
+		} else {
+			System.out.printf("Comando inválido\n", jogando.getNome());
+			pegarEntrada(jogando, observando);
+		}
+	}
+
+
+	/**
+	 * Se o atacante decidir atacar, então o defensor pode decidir
+	 * se defender ou não.
+	 */
+	private void perguntarDefesa(Jogador defensor, Jogador atacante){
+		System.out.println("Turno de Defesa\nEscolha uma opção:");
+		System.out.printf("[1] Defender \t [2] Passar\n");
+		Scanner scan = new Scanner(System.in);
+		int entrada = scan.nextInt();
+		boolean comandoValido = false;
+		while(!comandoValido)
+			if(entrada == 1){
+				defender(defensor, atacante);
+				comandoValido = true;
+			} else if (entrada == 2){
+				comandoValido = true;
+			}
+			else{
+				System.out.println("Comando Inválido.");
+			}
+	}
+
+	// ============================== Funções de Batalha ==============================
+
+	/**
+	 * O atacante escolhe até no máximo 4 cartas para colocar
+	 * no seu lado da mesa.
+	 */
+	private void atacar(Jogador atacante, Jogador defensor) {
+		int entrada;
+		Scanner scan;
+		Carta cartaEscolhida;
+
+		if (atacante.getQtdEvocadas() >= 1) {
+			while (atacante.getQtdEvocadas() >= 1 && mesa.getQtdAtacantes() < 4) {
+				atacante.imprimeEvocadas();
+
+				scan = new Scanner(System.in);
+				entrada = scan.nextInt();
+
+				cartaEscolhida = atacante.escolherCartaBatalha(entrada);
+				if (cartaEscolhida != null) {
+					mesa.adicionarAtacante((Unidade) cartaEscolhida);
+				} else {
+					System.out.println("Entrada Inválida.");
+				}
+			}
+		} else {
+			batalha = false;
+			System.out.println("Você não tem cartas para atacar.");
+			pegarEntrada(atacante, defensor);
+		}
+	}
+
+	/**
+	 * No turno que o defensor escolhe se defender,
+	 * ele deve escolher quais as unidades sumonadas vão batalhar
+	 * contra cada uma das unidades de ataque.
+	 */
+	private void defender(Jogador defensor, Jogador atacante) {
+		int entrada, posicao;
+		Scanner scan;
+		Carta cartaEscolhida;
+
+		if(defensor.getQtdEvocadas() >= 1){
+			while(mesa.getQtdAtacantes() > mesa.getQtdDefensores() && defensor.getQtdEvocadas() >= 1){
+				defensor.imprimeEvocadas();
+
+				scan = new Scanner(System.in);
+				entrada = scan.nextInt();
+
+				cartaEscolhida = defensor.escolherCartaBatalha(entrada);
+				if (cartaEscolhida != null) {
+					mesa.printMesa();
+					System.out.println("Escolha a posição do defensor\n");
+					posicao = scan.nextInt();
+
+					if (posicao < 1 || posicao > mesa.getQtdAtacantes()) {
+						System.out.println("Posição inválida");
+					} else {
+						mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
+					}
+				} else {
+					System.out.println("Entrada Inválida.");
+				}
+			}
+		} else {
+			System.out.println("Você não tem cartas para defender.");
+		}
+	}
+
+	/**
+	 * O jogador vai sumonar uma carta. Para isso, vai gastar mana e escolher
+	 * uma que está em sua mão.
+	 */
+	private void sumonar(Jogador jogando, Jogador observando){
+		Carta cartaEscolhida = jogando.escolherCarta();
+
+		if(cartaEscolhida != null){
+			cartaEscolhida.usarCarta(jogando, observando);
+		} else {
+			pegarEntrada(jogando, observando);
+		}
+	}
+
+
+
+	// ============================== Inicialização ==============================
+
+
+	private void iniciarBatalha(Jogador atacante, Jogador defensor) {
+		mesa.batalha(atacante, defensor);
+	}
+
+
+	private void iniciarMesa(){
+		this.mesa = new Mesa();
+		mesa.preencheMesa();
+	}
+
+	private void iniciarJogadores(){
+		this.jogador1 = new Jogador(criarDeckDummy(), "Player1");
+		this.jogador2 = new Jogador(criarDeckDummy(), "Player2");
+
+		jogador1.setTurno(TipoTurno.ATAQUE);
+		Jogador defensor = jogador2;
+		jogador2.setTurno(TipoTurno.DEFESA);
+	}
+
 	private Deck criarDeckDummy() {
 		int j;
 		Deck deckrandom = new Deck("Dummy");
 		Random random = new Random();
-		for (int i = 0; i<40; i++) {			
-		    int valor = random.nextInt(11);
-		    if (valor == 0) {
-		    	Campeao garen = new Campeao("Garen", 5, 5, 5);
-		    	deckrandom.add(garen);
-		    } else if (valor == 1) {
-		    	Unidade tiana = new Unidade("Tiana", 8, 7, 7);
-		    	deckrandom.add(tiana);
-		    } else if (valor == 2) {
-		    	Unidade vanguarda = new Unidade("Vanguarda", 4, 3, 3);
-		    	deckrandom.add(vanguarda);
-		    } else if (valor == 3) {
-		    	Unidade duelista = new Unidade("Duelista", 3, 2, 3);
-		    	deckrandom.add(duelista);
-		    } else if (valor == 4) {
-		    	Unidade defensor = new Unidade("Defensor", 2, 2, 2);
-		    	deckrandom.add(defensor);
-		    } else if (valor == 5) {
-		    	Unidade poro = new Unidade("Poro", 1, 1, 2);
-		    	deckrandom.add(poro);
-		    } else if (valor == 6) {
-		    	Unidade poroD = new Unidade("Poro Defensor", 1, 2, 1);
-		    	deckrandom.add(poroD);
-		    } else if (valor == 7) {
-		    	Feitico julgamento = new Feitico("Julgamento", 8);
-		    	deckrandom.add(julgamento);
-		    } else if (valor == 8) {
-		    	Feitico valorR = new Feitico("Valor Redobrado", 6);
-		    	deckrandom.add(valorR);
-		    } else if (valor == 9) {
-		    	Feitico golpeC = new Feitico("Golpe Certeiro", 1);
-		    	deckrandom.add(golpeC);
-		    } else{
-		    	Feitico combate1a1 = new Feitico("Combate um a um", 2);
-		    	deckrandom.add(combate1a1);
-		    }		    
+		for (int i = 0; i<40; i++) {
+			int valor = random.nextInt(11);
+			if (valor == 0) {
+				Campeao garen = new Campeao("Garen", 5, 5, 5);
+				deckrandom.add(garen);
+			} else if (valor == 1) {
+				Unidade tiana = new Unidade("Tiana", 8, 7, 7);
+				deckrandom.add(tiana);
+			} else if (valor == 2) {
+				Unidade vanguarda = new Unidade("Vanguarda", 4, 3, 3);
+				deckrandom.add(vanguarda);
+			} else if (valor == 3) {
+				Unidade duelista = new Unidade("Duelista", 3, 2, 3);
+				deckrandom.add(duelista);
+			} else if (valor == 4) {
+				Unidade defensor = new Unidade("Defensor", 2, 2, 2);
+				deckrandom.add(defensor);
+			} else if (valor == 5) {
+				Unidade poro = new Unidade("Poro", 1, 1, 2);
+				deckrandom.add(poro);
+			} else if (valor == 6) {
+				Unidade poroD = new Unidade("Poro Defensor", 1, 2, 1);
+				deckrandom.add(poroD);
+			} else if (valor == 7) {
+				Feitico julgamento = new Feitico("Julgamento", 8);
+				deckrandom.add(julgamento);
+			} else if (valor == 8) {
+				Feitico valorR = new Feitico("Valor Redobrado", 6);
+				deckrandom.add(valorR);
+			} else if (valor == 9) {
+				Feitico golpeC = new Feitico("Golpe Certeiro", 1);
+				deckrandom.add(golpeC);
+			} else{
+				Feitico combate1a1 = new Feitico("Combate um a um", 2);
+				deckrandom.add(combate1a1);
+			}
 		}
 		return deckrandom;
-	}
-
-	private int pegarEntradaAtacante(Jogador atacante, Jogador defensor){
-		//cheat
-		atacante.setMana(10);
-
-		System.out.printf("Jogador %s (atacante):\nmana: %d\nvida do nexus: %d\n", atacante.getNome()
-				,atacante.getMana(),atacante.getVida());
-		
-		System.out.printf("Vez de %s:\n[1] - Sumonar\n[2] - "
-				+ "Passar a vez\n[3] - Atacar\n", atacante.getNome());
-		Scanner scan = new Scanner(System.in);
-		int entrada = scan.nextInt();
-		if(entrada == 1){
-			Carta cartaEscolhida = atacante.escolherCarta();
-			if(cartaEscolhida != null){
-				cartaEscolhida.usarCarta(atacante, defensor);
-			} else {
-				return pegarEntradaAtacante(atacante, defensor);
-			}
-		} else if (entrada == 2) {
-			atacante.passar();
-			System.out.printf("%s passou a vez\n", atacante.getNome());
-			System.out.println("");
-		
-		} else if (entrada == 3) {
-			if(atacante.getQtdEvocadas() >= 1) {
-				Carta cartaEscolhida = atacante.atacar();
-				if (cartaEscolhida != null) {
-					//talvez seja interessante criar um enum pras posi��es?
-					mesa.adicionarAtacante((Unidade) cartaEscolhida);	
-					return 2;
-				}
-			}
-			else {
-				return pegarEntradaAtacante(atacante, defensor);
-			}
-		} else {
-			System.out.printf("%s esse comando não é válido\n", atacante.getNome());
-			return pegarEntradaAtacante(atacante, defensor);
-		}
-		return 1;
-	}
-
-	private int pegarEntradaDefensor(Jogador atacante, Jogador defensor) {
-		//cheat
-			defensor.setMana(10);
-
-			System.out.printf("Jogador %s (defensor):\nmana: %d\nvida do nexus: %d\n", defensor.getNome(), 
-					defensor.getMana(),defensor.getVida());
-			
-			System.out.printf("Vez de %s:\n[1] - Sumonar\n[2] - "
-					+ "Passar a vez\n[3] - Defender\n", defensor.getNome());
-			
-			Scanner scan = new Scanner(System.in);
-			int entrada = scan.nextInt();
-			
-			if(entrada == 1){
-				Carta cartaEscolhida = defensor.escolherCarta();
-				if(cartaEscolhida != null){
-					cartaEscolhida.usarCarta(defensor, atacante);
-				}
-			} else if (entrada == 2) {
-				return 1;
-			
-			} else if (entrada == 3) {
-				if(mesa.temAtacante() >= 1) {
-					Carta cartaEscolhida = defensor.defender();
-					System.out.println("Escolha a posi��o do defensor (de 1 a 4)\n");
-					Scanner ler = new Scanner(System.in);
-					int posicao = ler.nextInt();
-					if(posicao < 1 || posicao > 4) {
-						System.out.println("Posi��o inv�lida");
-					}
-					else {
-						mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
-					}
-				}
-				else {
-					return pegarEntradaDefensor(atacante, defensor);
-				}
-			}
-			else {
-				System.out.printf("%s esse comando n�o � v�lido\n", defensor.getNome());
-				return pegarEntradaDefensor(atacante, defensor);
-			}
-			//asokapsokaposkpaoskpoaksposak
-			//scan.close();
-		//defensor nao pode usar feitico
-		return 1;
 	}
 }
