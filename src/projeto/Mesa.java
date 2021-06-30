@@ -24,6 +24,30 @@ public class Mesa {
 
 	public void batalhaMesa(Jogador atacante, Jogador defensor) {
 		
+		batalhaIndividual(defensor);		
+		confereMortes(atacante);
+		confereMortes(defensor);
+		limparMesa(atacante, defensor);
+		
+	}
+	
+	/*private void confereEfeitoKillAtacante(Jogador atacante) {
+		for(int i = 0; i < atacantes.size(); i++) {
+			atacantes.get(i).confereEfeitoKill(atacante);
+		}
+	}*/
+
+	/*private void confereEfeitoKillDefensor(Jogador defensor) {
+		for(int i = 0; i < defensores.size(); i++) {
+			atacantes.get(i).confereEfeitoKill(defensor);
+		}
+	}*/
+
+	/*Vai receber o jogador defendendo e realizar a batalha entre cada  personagem 
+	atacante e cada personagem defensor causando dano no nexus do defensor caso 
+	não tenha um defensor na posição onde o atacante está atacando
+	*/
+	private void batalhaIndividual(Jogador defensor) {
 		for(int i = 0; i < qtdAtacantes; i++) {
 			if(atacantes.get(i) != null) {
 				if(defensores.get(i) == null) {
@@ -34,40 +58,45 @@ public class Mesa {
 				}
 			}
 		}
+	}
+
+	/*Recebe um jogador e confere se as unidades dele morreram ou não, ativando
+	efeitos de morte/kill caso isso ocorra. Caso uma unidade morra, ela é retirada
+	da array de atacantes/defensores e é "deletada" do jogo.
+	*/
+	private void confereMortes(Jogador jogador) {
 		
-		for(int i = 0; i < qtdDefensores; i++) {
-			if(defensores.get(i) != null) {
-				if(defensores.get(i).getVida() <= 0) {
-					mensagemMorte(defensores.get(i));
-					defensores.remove(i);
+		if (jogador.getTurno() == TipoTurno.ATAQUE) {
+			
+			for(int i = 0; i < qtdAtacantes; i++) {
+				if(atacantes.get(i) != null) {
+					if(atacantes.get(i).getVida() <= 0) {
+						mensagemMorte(atacantes.get(i));
+						/*Aqui vai precisar conferir se tem efeito de morte
+						Ai se morreu já confere a mesma posição de defensores
+						pra ver se o defensor tem efeito pra quando mata 
+						*/
+						atacantes.remove(i);
+					}
+				}
+			}
+		} else {
+			
+			for(int i = 0; i < qtdDefensores; i++) {
+				if(defensores.get(i) != null) {
+					if(defensores.get(i).getVida() <= 0) {
+						mensagemMorte(defensores.get(i));
+						/*Aqui vai precisar conferir se tem efeito de morte
+						ai se morreu já confere a mesma posição de atacantes
+						pra ver se o atacante tem efeito pra quando mata 
+						*/
+						defensores.remove(i);
+					}
 				}
 			}
 		}
-
-		for(int i = 0; i < qtdAtacantes; i++) {
-			if(atacantes.get(i) != null) {
-				if(atacantes.get(i).getVida() <= 0) {
-					mensagemMorte(atacantes.get(i));
-					atacantes.remove(i);
-				}
-			}
-		}
+		
 	}
-
-	private void confereEfeitoKillAtacante(Jogador atacante) {
-		for(int i = 0; i < atacantes.size(); i++) {
-			atacantes.get(i).confereEfeitoKill(atacante);
-		}
-	}
-
-	private void confereEfeitoKillDefensor(Jogador defensor) {
-		for(int i = 0; i < defensores.size(); i++) {
-			atacantes.get(i).confereEfeitoKill(defensor);
-		}
-	}
-
-	//private void 
-
     //===================== Manipulação dos Lados (Ataque/Defesa) =====================
 
 
@@ -106,14 +135,38 @@ public class Mesa {
 		this.atacantes = defensores;
 		this.defensores = aux;
 	}
-
+	
+	/*Rece um jogador e retorna as cartas em atacantes ou defensores para sua
+	 * mão, de acordo com seu TipoTurno
+	 * */
+	public void devolverCartas(Jogador jogador) {
+		
+		if (jogador.getTurno() == TipoTurno.ATAQUE) {
+			for(int i = 0; i < qtdAtacantes; i++) {
+				if(atacantes.get(i) != null) {
+					jogador.sumonar(atacantes.get(i));
+				}
+			}
+		} else {
+			for(int i = 0; i < qtdAtacantes; i++) {
+				if(defensores.get(i) != null) {
+					jogador.sumonar(defensores.get(i));			
+				}
+			}
+		}
+	}
 
     /**
-     * Todas as cartas em atacantes e defensores são retiradas.
+     * Todas as cartas em atacantes e defensores são retiradas e retornadas as
+     * mãos dos devidos jogadores.
      */
-    public void limparMesa(){
+    public void limparMesa(Jogador atacante, Jogador defensor){
+    	devolverCartas(atacante);
+    	devolverCartas(defensor);
         atacantes.clear();
         defensores.clear();
+        qtdAtacantes = 0;
+        qtdDefensores = 0;
     }
 
     

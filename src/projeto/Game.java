@@ -59,6 +59,7 @@ public class Game {
 						perguntarDefesa(defensor, atacante);
 					}
 				}
+				mesa.batalhaMesa(atacante, defensor);
 				batalha = false;
 				mesa.inverteMesa();
 			}
