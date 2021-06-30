@@ -51,7 +51,7 @@ public class Unidade extends Carta{
     	this.efeitos = new ArrayList<>();
     }
     
-    public void batalhar(Unidade unidade1, Unidade unidade2){
+    public static void batalhar(Unidade unidade1, Unidade unidade2){
         unidade1.vida -= unidade2.poder;
         unidade2.vida -= unidade1.poder;
         if(unidade1.vida <= 0) {

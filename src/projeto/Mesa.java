@@ -22,17 +22,19 @@ public class Mesa {
 	//===================== Funções de Batalha =====================
 
 
-	public void batalha(Jogador atacante, Jogador defensor) {
+	public void batalhaMesa(Jogador atacante, Jogador defensor) {
+		
 		for(int i = 0; i < qtdAtacantes; i++) {
 			if(atacantes.get(i) != null) {
 				if(defensores.get(i) == null) {
 					defensor.sofrerDanoNexus(atacantes.get(i).getDano());
 				}
 				else {
-					atacantes.get(i).batalhar(atacantes.get(i), defensores.get(i));
+					Unidade.batalhar(atacantes.get(i), defensores.get(i));
 				}
 			}
 		}
+		
 		for(int i = 0; i < qtdDefensores; i++) {
 			if(defensores.get(i) != null) {
 				if(defensores.get(i).getVida() <= 0) {
@@ -64,7 +66,7 @@ public class Mesa {
 		}
 	}
 
-
+	//private void 
 
     //===================== Manipulação dos Lados (Ataque/Defesa) =====================
 

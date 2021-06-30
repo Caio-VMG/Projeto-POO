@@ -217,12 +217,6 @@ public class Game {
 
 	// ============================== Inicialização ==============================
 
-
-	private void iniciarBatalha(Jogador atacante, Jogador defensor) {
-		mesa.batalha(atacante, defensor);
-	}
-
-
 	private void iniciarMesa(){
 		this.mesa = new Mesa();
 		mesa.preencheMesa();
@@ -233,7 +227,6 @@ public class Game {
 		this.jogador2 = new Jogador(criarDeckDummy(), "Player2");
 
 		jogador1.setTurno(TipoTurno.ATAQUE);
-		Jogador defensor = jogador2;
 		jogador2.setTurno(TipoTurno.DEFESA);
 	}
 

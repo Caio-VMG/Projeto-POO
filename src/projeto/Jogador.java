@@ -122,7 +122,6 @@ public class Jogador {
         int i;
         boolean erro = true;
         boolean terminou = false;
-        boolean trocou = false;
         Scanner scan;
 
         ArrayList<Integer> cartasTrocadas = new ArrayList<>();
@@ -138,9 +137,7 @@ public class Jogador {
                     i = scan.nextInt();
                     if (i == 0) {
                         terminou = true;
-                    } else {
-                        trocou = true;
-
+                    } else {                    	
                         if (!cartasTrocadas.contains(i - 1)) {
                             substituirCartadaMao(i-1);
                             trocadas++;
