@@ -102,14 +102,14 @@ public class Jogador {
      * O jogador realiza a primeira compra ao iniciar o jogo.
      */
     public void primeiraCompra(){
-        Scanner scan = new Scanner(System.in);
+        //Scanner scan = new Scanner(System.in);
 
         for(int i = 0; i < maxUnidades; i++){
             pegarCarta();
         }
         trocarCartas();
-        System.out.println("Pressiona qualquer botão para avançar.");
-        scan.next();
+        //System.out.println("Pressiona qualquer botão para avançar.");
+        //scan.next();
     }
 
 
@@ -127,6 +127,7 @@ public class Jogador {
         ArrayList<Integer> cartasTrocadas = new ArrayList<>();
         imprimeMao();
         System.out.println("Quais cartas serão trocadas? (Digite 0 quando finalizar)");
+        System.out.println("");
 
         int trocadas = 0;
 
@@ -143,14 +144,16 @@ public class Jogador {
                             trocadas++;
                         } else {
                             System.out.println("Esta carta já foi trocada.");
+                            System.out.println("");
                         }
                     }
                     erro = false;
-                    if (terminou) {
+                    if (terminou && trocadas > 0) {
                         imprimeMao();
                     }
                 } catch (Exception InputMismatchException) {
                     System.out.println("Entrada Inválida");
+                    System.out.println("");
                 }
             }
         }while(erro);

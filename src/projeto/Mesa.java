@@ -77,6 +77,7 @@ public class Mesa {
 						pra ver se o defensor tem efeito pra quando mata 
 						*/
 						atacantes.remove(i);
+						qtdAtacantes--;
 					}
 				}
 			}
@@ -91,6 +92,7 @@ public class Mesa {
 						pra ver se o atacante tem efeito pra quando mata 
 						*/
 						defensores.remove(i);
+						qtdDefensores--;
 					}
 				}
 			}
@@ -142,14 +144,14 @@ public class Mesa {
 	public void devolverCartas(Jogador jogador) {
 		
 		if (jogador.getTurno() == TipoTurno.ATAQUE) {
-			for(int i = 0; i < qtdAtacantes; i++) {
-				if(atacantes.get(i) != null) {
+			for(int i = 0; i < atacantes.size(); i++) {
+				if(atacantes.get(i) != null && atacantes.get(i).getVida() > 0) {
 					jogador.sumonar(atacantes.get(i));
 				}
 			}
 		} else {
-			for(int i = 0; i < qtdAtacantes; i++) {
-				if(defensores.get(i) != null) {
+			for(int i = 0; i < atacantes.size(); i++) {
+				if(defensores.get(i) != null && defensores.get(i).getVida() > 0) {
 					jogador.sumonar(defensores.get(i));			
 				}
 			}
@@ -161,6 +163,7 @@ public class Mesa {
      * mãos dos devidos jogadores.
      */
     public void limparMesa(Jogador atacante, Jogador defensor){
+    	//Acredito que as cartas só deveriam ser devolvidas se estiverem vivas
     	devolverCartas(atacante);
     	devolverCartas(defensor);
         atacantes.clear();
@@ -185,23 +188,35 @@ public class Mesa {
 	 * Imprime o lado dos atacantes e o lados dos defensores da mesa.
 	 */
 	public void printMesa(){
-		for(int i = 0; i < 4; i++){
-			Unidade atacante = atacantes.get(i);
-			Unidade defensor = defensores.get(i);
-			if(atacante != null){
-				System.out.printf("[%d] ",i+1);
-				atacante.printUnidade();
-			} else {
-				System.out.printf("--");
+		for(int i = 0; i < qtdAtacantes; i++){
+			System.out.printf("[%d] ",i+1);
+			atacantes.get(i).printUnidade();
+			//Unidade atacante = atacantes.get(i);
+			//Unidade defensor = defensores.get(i);
+			//if(atacante != null){
+				//System.out.printf("[%d] ",i+1);
+				//atacante.printUnidade();
 			}
-			System.out.printf("\t \t");
-			if(defensor != null){
-				defensor.printUnidade();
-			} else {
-				System.out.println("--");
-			}
+		System.out.printf("\n");
+		if(qtdAtacantes < 4) {
+				for(int i = 0; i < 4 - qtdAtacantes; i++) {
+					System.out.printf("--\n");
+				}
 		}
+			System.out.printf("\t \t");
+		
+		for(int i = 0; i < qtdDefensores; i++) {
+			System.out.printf("[%d] ",i+1);
+			atacantes.get(i).printUnidade();
+		}
+		System.out.printf("\n");
+		if(qtdDefensores < 4) {
+			for(int i = 0; i < 4 - qtdDefensores; i++) {
+				System.out.printf("--\n");
+			}
 	}
+	}
+	
 
 
 	private void mensagemMorte(Unidade derrotada) {

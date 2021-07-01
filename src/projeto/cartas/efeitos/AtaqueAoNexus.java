@@ -16,14 +16,8 @@ public class AtaqueAoNexus extends Efeito{
     }
 
 	@Override
-	public void removerEfeito(Unidade unidade) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void removerEfeito(Unidade unidade) {}
 
 	@Override
-	public void ativarEfeito(Jogador jogador) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void ativarEfeito(Jogador jogador) {}
 }

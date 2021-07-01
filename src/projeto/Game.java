@@ -51,12 +51,14 @@ public class Game {
 				defensor.ganharMana();
 
 				passadas = 0;
-				while (batalha != true && passadas != 2) {
+				while (!batalha && passadas != 2) {
 					pegarEntrada(atacante, defensor);
 					if(batalha == false){
 						pegarEntrada(defensor, atacante);
 					} else {
-						perguntarDefesa(defensor, atacante);
+						if(defensor.getQtdEvocadas() > 0) {
+							perguntarDefesa(defensor, atacante);
+						}
 					}
 				}
 				mesa.batalhaMesa(atacante, defensor);
@@ -87,6 +89,7 @@ public class Game {
 		if(jogando.getTurno() == TipoTurno.ATAQUE){
 			System.out.printf("[3] - Ataque\n\n");
 		}
+		System.out.println("");
 
 		Scanner scan = new Scanner(System.in);
 		int entrada = scan.nextInt();
@@ -97,6 +100,7 @@ public class Game {
 
 		} else if (entrada == 2) {
 			System.out.printf("%s passou a vez\n\n", jogando.getNome());
+			System.out.println("");
 			passadas += 1;
 
 		} else if (entrada == 3 && jogando.getTurno() == TipoTurno.ATAQUE) {
@@ -104,6 +108,7 @@ public class Game {
 			atacar(jogando, observando);
 		} else {
 			System.out.printf("Comando inválido\n", jogando.getNome());
+			System.out.println("");
 			pegarEntrada(jogando, observando);
 		}
 	}
@@ -134,26 +139,38 @@ public class Game {
 	// ============================== Funções de Batalha ==============================
 
 	/**
-	 * O atacante escolhe até no máximo 4 cartas para colocar
+	 * O atacante escolhe de 1 até no máximo 4 cartas para colocar
 	 * no seu lado da mesa.
 	 */
 	private void atacar(Jogador atacante, Jogador defensor) {
 		int entrada;
 		Scanner scan;
 		Carta cartaEscolhida;
+		int numEscolhidas = 0;
+		boolean terminado = false;
 
 		if (atacante.getQtdEvocadas() >= 1) {
-			while (atacante.getQtdEvocadas() >= 1 && mesa.getQtdAtacantes() < 4) {
+			while ((atacante.getQtdEvocadas() >= 1 && mesa.getQtdAtacantes() < 4) && !terminado) {
+				
+				if(numEscolhidas > 0) {
+					System.out.println("[0] - Finalizar jogada");
+				}
 				atacante.imprimeEvocadas();
-
+				
 				scan = new Scanner(System.in);
 				entrada = scan.nextInt();
-
-				cartaEscolhida = atacante.escolherCartaBatalha(entrada);
-				if (cartaEscolhida != null) {
-					mesa.adicionarAtacante((Unidade) cartaEscolhida);
-				} else {
-					System.out.println("Entrada Inválida.");
+				if(entrada == 0) {
+					terminado = true;
+				}
+				else {
+					cartaEscolhida = atacante.escolherCartaBatalha(entrada);
+					if (cartaEscolhida != null) {
+						mesa.adicionarAtacante((Unidade) cartaEscolhida);
+						numEscolhidas++;
+					} 
+					else {
+						System.out.println("Entrada Inválida.");
+					}
 				}
 			}
 		} else {
