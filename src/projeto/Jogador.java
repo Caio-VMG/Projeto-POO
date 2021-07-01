@@ -166,8 +166,10 @@ public class Jogador {
      */
     public Carta escolherCarta(){
         imprimeMao();
+
         Scanner scan = new Scanner(System.in);
         int entrada = scan.nextInt();
+
         Carta carta = mao.get(entrada - 1);
 
         if(canSummon(carta)) {
@@ -178,6 +180,19 @@ public class Jogador {
             return null;
         }
     }
+
+    /*
+        carta.canSummon(manaAtual, manaFeitico);
+
+        ---- Na classe Feitico ----
+        public boolean canSummon(int manaAtual, int manaFeitico){
+            if(manaAtual + manaFeitico >= this.custo()){
+                return true;
+            } else {
+                return false;
+            }
+        }
+     */
 
 
     /**
@@ -229,10 +244,27 @@ public class Jogador {
      * a sua capacidade é aumentada. O máximo é de 10 ptos. de mana.
      */
     public void ganharMana() {
+        // Manuseio de mana de feitiço
+        alterarManaFeitico();
+
+        // Inicio da nova rodada
         if (this.manaTotal < 10) {
             this.manaTotal +=1;
         }
         this.manaAtual = this.manaTotal;
+    }
+
+
+    /**
+     * Até 3 pontos de mana de feitiço que sobraram
+     * podem ser guardados para a próxima rodada.
+     * A mana de feitiço é guardada entre as rodadas.
+     */
+    private void alterarManaFeitico(){
+        manaFeitico += manaAtual;
+        if(manaFeitico > 3){
+            manaFeitico = 3;
+        }
     }
 
 
