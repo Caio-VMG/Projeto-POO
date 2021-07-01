@@ -7,6 +7,7 @@ import projeto.Jogador;
 import projeto.cartas.Carta;
 import projeto.cartas.Unidade;
 
+//Efeito 2
 public class BuffAliadoInvocado extends Efeito {
 	private int poder;
 	private int vida;
@@ -32,8 +33,8 @@ public class BuffAliadoInvocado extends Efeito {
 		imprimeEvocadas(beneficiado);
 		Scanner ler = new Scanner(System.in);
 		int escolha = ler.nextInt();
-		while(escolha > beneficiado.getEvocadas().size()) {
-			System.out.println("Escolha inválida");
+		while(escolha > beneficiado.getEvocadas().size() || escolha < 1) {
+			System.out.println("Escolha invï¿½lida");
 			escolha = ler.nextInt();
 		}
 		Unidade aux = (Unidade)beneficiado.getEvocadas().get(escolha - 1);

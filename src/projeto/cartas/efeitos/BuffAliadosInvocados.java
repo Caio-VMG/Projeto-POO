@@ -6,6 +6,7 @@ import projeto.Jogador;
 import projeto.cartas.Carta;
 import projeto.cartas.Unidade;
 
+// Efeito 1
 public class BuffAliadosInvocados extends Efeito {
 	private int poder;
 	private int vida;

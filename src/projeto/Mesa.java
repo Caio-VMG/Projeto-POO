@@ -24,7 +24,7 @@ public class Mesa {
 
 	public void batalhaMesa(Jogador atacante, Jogador defensor) {
 		
-		batalhaIndividual(defensor);		
+		batalhar(defensor);		
 		confereMortes(atacante);
 		confereMortes(defensor);
 		limparMesa(atacante, defensor);
@@ -47,14 +47,14 @@ public class Mesa {
 	atacante e cada personagem defensor causando dano no nexus do defensor caso 
 	não tenha um defensor na posição onde o atacante está atacando
 	*/
-	private void batalhaIndividual(Jogador defensor) {
+	private void batalhar(Jogador defensor) {
 		for(int i = 0; i < qtdAtacantes; i++) {
 			if(atacantes.get(i) != null) {
 				if(defensores.get(i) == null) {
 					defensor.sofrerDanoNexus(atacantes.get(i).getDano());
 				}
 				else {
-					Unidade.batalhar(atacantes.get(i), defensores.get(i));
+					Unidade.batalhaIndividual(atacantes.get(i), defensores.get(i));
 				}
 			}
 		}

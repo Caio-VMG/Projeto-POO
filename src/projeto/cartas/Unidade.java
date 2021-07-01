@@ -6,7 +6,8 @@ import projeto.Jogador;
 import projeto.cartas.efeitos.Efeito;
 
 public class Unidade extends Carta{
-    protected int vida;
+    protected int vidaMaxima;
+	protected int vida;
     protected int poder;
     private ArrayList<Efeito> efeitos;
     private ArrayList<Traco> tracos;
@@ -16,6 +17,7 @@ public class Unidade extends Carta{
     public Unidade(String nome, int custo, int vida, int poder, Efeito efeito, Traco traco) {
     	super(nome, custo);
     	this.vida = vida;
+    	this.vidaMaxima = vida;
     	this.poder = poder;
     	this.efeitos = new ArrayList<>();
     	this.tracos = new ArrayList<>();
@@ -28,6 +30,7 @@ public class Unidade extends Carta{
     public Unidade(String nome, int custo, int vida, int poder, Efeito efeito) {
     	super(nome, custo);
     	this.vida = vida;
+    	this.vidaMaxima = vida;
     	this.poder = poder;
     	this.efeitos = new ArrayList<>();
     	efeitos.add(efeito);
@@ -37,6 +40,7 @@ public class Unidade extends Carta{
     public Unidade(String nome, int custo, int vida, int poder, Traco traco ) {
     	super(nome, custo);
     	this.vida = vida;
+    	this.vidaMaxima = vida;
     	this.poder = poder;
     	this.efeitos = new ArrayList<>();
     	this.tracos = new ArrayList<>();
@@ -47,11 +51,12 @@ public class Unidade extends Carta{
     public Unidade(String nome, int custo, int vida, int poder) {
     	super(nome, custo);
     	this.vida = vida;
+    	this.vidaMaxima = vida;
     	this.poder = poder;
     	this.efeitos = new ArrayList<>();
     }
     
-    public static void batalhar(Unidade unidade1, Unidade unidade2){
+    public static void batalhaIndividual(Unidade unidade1, Unidade unidade2){
         unidade1.vida -= unidade2.poder;
         unidade2.vida -= unidade1.poder;
         if(unidade1.vida <= 0) {
@@ -88,6 +93,10 @@ public class Unidade extends Carta{
 		return vida;
 	}
 	
+	public int getVidaMaxima() {
+		return this.vidaMaxima;
+	}
+	
 	public void sofrerDano(int danoRecebido) {
 		this.vida -= danoRecebido;
 	}
@@ -96,8 +105,15 @@ public class Unidade extends Carta{
 		this.poder += danoMais;
 	}
 	
+	public void aumentarVidaMaxima(int vidaMais) {
+		this.vidaMaxima = vidaMais;
+	}
+	
 	public void aumentarVida(int vidaMais) {
 		this.vida += vidaMais;
+		if(this.vida > this.vidaMaxima) {
+			this.vida = this.vidaMaxima;
+		}
 	}
 	
 	public void diminuiDano(int vidaMenos) {

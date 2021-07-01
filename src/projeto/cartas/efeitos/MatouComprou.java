@@ -7,6 +7,7 @@ import projeto.Jogador;
 import projeto.cartas.Carta;
 import projeto.cartas.Unidade;
 
+//Efeito 3
 public class MatouComprou extends Efeito {
 	int duracao = 1;
 	
@@ -24,7 +25,7 @@ public class MatouComprou extends Efeito {
 		imprimeEvocadas(beneficiado);
 		Scanner ler = new Scanner(System.in);
 		int escolha = ler.nextInt();
-		while(escolha > beneficiado.getEvocadas().size()) {
+		while(escolha > beneficiado.getEvocadas().size() || escolha < 1) {
 			System.out.println("Escolha inv�lida");
 			escolha = ler.nextInt();
 		}
