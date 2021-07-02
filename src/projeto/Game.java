@@ -53,7 +53,7 @@ public class Game {
 				passadas = 0;
 				while (!batalha && passadas != 2) {
 					pegarEntrada(atacante, defensor);
-					if(batalha == false){
+					if(batalha == false && defensor.getVida() > 0){
 						pegarEntrada(defensor, atacante);
 					} else {
 						if(defensor.getQtdEvocadas() > 0) {
@@ -64,10 +64,11 @@ public class Game {
 				mesa.batalhaMesa(atacante, defensor);
 				batalha = false;
 				mesa.inverteMesa();
-			}
+				
 		}
 		exitSelected = true;
 		System.out.println("Game terminated. Bye!");
+	}
 	}
 
 

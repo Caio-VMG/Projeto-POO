@@ -150,7 +150,7 @@ public class Mesa {
 				}
 			}
 		} else {
-			for(int i = 0; i < atacantes.size(); i++) {
+			for(int i = 0; i < defensores.size(); i++) {
 				if(defensores.get(i) != null && defensores.get(i).getVida() > 0) {
 					jogador.sumonar(defensores.get(i));			
 				}
@@ -168,6 +168,7 @@ public class Mesa {
     	devolverCartas(defensor);
         atacantes.clear();
         defensores.clear();
+        this.preencheMesa();
         qtdAtacantes = 0;
         qtdDefensores = 0;
     }

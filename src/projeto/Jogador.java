@@ -172,16 +172,23 @@ public class Jogador {
 
         Scanner scan = new Scanner(System.in);
         int entrada = scan.nextInt();
-
-        Carta carta = mao.get(entrada - 1);
-
-        if(canSummon(carta)) {
-            manaAtual -= carta.getCusto();
-            return mao.remove(entrada - 1);
-        } else {
-            System.out.println("Faltou mana");
-            return null;
+        Carta carta;
+        if(entrada <= mao.size()) {
+        	carta = mao.get(entrada - 1);
+        	if(canSummon(carta)) {
+                manaAtual -= carta.getCusto();
+                return mao.remove(entrada - 1);
+            } else {
+                System.out.println("Faltou mana");
+                System.out.println("");
+                return null;
+            }
         }
+        else {
+        	System.out.println("Entrada inválida");
+        	System.out.println("");
+        }
+        return null;
     }
 
     /*
