@@ -1,6 +1,11 @@
 package projeto;
 
 import projeto.cartas.*;
+import projeto.cartas.efeitos.AtacaTodosInimigos;
+import projeto.cartas.efeitos.BuffAliadoInvocado;
+import projeto.cartas.efeitos.ChamouX1;
+import projeto.cartas.efeitos.CuraUnidade;
+import projeto.cartas.efeitos.Dobradinha;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -33,7 +38,8 @@ public class Game {
 
 			jogador1.primeiraCompra();
 			jogador2.primeiraCompra();
-
+			
+			int numRodada = 1;
 			//Começa o loop
 			boolean rodadaIsOver = false;
 			while (!rodadaIsOver) {
@@ -49,11 +55,15 @@ public class Game {
 				atacante.pegarCarta();
 				atacante.ganharMana();
 				defensor.ganharMana();
-
+				
+				System.out.printf("Rodada %d\n", numRodada);
+				System.out.println("");
+				numRodada++;
+				
 				passadas = 0;
-				while (!batalha && passadas != 2) {
+				while (!batalha && passadas != 2 && !rodadaIsOver) {
 					pegarEntrada(atacante, defensor);
-					if(batalha == false && defensor.getVida() > 0){
+					if(batalha == false){
 						pegarEntrada(defensor, atacante);
 					} else {
 						if(defensor.getQtdEvocadas() > 0) {
@@ -64,11 +74,15 @@ public class Game {
 				mesa.batalhaMesa(atacante, defensor);
 				batalha = false;
 				mesa.inverteMesa();
-				
-		}
+				if(defensor.getVida() <= 0) {
+					System.out.printf("O %s foi derrotado, vitória de %s!\n", defensor.getNome(), atacante.getNome());
+					System.out.println("");
+					rodadaIsOver = true;
+				}
+			}
 		exitSelected = true;
 		System.out.println("Game terminated. Bye!");
-	}
+		}
 	}
 
 
@@ -120,7 +134,7 @@ public class Game {
 	 * se defender ou não.
 	 */
 	private void perguntarDefesa(Jogador defensor, Jogador atacante){
-		System.out.println("Turno de Defesa\nEscolha uma opção:");
+		System.out.printf("Turno de Defesa do %s\nEscolha uma opção:\n", defensor.getNome());
 		System.out.printf("[1] Defender \t [2] Passar\n");
 		Scanner scan = new Scanner(System.in);
 		int entrada = scan.nextInt();
@@ -134,6 +148,7 @@ public class Game {
 			}
 			else{
 				System.out.println("Comando Inválido.");
+				perguntarDefesa(defensor, atacante);
 			}
 	}
 
@@ -204,11 +219,13 @@ public class Game {
 					System.out.println("Escolha a posição do defensor\n");
 					posicao = scan.nextInt();
 
-					if (posicao < 1 || posicao > mesa.getQtdAtacantes()) {
+					while (posicao < 1 || posicao > mesa.getQtdAtacantes()) {
 						System.out.println("Posição inválida");
-					} else {
+						mesa.printMesa();
+						System.out.println("Escolha a posição do defensor\n");
+						posicao = scan.nextInt();
+					} 
 						mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
-					}
 				} else {
 					System.out.println("Entrada Inválida.");
 				}
@@ -278,15 +295,20 @@ public class Game {
 				deckrandom.add(poroD);
 			} else if (valor == 7) {
 				Feitico julgamento = new Feitico("Julgamento", 8);
+				julgamento.addEfeito(new AtacaTodosInimigos(2, 3));
 				deckrandom.add(julgamento);
 			} else if (valor == 8) {
 				Feitico valorR = new Feitico("Valor Redobrado", 6);
+				valorR.addEfeito(new CuraUnidade());
+				valorR.addEfeito(new Dobradinha());
 				deckrandom.add(valorR);
 			} else if (valor == 9) {
 				Feitico golpeC = new Feitico("Golpe Certeiro", 1);
+				golpeC.addEfeito(new BuffAliadoInvocado(1, 1));
 				deckrandom.add(golpeC);
 			} else{
 				Feitico combate1a1 = new Feitico("Combate um a um", 2);
+				combate1a1.addEfeito(new ChamouX1());
 				deckrandom.add(combate1a1);
 			}
 		}

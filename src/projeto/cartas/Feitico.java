@@ -1,14 +1,21 @@
 package projeto.cartas;
 
+import java.util.ArrayList;
+
 import projeto.Jogador;
+import projeto.cartas.efeitos.AtacaTodosInimigos;
 import projeto.cartas.efeitos.Efeito;
 
 public class Feitico extends Carta{
-	private Efeito efeito;
+	private ArrayList<Efeito> efeitos;
 	
 	public Feitico(String nome, int custo/*, Efeito efeito*/) {
 		super(nome, custo);
-		//this.efeito = efeito;
+		this.efeitos = new ArrayList<>();
+	}
+	
+	public void addEfeito(Efeito efeito) {
+		efeitos.add(efeito);
 	}
 	
 	@Override
