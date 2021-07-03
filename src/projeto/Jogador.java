@@ -120,9 +120,7 @@ public class Jogador {
      */
     public void trocarCartas(){
         int i;
-        boolean erro = true;
         boolean terminou = false;
-        Scanner scan;
 
         ArrayList<Integer> cartasTrocadas = new ArrayList<>();
         imprimeMao();
@@ -131,32 +129,26 @@ public class Jogador {
 
         int trocadas = 0;
 
-        do{
-            while(!terminou && trocadas < maxUnidades) {
-                try {
-                    scan = new Scanner(System.in);
-                    i = scan.nextInt();
-                    if (i == 0) {
-                        terminou = true;
-                    } else {                    	
-                        if (!cartasTrocadas.contains(i - 1)) {
-                            substituirCartadaMao(i-1);
-                            trocadas++;
-                        } else {
-                            System.out.println("Esta carta já foi trocada.");
-                            System.out.println("");
-                        }
-                    }
-                    erro = false;
-                    if (terminou && trocadas > 0) {
-                        imprimeMao();
-                    }
-                } catch (Exception InputMismatchException) {
-                    System.out.println("Entrada Inválida");
-                    System.out.println("");
+        while(!terminou && trocadas < maxUnidades) {
+            i = Leitor.lerInt();
+            if (i == 0) {
+                terminou = true;
+            }else if(i > 4 || i< 0){
+                System.out.println("Índice inválido");
+            } else {
+                if (!cartasTrocadas.contains(i - 1)) {
+                    cartasTrocadas.add(i-1);
+                    substituirCartadaMao(i-1);
+                    trocadas++;
+                } else {
+                    System.out.println("Esta carta já foi trocada.");
+                    System.out.println();
                 }
             }
-        }while(erro);
+            if (terminou && trocadas > 0) {
+                imprimeMao();
+            }
+        }
     }
 
 
@@ -168,41 +160,40 @@ public class Jogador {
      * Se houver mana o suficiente, retorna a carta escolhida.
      */
     public Carta escolherCarta(){
+        int entrada = 0;
         imprimeMao();
 
-        Scanner scan = new Scanner(System.in);
-        int entrada = scan.nextInt();
+        boolean leituraValida = false;
+        do {
+            try {
+                Scanner scan = new Scanner(System.in);
+                entrada = scan.nextInt();
+                leituraValida = true;
+            } catch (Exception InputMismatchException) {
+                System.out.println("Entrada inválida");
+            }
+        }while(!leituraValida);
+
         Carta carta;
+
         if(entrada <= mao.size()) {
         	carta = mao.get(entrada - 1);
-        	if(canSummon(carta)) {
-                manaAtual -= carta.getCusto();
+        	if(carta.canSummon(manaAtual, manaFeitico)) {
+        	    manaFeitico = carta.calcularCustoManaFeitico(manaFeitico);
+        	    manaAtual = carta.calcularCustoNormal(manaAtual, manaFeitico);
                 return mao.remove(entrada - 1);
             } else {
                 System.out.println("Faltou mana");
-                System.out.println("");
+                System.out.println();
                 return null;
             }
         }
         else {
         	System.out.println("Entrada inválida");
-        	System.out.println("");
+        	System.out.println();
         }
         return null;
     }
-
-    /*
-        carta.canSummon(manaAtual, manaFeitico);
-
-        ---- Na classe Feitico ----
-        public boolean canSummon(int manaAtual, int manaFeitico){
-            if(manaAtual + manaFeitico >= this.custo()){
-                return true;
-            } else {
-                return false;
-            }
-        }
-     */
 
 
     /**
@@ -254,13 +245,14 @@ public class Jogador {
      * a sua capacidade é aumentada. O máximo é de 10 ptos. de mana.
      */
     public void ganharMana() {
-        // Manuseio de mana de feitiço
-        alterarManaFeitico();
-
         // Inicio da nova rodada
         if (this.manaTotal < 10) {
             this.manaTotal +=1;
         }
+
+        // Manuseio de mana de feitiço
+        alterarManaFeitico();
+
         this.manaAtual = this.manaTotal;
     }
 
@@ -291,7 +283,7 @@ public class Jogador {
         } else {
             System.out.printf("(defensor):\n");
         }
-        System.out.printf("mana: %d\nvida do nexus: %d\n",manaAtual, nexus);
+        System.out.printf("mana: %d\nmana feitico: %d\nvida do nexus: %d\n",manaAtual, manaFeitico, nexus);
     }
 
     /**
@@ -315,7 +307,7 @@ public class Jogador {
         System.out.printf("Mão de %s:\n", this.nome);
         System.out.println("=================================================================================");
         for(int i = 0; i < mao.size(); i++) {
-            System.out.printf("[%d] %s \t ", i + 1,mao.get(i).getNome());
+            mao.get(i).printCarta(i + 1);
         }
         System.out.println();
         System.out.println("=================================================================================");
@@ -359,7 +351,7 @@ public class Jogador {
 
 
     public void setMana(int pontos) {
-    	this.manaAtual += pontos;
+    	this.manaAtual = pontos;
     }
 
     public void setDeck(Deck deck){

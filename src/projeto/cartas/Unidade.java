@@ -85,6 +85,23 @@ public class Unidade extends Carta{
     	}
     }
 
+	@Override
+	public boolean canSummon(int manaAtual, int manaFeitico) {
+		if(this.getCusto() > manaAtual){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public int calcularCustoManaFeitico(int manaFeitico){
+    	return manaFeitico;
+	}
+
+	public int calcularCustoNormal(int manaFeitico, int manaNormal){
+    	return manaNormal - super.getCusto();
+	}
+
 	public int getDano() {
 		return poder;
 	}

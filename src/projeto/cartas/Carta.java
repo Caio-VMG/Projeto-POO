@@ -10,7 +10,19 @@ public abstract class Carta {
     	this.nome = nome;    	
     	this.custo = custo;
     }
-    
+
+    public abstract void usarCarta(Jogador jogador1, Jogador jogador2);
+
+    public abstract boolean canSummon(int manaAtual, int manaFeitico);
+
+    public abstract int calcularCustoManaFeitico(int manaFeitico);
+
+    public abstract int calcularCustoNormal(int manaFeitico, int manaNormal);
+
+    public void printCarta(int i){
+        System.out.printf("[%d] %s (%d) \t ", i , this.nome, this.custo);
+    }
+
     public String getNome() {
     	return this.nome;
     }
@@ -23,16 +35,14 @@ public abstract class Carta {
     	return 0;
     }
     
-    public abstract void usarCarta(Jogador jogador1, Jogador jogador2);
+
 
     /**
      * Devolve a unidade.
      * Devolve null se a carta for um feitico.
      */
     public abstract Carta getUnidade();
-    	
-    /*
-    public abstract void sumonar()
-     */
-    /* * */
+
+
+
 }

@@ -53,15 +53,15 @@ public class Game {
 				
 				defensor.pegarCarta();
 				atacante.pegarCarta();
-				atacante.ganharMana();
-				defensor.ganharMana();
 				
 				System.out.printf("Rodada %d\n", numRodada);
-				System.out.println("");
+				System.out.println();
 				numRodada++;
 				
 				passadas = 0;
 				while (!batalha && passadas != 2 && !rodadaIsOver) {
+					atacante.ganharMana();
+					defensor.ganharMana();
 					pegarEntrada(atacante, defensor);
 					if(batalha == false){
 						pegarEntrada(defensor, atacante);
@@ -94,8 +94,8 @@ public class Game {
 	 * O defensor pode escolher entre: Sumonar ou Passar.
 	 */
 	private void pegarEntrada(Jogador jogando, Jogador observando){
-		//Cheat
-		jogando.setMana(10);
+		int entrada = 0;
+
 
 		jogando.imprimirDadosIniciais();
 		System.out.printf("Vez de %s:\n" +
@@ -104,10 +104,9 @@ public class Game {
 		if(jogando.getTurno() == TipoTurno.ATAQUE){
 			System.out.printf("[3] - Ataque\n\n");
 		}
-		System.out.println("");
+		System.out.println();
 
-		Scanner scan = new Scanner(System.in);
-		int entrada = scan.nextInt();
+		entrada = Leitor.lerInt();
 
 		if(entrada == 1){
 			sumonar(jogando, observando);
@@ -115,7 +114,7 @@ public class Game {
 
 		} else if (entrada == 2) {
 			System.out.printf("%s passou a vez\n\n", jogando.getNome());
-			System.out.println("");
+			System.out.println();
 			passadas += 1;
 
 		} else if (entrada == 3 && jogando.getTurno() == TipoTurno.ATAQUE) {
@@ -123,7 +122,7 @@ public class Game {
 			atacar(jogando, observando);
 		} else {
 			System.out.printf("Comando inválido\n", jogando.getNome());
-			System.out.println("");
+			System.out.println();
 			pegarEntrada(jogando, observando);
 		}
 	}
@@ -134,22 +133,25 @@ public class Game {
 	 * se defender ou não.
 	 */
 	private void perguntarDefesa(Jogador defensor, Jogador atacante){
+		int entrada = 0;
+
 		System.out.printf("Turno de Defesa do %s\nEscolha uma opção:\n", defensor.getNome());
 		System.out.printf("[1] Defender \t [2] Passar\n");
-		Scanner scan = new Scanner(System.in);
-		int entrada = scan.nextInt();
-		boolean comandoValido = false;
-		while(!comandoValido)
+
+		entrada = Leitor.lerInt();
+
+		boolean valido = false;
+		do{
 			if(entrada == 1){
 				defender(defensor, atacante);
-				comandoValido = true;
-			} else if (entrada == 2){
-				comandoValido = true;
+				valido = true;
+			} else if (entrada == 2) {
+				valido = true;
+			} else {
+				System.out.println("Entrada inválida.");
 			}
-			else{
-				System.out.println("Comando Inválido.");
-				perguntarDefesa(defensor, atacante);
-			}
+		}while(!valido);
+
 	}
 
 	// ============================== Funções de Batalha ==============================
@@ -160,7 +162,6 @@ public class Game {
 	 */
 	private void atacar(Jogador atacante, Jogador defensor) {
 		int entrada;
-		Scanner scan;
 		Carta cartaEscolhida;
 		int numEscolhidas = 0;
 		boolean terminado = false;
@@ -172,9 +173,8 @@ public class Game {
 					System.out.println("[0] - Finalizar jogada");
 				}
 				atacante.imprimeEvocadas();
-				
-				scan = new Scanner(System.in);
-				entrada = scan.nextInt();
+
+				entrada = Leitor.lerInt();
 				if(entrada == 0) {
 					terminado = true;
 				}
@@ -210,20 +210,19 @@ public class Game {
 			while(mesa.getQtdAtacantes() > mesa.getQtdDefensores() && defensor.getQtdEvocadas() >= 1){
 				defensor.imprimeEvocadas();
 
-				scan = new Scanner(System.in);
-				entrada = scan.nextInt();
+				entrada = Leitor.lerInt();
 
 				cartaEscolhida = defensor.escolherCartaBatalha(entrada);
 				if (cartaEscolhida != null) {
 					mesa.printMesa();
 					System.out.println("Escolha a posição do defensor\n");
-					posicao = scan.nextInt();
+					posicao = Leitor.lerInt();
 
 					while (posicao < 1 || posicao > mesa.getQtdAtacantes()) {
 						System.out.println("Posição inválida");
 						mesa.printMesa();
 						System.out.println("Escolha a posição do defensor\n");
-						posicao = scan.nextInt();
+						posicao = Leitor.lerInt();
 					} 
 						mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
 				} else {
