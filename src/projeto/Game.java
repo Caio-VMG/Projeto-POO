@@ -56,12 +56,12 @@ public class Game {
 				
 				System.out.printf("Rodada %d\n", numRodada);
 				System.out.println();
+				atacante.ganharMana(numRodada);
+				defensor.ganharMana(numRodada);
 				numRodada++;
 				
 				passadas = 0;
 				while (!batalha && passadas != 2 && !rodadaIsOver) {
-					atacante.ganharMana();
-					defensor.ganharMana();
 					pegarEntrada(atacante, defensor);
 					if(batalha == false){
 						pegarEntrada(defensor, atacante);
@@ -78,6 +78,14 @@ public class Game {
 					System.out.printf("O %s foi derrotado, vitória de %s!\n", defensor.getNome(), atacante.getNome());
 					System.out.println("");
 					rodadaIsOver = true;
+				}
+				else {
+					if(atacante.getMana() > 0) {
+						atacante.alterarManaFeitico(atacante.getMana());
+					}
+					if(defensor.getMana() > 0) {
+						defensor.alterarManaFeitico(defensor.getMana());
+					}
 				}
 			}
 		exitSelected = true;

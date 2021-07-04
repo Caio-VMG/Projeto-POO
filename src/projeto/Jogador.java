@@ -207,6 +207,25 @@ public class Jogador {
             return false;
         }
     }
+    
+    /**
+     * Quando o jogador não possui mana suficiente pra evocar nenhuma carta
+     * e não possui nenhuma carta evocada, então ele não tem nenhuma jogada possível.
+     * PS: esse método ainda não está sendo usado.
+     */
+    private boolean podeJogar() {
+    	int count = 0;
+    	for(int i = 0; i < mao.size(); i++) {
+    		Carta aux = mao.get(i);
+    		if(!mao.get(i).canSummon(manaAtual, manaFeitico)) {
+    			count++;
+    		}
+    	}
+    	if((count == mao.size()) && this.evocadas.size() == 0) {
+    		return false;
+    	}
+    	return true;
+    }
 
 
     /**
@@ -242,18 +261,18 @@ public class Jogador {
 
     /**
      * Toda vez que o jogador ganha mana no ínicio da rodada,
-     * a sua capacidade é aumentada. O máximo é de 10 ptos. de mana.
+     * a sua capacidade é aumentada. O máximo é de 10 ptos. de mana por rodada.
      */
-    public void ganharMana() {
+    public void ganharMana(int valor) {
         // Inicio da nova rodada
-        if (this.manaTotal < 10) {
-            this.manaTotal +=1;
-        }
-
-        // Manuseio de mana de feitiço
-        alterarManaFeitico();
-
-        this.manaAtual = this.manaTotal;
+    	if(valor > 10) {
+    		this.manaAtual += 10;
+    	}
+    	else {
+    		this.manaAtual += valor;
+    	}
+        //this.manaAtual = this.manaTotal;
+        this.manaTotal = this.manaAtual;
     }
 
 
@@ -262,11 +281,14 @@ public class Jogador {
      * podem ser guardados para a próxima rodada.
      * A mana de feitiço é guardada entre as rodadas.
      */
-    private void alterarManaFeitico(){
-        manaFeitico += manaAtual;
-        if(manaFeitico > 3){
-            manaFeitico = 3;
+    public void alterarManaFeitico(int valor){
+        if(valor > 3) {
+        	this.manaFeitico += 3;
         }
+        else {
+        	this.manaFeitico += valor;
+        }
+        this.manaAtual = 0;
     }
 
 

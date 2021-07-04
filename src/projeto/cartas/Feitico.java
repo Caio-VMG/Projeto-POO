@@ -48,7 +48,6 @@ public class Feitico extends Carta{
 
 	}
 
-
 	@Override
 	public Carta getUnidade(){
 		return null;
