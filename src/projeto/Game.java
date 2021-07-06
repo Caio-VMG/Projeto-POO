@@ -102,6 +102,11 @@ public class Game {
 	 * O defensor pode escolher entre: Sumonar ou Passar.
 	 */
 	private void pegarEntrada(Jogador jogando, Jogador observando){
+		
+		//cheats
+		jogando.alterarManaFeitico(50);
+		jogando.setMana(50);
+		
 		int entrada = 0;
 
 

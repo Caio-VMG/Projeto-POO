@@ -123,7 +123,8 @@ public class Unidade extends Carta{
 	}
 	
 	public void aumentarVidaMaxima(int vidaMais) {
-		this.vidaMaxima = vidaMais;
+		this.vidaMaxima += vidaMais;
+		this.vida = this.vidaMaxima;
 	}
 	
 	public void aumentarVida(int vidaMais) {

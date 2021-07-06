@@ -45,7 +45,9 @@ public class Feitico extends Carta{
 	
 	@Override
 	public void usarCarta(Jogador atacante, Jogador defensor) {
-
+		for(int i = 0; i < efeitos.size(); i++) {
+			efeitos.get(i).aplicarEfeito(atacante, defensor, atacante);
+		}
 	}
 
 	@Override
