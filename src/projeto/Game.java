@@ -6,6 +6,7 @@ import projeto.cartas.efeitos.BuffAliadoInvocado;
 import projeto.cartas.efeitos.ChamouX1;
 import projeto.cartas.efeitos.CuraUnidade;
 import projeto.cartas.efeitos.Dobradinha;
+import projeto.decks.Deck;
 
 import java.util.Random;
 import java.util.Scanner;

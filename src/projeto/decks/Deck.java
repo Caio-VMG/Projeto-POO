@@ -1,4 +1,4 @@
-package projeto;
+package projeto.decks;
 
 import projeto.cartas.Carta;
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ public class Deck {
     public void remove(Carta carta){
         cartas.remove(carta);
     }
+
 
     /**
      * Adiciona uma carta no último lugar do deck.
