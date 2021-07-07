@@ -7,6 +7,7 @@ import projeto.cartas.efeitos.ChamouX1;
 import projeto.cartas.efeitos.CuraUnidade;
 import projeto.cartas.efeitos.Dobradinha;
 import projeto.decks.Deck;
+import projeto.decks.DeckFactory;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -272,59 +273,10 @@ public class Game {
 	}
 
 	private void iniciarJogadores(){
-		this.jogador1 = new Jogador(criarDeckDummy(), "Player1");
-		this.jogador2 = new Jogador(criarDeckDummy(), "Player2");
+		this.jogador1 = new Jogador(DeckFactory.obterDeck(0), "Player1");
+		this.jogador2 = new Jogador(DeckFactory.obterDeck(0), "Player2");
 
 		jogador1.setTurno(TipoTurno.ATAQUE);
 		jogador2.setTurno(TipoTurno.DEFESA);
-	}
-
-	private Deck criarDeckDummy() {
-		int j;
-		Deck deckrandom = new Deck("Dummy");
-		Random random = new Random();
-		for (int i = 0; i<40; i++) {
-			int valor = random.nextInt(11);
-			if (valor == 0) {
-				Campeao garen = new Campeao("Garen", 5, 5, 5);
-				deckrandom.add(garen);
-			} else if (valor == 1) {
-				Unidade tiana = new Unidade("Tiana", 8, 7, 7);
-				deckrandom.add(tiana);
-			} else if (valor == 2) {
-				Unidade vanguarda = new Unidade("Vanguarda", 4, 3, 3);
-				deckrandom.add(vanguarda);
-			} else if (valor == 3) {
-				Unidade duelista = new Unidade("Duelista", 3, 2, 3);
-				deckrandom.add(duelista);
-			} else if (valor == 4) {
-				Unidade defensor = new Unidade("Defensor", 2, 2, 2);
-				deckrandom.add(defensor);
-			} else if (valor == 5) {
-				Unidade poro = new Unidade("Poro", 1, 1, 2);
-				deckrandom.add(poro);
-			} else if (valor == 6) {
-				Unidade poroD = new Unidade("Poro Defensor", 1, 2, 1);
-				deckrandom.add(poroD);
-			} else if (valor == 7) {
-				Feitico julgamento = new Feitico("Julgamento", 8);
-				julgamento.addEfeito(new AtacaTodosInimigos(2, 3));
-				deckrandom.add(julgamento);
-			} else if (valor == 8) {
-				Feitico valorR = new Feitico("Valor Redobrado", 6);
-				valorR.addEfeito(new CuraUnidade());
-				valorR.addEfeito(new Dobradinha());
-				deckrandom.add(valorR);
-			} else if (valor == 9) {
-				Feitico golpeC = new Feitico("Golpe Certeiro", 1);
-				golpeC.addEfeito(new BuffAliadoInvocado(1, 1));
-				deckrandom.add(golpeC);
-			} else{
-				Feitico combate1a1 = new Feitico("Combate um a um", 2);
-				combate1a1.addEfeito(new ChamouX1());
-				deckrandom.add(combate1a1);
-			}
-		}
-		return deckrandom;
 	}
 }

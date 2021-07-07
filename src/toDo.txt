@@ -1,3 +1,4 @@
 1. Adicionar voltar quando entrar em alguma das opcoes.
 2. Implementar uma funcao de leitura otimizada.
 3. Quando nao tem mana suficiente, pula a vez do jogador.
+4. Erro na funcao Escolher carta, digitei zero e deu erro.

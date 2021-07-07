@@ -124,9 +124,11 @@ public class Jogador {
         boolean terminou = false;
 
         ArrayList<Integer> cartasTrocadas = new ArrayList<>();
-        imprimeMao();
+        //imprimeMao();
+        Impressora impressora = new Impressora();
+        impressora.imprimeMao(this);
         System.out.println("Quais cartas serão trocadas? (Digite 0 quando finalizar)");
-        System.out.println("");
+        System.out.println();
 
         int trocadas = 0;
 
@@ -162,7 +164,8 @@ public class Jogador {
      */
     public Carta escolherCarta(){
         int entrada = 0;
-        imprimeMao();
+        Impressora impressora = new Impressora();
+        impressora.imprimeMao(this);
 
         boolean leituraValida = false;
         do {

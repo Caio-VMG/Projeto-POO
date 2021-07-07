@@ -10,7 +10,7 @@ public class Deck {
 
     public Deck(String nome){
         this.nome = nome;
-        this.cartas = new ArrayList<Carta>();
+        this.cartas = new ArrayList<>();
     }
 
     /**

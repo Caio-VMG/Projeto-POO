@@ -2,7 +2,7 @@ package projeto.decks;
 
 public class DeckFactory {
 
-    public Deck obterDeck(int i){
+    public static Deck obterDeck(int i){
         Deck deck = null;
         if(i == 0){
             deck = new Dummy("deckDummy");
