@@ -34,8 +34,13 @@ public class MatouComprou extends Efeito {
 	}
 	
 	@Override
-	public void ativarEfeito(Jogador jogador) {
+	public void ativarEfeitoKill(Jogador jogador) {
+		System.out.printf("O jogador %s ganhou uma carta devido ao efeito Matou Comprou! \n",jogador.getNome());
 		jogador.pegarCarta();
+	}
+	
+	@Override
+	public void ativarEfeitoMorte(Jogador jogador) {
 	}
 	
 	@Override

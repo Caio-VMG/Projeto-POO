@@ -13,5 +13,7 @@ public abstract class Efeito {
 	
 	public abstract void removerEfeito(Unidade unidade);
 	
-	public abstract void ativarEfeito(Jogador jogador);
+	public abstract void ativarEfeitoKill(Jogador jogador);
+	
+	public abstract void ativarEfeitoMorte(Jogador jogador);
 }

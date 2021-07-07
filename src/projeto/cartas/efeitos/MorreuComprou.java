@@ -35,8 +35,12 @@ int duracao = 1;
 	}
 	
 	@Override
-	public void ativarEfeito(Jogador jogador) {
+	public void ativarEfeitoMorte(Jogador jogador) {
+		System.out.printf("O jogador %s ganhou uma carta devido ao efeito Morreu Comprou! \n",jogador.getNome());
 		jogador.pegarCarta();
+	}
+	
+	public void ativarEfeitoKill(Jogador jogador) {
 	}
 	
 	@Override

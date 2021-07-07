@@ -50,6 +50,9 @@ public class ZeraPoderInimigo extends Efeito {
 	}
 
 	@Override
-	public void ativarEfeito(Jogador jogador) {}
+	public void ativarEfeitoKill(Jogador jogador) {}
+	
+	@Override
+	public void ativarEfeitoMorte(Jogador jogador) {}
 
 }

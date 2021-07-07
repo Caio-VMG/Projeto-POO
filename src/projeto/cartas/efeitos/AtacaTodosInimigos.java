@@ -59,11 +59,15 @@ public class AtacaTodosInimigos extends Efeito {
 	}
 
 	@Override
-	public void ativarEfeito(Jogador jogador) {
+	public void ativarEfeitoKill(Jogador jogador) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public void ativarEfeitoMorte(Jogador jogador) {
+		// TODO Auto-generated method stub
+		
+	}
 	/*
 	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
 		for(int i = 0; i < )

@@ -233,13 +233,14 @@ public class Game {
 					System.out.println("Escolha a posição do defensor\n");
 					posicao = Leitor.lerInt();
 
-					while (posicao < 1 || posicao > mesa.getQtdAtacantes()) {
+					while (posicao < 1 || posicao > mesa.getQtdAtacantes() || !mesa.posEhValida(posicao)) {
 						System.out.println("Posição inválida");
 						mesa.printMesa();
 						System.out.println("Escolha a posição do defensor\n");
 						posicao = Leitor.lerInt();
 					} 
-						mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
+					mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
+					
 				} else {
 					System.out.println("Entrada Inválida.");
 				}

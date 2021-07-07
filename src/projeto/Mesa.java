@@ -30,18 +30,6 @@ public class Mesa {
 		limparMesa(atacante, defensor);
 		
 	}
-	
-	/*private void confereEfeitoKillAtacante(Jogador atacante) {
-		for(int i = 0; i < atacantes.size(); i++) {
-			atacantes.get(i).confereEfeitoKill(atacante);
-		}
-	}*/
-
-	/*private void confereEfeitoKillDefensor(Jogador defensor) {
-		for(int i = 0; i < defensores.size(); i++) {
-			atacantes.get(i).confereEfeitoKill(defensor);
-		}
-	}*/
 
 	/*Vai receber o jogador defendendo e realizar a batalha entre cada  personagem 
 	atacante e cada personagem defensor causando dano no nexus do defensor caso 
@@ -72,10 +60,8 @@ public class Mesa {
 				if(atacantes.get(i) != null) {
 					if(atacantes.get(i).getVida() <= 0) {
 						mensagemMorte(atacantes.get(i));
-						/*Aqui vai precisar conferir se tem efeito de morte
-						Ai se morreu já confere a mesma posição de defensores
-						pra ver se o defensor tem efeito pra quando mata 
-						*/
+						atacantes.get(i).confereEfeitoMorte(jogador);
+						defensores.get(i).confereEfeitoKill(jogador);
 						atacantes.remove(i);
 						qtdAtacantes--;
 					}
@@ -87,10 +73,8 @@ public class Mesa {
 				if(defensores.get(i) != null) {
 					if(defensores.get(i).getVida() <= 0) {
 						mensagemMorte(defensores.get(i));
-						/*Aqui vai precisar conferir se tem efeito de morte
-						ai se morreu já confere a mesma posição de atacantes
-						pra ver se o atacante tem efeito pra quando mata 
-						*/
+						defensores.get(i).confereEfeitoMorte(jogador);
+						atacantes.get(i).confereEfeitoKill(jogador);						
 						defensores.remove(i);
 						qtdDefensores--;
 					}
@@ -181,7 +165,12 @@ public class Mesa {
     	}
     }
 
-
+    public boolean posEhValida(int posicao) {
+    	if (defensores.get(posicao-1) != null) {
+    		return false;
+    	}
+    	return true;
+    }
 	//======================== Impressão ========================
 
 

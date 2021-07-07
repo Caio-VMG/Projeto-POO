@@ -81,7 +81,13 @@ public class Unidade extends Carta{
     
     public void confereEfeitoKill(Jogador jogador) {
     	for(int i = 0; i < efeitos.size(); i++) {
-    		efeitos.get(i).ativarEfeito(jogador);
+    		efeitos.get(i).ativarEfeitoKill(jogador);
+    	}
+    }
+    
+    public void confereEfeitoMorte(Jogador jogador) {
+    	for(int i = 0; i < efeitos.size(); i++) {
+    		efeitos.get(i).ativarEfeitoKill(jogador);
     	}
     }
 

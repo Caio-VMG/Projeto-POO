@@ -34,17 +34,6 @@ public class Jogador {
         evocadas = new ArrayList<>();
     }
 
-    /*
-    public void usarCarta() {
-    	System.out.printf("Selecione a carta:\n");
-    	imprimeMao();
-    	Scanner scan = new Scanner(System.in);
-		int entrada = scan.nextInt();
-		mao.get(entrada - 1).usarCarta(this, entrada - 1);
-		scan.close();
-    }
-     */
-
     /**
      * O defensor escolhe a unidade para evocar.
      */
