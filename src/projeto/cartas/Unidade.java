@@ -14,6 +14,7 @@ public class Unidade extends Carta{
     private boolean elusivo;
     private boolean furia;
     private boolean ataqueDuplo;
+    private boolean barreira;
     private int poderFuria;
     private int vidaFuria;
 
@@ -31,8 +32,19 @@ public class Unidade extends Carta{
     }
     
     public static void batalhaIndividual(Unidade unidade1, Unidade unidade2){
-        unidade1.vida -= unidade2.poder;
-        unidade2.vida -= unidade1.poder;
+    	
+    	if (unidade1.getBarreira()) {
+    		unidade1.setBarreira(false);
+    	} else {
+    		 unidade1.vida -= unidade2.poder;
+    	}
+    	
+    	if (unidade2.getBarreira()) {
+    		unidade2.setBarreira(false);
+    	} else {
+    		unidade2.vida -= unidade1.poder;
+    	}
+    	
         if(unidade1.vida <= 0) {
         	if (unidade2.getFuria() && unidade2.getVida() >= 0) {
         		unidade2.ativarFuria();
@@ -109,6 +121,10 @@ public class Unidade extends Carta{
 		return ataqueDuplo;
 	}
 	
+	public boolean getBarreira() {
+		return barreira;
+	}
+	
 	@Override
     public Carta getUnidade(){
     	return this;
@@ -167,6 +183,10 @@ public class Unidade extends Carta{
 			this.vida += this.vidaFuria;
 			this.poder += this.poderFuria;
 		}
+	}
+	
+	public void setBarreira(boolean t) {
+		this.barreira = t;
 	}
 	
 	public void removerEfeito(Efeito efeito) {
