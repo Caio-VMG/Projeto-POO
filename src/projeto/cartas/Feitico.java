@@ -48,6 +48,10 @@ public class Feitico extends Carta{
 		System.out.printf("%s (%d)", super.getNome(), super.getCusto());
 	}
 
+	public void mostrarCarta(){
+
+	}
+
 	@Override
 	public void usarCarta(Jogador atacante, Jogador defensor) {
 		for(int i = 0; i < efeitos.size(); i++) {

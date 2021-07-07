@@ -109,7 +109,8 @@ public class Jogador {
                 }
             }
             if (terminou && trocadas > 0) {
-                imprimeMao();
+                Impressora imp = new Impressora();
+                imp.imprimeMao(this);
             }
         }
     }
@@ -271,7 +272,16 @@ public class Jogador {
         for(int i = 0; i < evocadas.size(); i++) {
             System.out.printf("[%d] - %s\n", i + 1, evocadas.get(i).getNome());
         }
-        System.out.println("");
+    }
+
+    /**
+     * Mostra as cartas evocadas, diferente da funcao imprimeEvocadas essa funcao
+     * tem o interesse.
+     */
+    public void mostrarEvocadas() {
+        for(Carta evocada: evocadas) {
+            evocada.mostrarCarta();
+        }
     }
 
 
@@ -294,6 +304,13 @@ public class Jogador {
 
     //========================= Getters =========================
 
+    public String getTurnoString(){
+        if(turno == TipoTurno.ATAQUE){
+            return "Ataque";
+        } else {
+            return "Defesa";
+        }
+    }
 
     public String getNome() {
         return this.nome;

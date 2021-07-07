@@ -64,6 +64,7 @@ public class Game {
 				
 				passadas = 0;
 				while (!batalha && passadas != 2 && !rodadaIsOver) {
+					imprimirTabuleiro();
 					pegarEntrada(atacante, defensor);
 					if(batalha == false){
 						pegarEntrada(defensor, atacante);
@@ -269,6 +270,22 @@ public class Game {
 		}
 	}
 
+
+	// ============================== Impressão do Tabuleiro ==============================
+
+	private void imprimirTabuleiro(){
+		System.out.println("___________________________________");
+		System.out.printf("Evocadas de %s\n", jogador1.getNome());
+		jogador1.mostrarEvocadas();
+		System.out.printf("Campo de %s\n", jogador1.getTurnoString());
+		mesa.mostrarLado(jogador1);
+		System.out.println("\n");
+		mesa.mostrarLado(jogador2);
+		System.out.printf("\nCampo de %s\n", jogador2.getTurnoString());
+		jogador2.mostrarEvocadas();
+		System.out.printf("Evocadas de %s\n", jogador2.getNome());
+		System.out.println("___________________________________");
+	}
 
 
 	// ============================== Inicialização ==============================
