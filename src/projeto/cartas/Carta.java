@@ -27,6 +27,8 @@ public abstract class Carta {
         System.out.printf("[%d] %s (%d) \t ", i , this.nome, this.custo);
     }
 
+    public abstract void mostrarCarta();
+
     public String getNome() {
     	return this.nome;
     }

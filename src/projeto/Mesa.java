@@ -197,20 +197,17 @@ public class Mesa {
     }
 	//======================== Impressão ========================
 
-
-	/**
-	 * Imprime o lado dos atacantes e o lados dos defensores da mesa.
-	 */
-	public void printMesa(){
-
-		for(Unidade atacante: atacantes){
-			if(atacante != null){
-				atacante.printUnidade();
+	public void printLado(ArrayList<Unidade> unidades){
+		for(Unidade unidade: unidades){
+			if(unidade != null){
+				unidade.printUnidade();
 			} else {
 				System.out.printf(" -- ");
 			}
 		}
-		System.out.println();
+	}
+
+	public void printIndicesDefesa(){
 		int i = 1;
 		for(Unidade defensor: defensores){
 			if(defensor != null){
@@ -220,9 +217,25 @@ public class Mesa {
 			}
 			i++;
 		}
+	}
+
+	/**
+	 * Imprime o lado dos atacantes e o lados dos defensores da mesa.
+	 */
+	public void printMesa(){
+		printLado(atacantes);
+		System.out.println();
+		printIndicesDefesa();
 		System.out.println();
 	}
-	
+
+	public void mostrarLado(Jogador jogador){
+		if(jogador.getTurno() == TipoTurno.ATAQUE){
+			printLado(atacantes);
+		} else {
+			printLado(defensores);
+		}
+	}
 
 
 	private void mensagemMorte(Unidade derrotada) {
