@@ -9,8 +9,11 @@ import projeto.cartas.Unidade;
 
 //Efeito 11
 public class Barreira extends Efeito{
+	private int duracao;
 	
-	public Barreira(){}
+	public Barreira(){
+		this.duracao = 1;
+	}
 	
 	
 	private void imprimeEvocadas(Jogador jogador) {
@@ -40,7 +43,6 @@ public class Barreira extends Efeito{
 	@Override
 	public void removerEfeito(Unidade unidade) {
 		unidade.removerEfeito(this);
-		unidade.setBarreira(false);
 	}
 	
 	@Override
@@ -49,4 +51,13 @@ public class Barreira extends Efeito{
 	@Override
 	public void ativarEfeitoMorte(Jogador jogador) {}
 
+
+	@Override
+	public void passouRodada(Unidade unidade) {
+		this.duracao -= 1;
+		if (this.duracao == 0) {
+			removerEfeito(unidade);
+		}
+		
+	}
 }

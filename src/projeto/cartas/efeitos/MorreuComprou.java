@@ -49,4 +49,13 @@ int duracao = 1;
 		unidade.removerEfeito(this);
 	}
 
+	@Override
+	public void passouRodada(Unidade unidade) {
+		this.duracao -=1;
+		if (this.duracao == 0) {
+			removerEfeito(unidade);
+		}
+		
+	}
+
 }

@@ -46,4 +46,10 @@ public class CuraUnidade extends Efeito {
 	@Override
 	public void ativarEfeitoMorte(Jogador jogador) {}
 
+	@Override
+	public void passouRodada(Unidade unidade) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
