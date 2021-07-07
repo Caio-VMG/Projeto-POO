@@ -42,7 +42,12 @@ public class Feitico extends Carta{
 	public void addEfeito(Efeito efeito) {
 		efeitos.add(efeito);
 	}
-	
+
+	@Override
+	public void printCarta(){
+		System.out.printf("%s (%d)", super.getNome(), super.getCusto());
+	}
+
 	@Override
 	public void usarCarta(Jogador atacante, Jogador defensor) {
 		for(int i = 0; i < efeitos.size(); i++) {
