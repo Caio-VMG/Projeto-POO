@@ -32,6 +32,7 @@ public class Dummy extends Deck {
                 this.add(duelista);
             } else if (valor == 4) {
                 Unidade defensor = new Unidade("Defensor", 2, 2, 2);
+                defensor.addEfeito(new MorreuComprou());
                 this.add(defensor);
             } else if (valor == 5) {
                 Unidade poro = new Unidade("Poro", 1, 1, 2);

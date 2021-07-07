@@ -54,4 +54,9 @@ public class Feitico extends Carta{
 	public Carta getUnidade(){
 		return null;
 	}
+
+	@Override
+	public boolean ehElusivo() {
+		return false;
+	}
 }

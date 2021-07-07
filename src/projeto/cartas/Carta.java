@@ -35,6 +35,8 @@ public abstract class Carta {
     	return 0;
     }
     
+    public abstract boolean ehElusivo();
+    
 
 
     /**

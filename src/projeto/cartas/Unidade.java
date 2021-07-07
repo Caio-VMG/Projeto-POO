@@ -10,59 +10,39 @@ public class Unidade extends Carta{
 	protected int vida;
     protected int poder;
     private ArrayList<Efeito> efeitos;
-    private ArrayList<Traco> tracos;
     private int kills;
+    private boolean elusivo;
+    private boolean furia;
+    private boolean ataqueDuplo;
+    private int poderFuria;
+    private int vidaFuria;
 
     //Construtor para quando a carta tem efeito e tem tra�o
-    public Unidade(String nome, int custo, int vida, int poder, Efeito efeito, Traco traco) {
-    	super(nome, custo);
-    	this.vida = vida;
-    	this.vidaMaxima = vida;
-    	this.poder = poder;
-    	this.efeitos = new ArrayList<>();
-    	this.tracos = new ArrayList<>();
-    	this.kills = 0;
-    	tracos.add(traco);
-    	efeitos.add(efeito);
-    }
-    
-  //Construtor para quando a carta tem efeito e n�o tem tra�o
-    public Unidade(String nome, int custo, int vida, int poder, Efeito efeito) {
-    	super(nome, custo);
-    	this.vida = vida;
-    	this.vidaMaxima = vida;
-    	this.poder = poder;
-    	this.efeitos = new ArrayList<>();
-    	efeitos.add(efeito);
-    }
-    
-    //Construtor para quando a carta n�o tem efeito mas tem tra�o
-    public Unidade(String nome, int custo, int vida, int poder, Traco traco ) {
-    	super(nome, custo);
-    	this.vida = vida;
-    	this.vidaMaxima = vida;
-    	this.poder = poder;
-    	this.efeitos = new ArrayList<>();
-    	this.tracos = new ArrayList<>();
-    	tracos.add(traco);
-    }  
-    
-  //Construtor para quando a carta n�o tem efeito e n�o tem tra�o
     public Unidade(String nome, int custo, int vida, int poder) {
     	super(nome, custo);
     	this.vida = vida;
     	this.vidaMaxima = vida;
     	this.poder = poder;
     	this.efeitos = new ArrayList<>();
+    	this.kills = 0;
+    	this.elusivo = false;
+    	this.furia = false;
+    	this.ataqueDuplo = false;
     }
     
     public static void batalhaIndividual(Unidade unidade1, Unidade unidade2){
         unidade1.vida -= unidade2.poder;
         unidade2.vida -= unidade1.poder;
         if(unidade1.vida <= 0) {
+        	if (unidade2.getFuria() && unidade2.getVida() >= 0) {
+        		unidade2.ativarFuria();
+        	}
         	unidade2.kills++;
         }
-        if(unidade2.vida <= 0) {
+        if(unidade2.vida <= 0 && unidade1.getVida() >= 0) {
+        	if (unidade1.getFuria()) {
+        		unidade1.ativarFuria();
+        	}
         	unidade1.kills++;
         }
     }
@@ -74,11 +54,6 @@ public class Unidade extends Carta{
 		//pensar como implementar efeitos que ativam na morte
     }
 
-    @Override
-    public Carta getUnidade(){
-    	return this;
-	}
-    
     public void confereEfeitoKill(Jogador jogador) {
     	for(int i = 0; i < efeitos.size(); i++) {
     		efeitos.get(i).ativarEfeitoKill(jogador);
@@ -108,6 +83,8 @@ public class Unidade extends Carta{
     	return manaNormal - super.getCusto();
 	}
 
+	//======================== Getters ========================
+	
 	public int getDano() {
 		return poder;
 	}
@@ -117,8 +94,27 @@ public class Unidade extends Carta{
 	}
 	
 	public int getVidaMaxima() {
-		return this.vidaMaxima;
+		return vidaMaxima;
 	}
+	
+	public boolean ehElusivo() {
+		return elusivo;
+	}
+	
+	public boolean getFuria() {
+		return furia;
+	}
+	
+	public boolean getAtaqueDuplo() {
+		return ataqueDuplo;
+	}
+	
+	@Override
+    public Carta getUnidade(){
+    	return this;
+	}	
+	
+	//======================== Setters ========================
 	
 	public void sofrerDano(int danoRecebido) {
 		this.vida -= danoRecebido;
@@ -150,6 +146,27 @@ public class Unidade extends Carta{
 	
 	public void addEfeito(Efeito efeito) {
 		this.efeitos.add(efeito);
+	}
+	
+	public void addElusivo() {
+		this.elusivo = true;
+	}
+	
+	public void addAtaqueDuplo() {
+		this.ataqueDuplo = true;
+	}
+	
+	public void addFuria(int poder, int vida) {
+		this.furia = true;
+		this.poderFuria = poder;
+		this.vidaFuria = vida;
+	}
+	
+	public void ativarFuria() {
+		if (furia) {
+			this.vida += this.vidaFuria;
+			this.poder += this.poderFuria;
+		}
 	}
 	
 	public void removerEfeito(Efeito efeito) {

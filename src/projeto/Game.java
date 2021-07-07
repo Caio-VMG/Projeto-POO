@@ -233,7 +233,7 @@ public class Game {
 					System.out.println("Escolha a posição do defensor\n");
 					posicao = Leitor.lerInt();
 
-					while (posicao < 1 || posicao > mesa.getQtdAtacantes() || !mesa.posEhValida(posicao)) {
+					while (posicao < 1 || posicao > mesa.getQtdAtacantes() || !mesa.posEhValida(posicao, cartaEscolhida)) {
 						System.out.println("Posição inválida");
 						mesa.printMesa();
 						System.out.println("Escolha a posição do defensor\n");

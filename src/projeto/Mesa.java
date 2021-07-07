@@ -37,12 +37,18 @@ public class Mesa {
 	*/
 	private void batalhar(Jogador defensor) {
 		for(int i = 0; i < qtdAtacantes; i++) {
-			if(atacantes.get(i) != null) {
-				if(defensores.get(i) == null) {
-					defensor.sofrerDanoNexus(atacantes.get(i).getDano());
-				}
-				else {
-					Unidade.batalhaIndividual(atacantes.get(i), defensores.get(i));
+			if(defensores.get(i) == null) {
+				defensor.sofrerDanoNexus(atacantes.get(i).getDano());
+			}
+			else {
+				Unidade.batalhaIndividual(atacantes.get(i), defensores.get(i));
+				if(atacantes.get(i).getAtaqueDuplo() && atacantes.get(i).getVida() >= 0) {
+					if (defensores.get(i).getVida() <= 0) {
+						defensor.sofrerDanoNexus(atacantes.get(i).getDano());
+					} else {
+						Unidade.batalhaIndividual(atacantes.get(i), defensores.get(i));
+					}
+					
 				}
 			}
 		}
@@ -165,9 +171,13 @@ public class Mesa {
     	}
     }
 
-    public boolean posEhValida(int posicao) {
+    public boolean posEhValida(int posicao, Carta carta) {
     	if (defensores.get(posicao-1) != null) {
     		return false;
+    	} else if (atacantes.get(posicao-1).ehElusivo()) {
+    		if (!carta.ehElusivo()) {
+    			return false;
+    		}
     	}
     	return true;
     }
