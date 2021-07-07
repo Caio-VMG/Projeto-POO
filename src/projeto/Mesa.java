@@ -227,7 +227,7 @@ public class Mesa {
 
 	private void mensagemMorte(Unidade derrotada) {
 		System.out.printf("%s foi derrotado(a)\n", derrotada.getNome());
-		System.out.println("");
+		System.out.println();
 	}
 
 
