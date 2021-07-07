@@ -135,7 +135,7 @@ public class Jogador {
         	carta = mao.get(entrada - 1);
         	if(carta.canSummon(manaAtual, manaFeitico)) {
         	    manaFeitico = carta.calcularCustoManaFeitico(manaFeitico);
-        	    manaAtual = carta.calcularCustoNormal(manaAtual, manaFeitico);
+        	    manaAtual = carta.calcularCustoNormal(manaFeitico, manaAtual);
                 return mao.remove(entrada - 1);
             } else {
                 System.out.println("Faltou mana");
@@ -237,8 +237,8 @@ public class Jogador {
      * A mana de feitiço é guardada entre as rodadas.
      */
     public void alterarManaFeitico(int valor){
-        if(valor > 3) {
-        	this.manaFeitico += 3;
+        if(valor >= 3) {
+        	this.manaFeitico = 3;
         }
         else {
         	this.manaFeitico += valor;

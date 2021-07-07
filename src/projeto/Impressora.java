@@ -20,7 +20,11 @@ public class Impressora {
             if(i % 5 == 0){
                 System.out.println();
             }
-            System.out.printf("[%d] %s (%d)    ", i , carta.getNome(), carta.getCusto());
+            if(jogador.getMana() >= carta.getCusto()){
+                System.out.printf("**");
+            }
+            System.out.printf("[%d] ", i);
+            carta.printCarta();
 
             System.out.printf("   ");
             i++;
@@ -40,40 +44,8 @@ public class Impressora {
         int tamanho = 0;
         for(int i = 0; i < 4; i++){
             String nome = mao.get(i).getNome();
-            tamanho += 4 + nome.length() + 5 + 3 + 1;
+            tamanho += 4 + nome.length() + 5 + 3 + 8;
         }
         return tamanho;
     }
-
-    /*
-    public void printMesa(){
-        for(int i = 0; i < qtdAtacantes; i++){
-            System.out.printf("[%d] ",i+1);
-            atacantes.get(i).printUnidade();
-            //Unidade atacante = atacantes.get(i);
-            //Unidade defensor = defensores.get(i);
-            //if(atacante != null){
-            //System.out.printf("[%d] ",i+1);
-            //atacante.printUnidade();
-        }
-        System.out.printf("\n");
-        if(qtdAtacantes < 4) {
-            for(int i = 0; i < 4 - qtdAtacantes; i++) {
-                System.out.printf("--\n");
-            }
-        }
-        System.out.printf("\t \t");
-
-        for(int i = 0; i < qtdDefensores; i++) {
-            System.out.printf("[%d] ",i+1);
-            atacantes.get(i).printUnidade();
-        }
-        System.out.printf("\n");
-        if(qtdDefensores < 4) {
-            for(int i = 0; i < 4 - qtdDefensores; i++) {
-                System.out.printf("--\n");
-            }
-        }
-    }
-    */
 }

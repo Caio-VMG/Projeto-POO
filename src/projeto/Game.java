@@ -78,7 +78,7 @@ public class Game {
 				mesa.inverteMesa();
 				if(defensor.getVida() <= 0) {
 					System.out.printf("O %s foi derrotado, vitória de %s!\n", defensor.getNome(), atacante.getNome());
-					System.out.println("");
+					System.out.println();
 					rodadaIsOver = true;
 				}
 				else {
@@ -106,8 +106,8 @@ public class Game {
 	private void pegarEntrada(Jogador jogando, Jogador observando){
 		
 		//cheats
-		jogando.alterarManaFeitico(50);
-		jogando.setMana(50);
+		//jogando.alterarManaFeitico(50);
+		//jogando.setMana(50);
 		
 		int entrada;
 		boolean finished = false;

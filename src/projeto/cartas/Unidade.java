@@ -181,6 +181,11 @@ public class Unidade extends Carta{
 		System.out.printf("%s - [%d|%d]", super.getNome(), vida, poder);
 	}
 
+	@Override
+	public void printCarta(){
+		System.out.printf("%s [%d|%d] (%d)", super.getNome(), vida, poder, super.getCusto());
+	}
+
 	public int getSizeString(){
 		return super.getNome().length() + 3 + 3 + 4;
 	}

@@ -19,6 +19,10 @@ public abstract class Carta {
 
     public abstract int calcularCustoNormal(int manaFeitico, int manaNormal);
 
+    public void printCarta(){
+        System.out.printf(" %s (%d) \t ", this.nome, this.custo);
+    }
+
     public void printCarta(int i){
         System.out.printf("[%d] %s (%d) \t ", i , this.nome, this.custo);
     }
