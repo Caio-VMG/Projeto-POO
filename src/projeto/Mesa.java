@@ -27,6 +27,7 @@ public class Mesa {
 		batalhar(defensor);		
 		confereMortes(atacante);
 		confereMortes(defensor);
+		removerMortos();
 		limparMesa(atacante, defensor);
 		
 	}
@@ -54,41 +55,54 @@ public class Mesa {
 		}
 	}
 
-	/*Recebe um jogador e confere se as unidades dele morreram ou não, ativando
-	efeitos de morte/kill caso isso ocorra. Caso uma unidade morra, ela é retirada
-	da array de atacantes/defensores e é "deletada" do jogo.
+	/**
+	 * Recebe um jogador e confere se as unidades dele morreram ou não, ativando
+	 * efeitos de morte/kill caso isso ocorra. Caso uma unidade morra, ela é retirada
+	 * da array de atacantes/defensores e é "deletada" do jogo.
 	*/
 	private void confereMortes(Jogador jogador) {
 		
 		if (jogador.getTurno() == TipoTurno.ATAQUE) {
-			
 			for(int i = 0; i < qtdAtacantes; i++) {
-				if(atacantes.get(i) != null) {
-					if(atacantes.get(i).getVida() <= 0) {
-						mensagemMorte(atacantes.get(i));
-						atacantes.get(i).confereEfeitoMorte(jogador);
-						defensores.get(i).confereEfeitoKill(jogador);
-						atacantes.remove(i);
-						qtdAtacantes--;
-					}
+				if(atacantes.get(i).getVida() <= 0) {
+					mensagemMorte(atacantes.get(i));
+					atacantes.get(i).confereEfeitoMorte(jogador);
+					defensores.get(i).confereEfeitoKill(jogador);
 				}
 			}
 		} else {
-			
-			for(int i = 0; i < qtdDefensores; i++) {
+			for(int i = 0; i < qtdAtacantes; i++) {
 				if(defensores.get(i) != null) {
 					if(defensores.get(i).getVida() <= 0) {
 						mensagemMorte(defensores.get(i));
 						defensores.get(i).confereEfeitoMorte(jogador);
-						atacantes.get(i).confereEfeitoKill(jogador);						
-						defensores.remove(i);
-						qtdDefensores--;
+						atacantes.get(i).confereEfeitoKill(jogador);
 					}
 				}
 			}
 		}
 		
 	}
+
+	private void removerMortos(){
+		for(int i = 0; i < 4; i++) {
+			if(atacantes.get(i) != null){
+				if(atacantes.get(i).getVida() <= 0) {
+					atacantes.remove(i);
+					qtdAtacantes--;
+				}
+			}
+			if(defensores.get(i) != null){
+				if(defensores.get(i).getVida() <= 0) {
+					defensores.remove(i);
+					qtdDefensores--;
+				}
+			}
+
+		}
+	}
+
+
     //===================== Manipulação dos Lados (Ataque/Defesa) =====================
 
 
@@ -188,33 +202,25 @@ public class Mesa {
 	 * Imprime o lado dos atacantes e o lados dos defensores da mesa.
 	 */
 	public void printMesa(){
-		for(int i = 0; i < qtdAtacantes; i++){
-			System.out.printf("[%d] ",i+1);
-			atacantes.get(i).printUnidade();
-			//Unidade atacante = atacantes.get(i);
-			//Unidade defensor = defensores.get(i);
-			//if(atacante != null){
-				//System.out.printf("[%d] ",i+1);
-				//atacante.printUnidade();
+
+		for(Unidade atacante: atacantes){
+			if(atacante != null){
+				atacante.printUnidade();
+			} else {
+				System.out.printf(" -- ");
 			}
-		System.out.printf("\n");
-		if(qtdAtacantes < 4) {
-				for(int i = 0; i < 4 - qtdAtacantes; i++) {
-					System.out.printf("--\n");
-				}
 		}
-			System.out.printf("\t \t");
-		
-		for(int i = 0; i < qtdDefensores; i++) {
-			System.out.printf("[%d] ",i+1);
-			atacantes.get(i).printUnidade();
-		}
-		System.out.printf("\n");
-		if(qtdDefensores < 4) {
-			for(int i = 0; i < 4 - qtdDefensores; i++) {
-				System.out.printf("--\n");
+		System.out.println();
+		int i = 1;
+		for(Unidade defensor: defensores){
+			if(defensor != null){
+				defensor.printUnidade();
+			} else {
+				System.out.printf(" -(%d)- ",i);
 			}
-	}
+			i++;
+		}
+		System.out.println();
 	}
 	
 

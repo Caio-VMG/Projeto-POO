@@ -109,37 +109,41 @@ public class Game {
 		jogando.alterarManaFeitico(50);
 		jogando.setMana(50);
 		
-		int entrada = 0;
+		int entrada;
+		boolean finished = false;
 
+		while (!finished){
 
-		jogando.imprimirDadosIniciais();
-		System.out.printf("Vez de %s:\n" +
-				"[1] - Sumonar\n" +
-				"[2] - Passar a vez\n", jogando.getNome());
-		if(jogando.getTurno() == TipoTurno.ATAQUE){
-			System.out.printf("[3] - Ataque\n\n");
-		}
-		System.out.println();
-
-		entrada = Leitor.lerInt();
-
-		if(entrada == 1){
-			sumonar(jogando, observando);
-			passadas = 0;
-
-		} else if (entrada == 2) {
-			System.out.printf("%s passou a vez\n\n", jogando.getNome());
+			jogando.imprimirDadosIniciais();
+			System.out.printf("Vez de %s:\n" +
+					"[1] - Sumonar\n" +
+					"[2] - Passar a vez\n", jogando.getNome());
+			if(jogando.getTurno() == TipoTurno.ATAQUE){
+				System.out.printf("[3] - Ataque\n");
+			}
 			System.out.println();
-			passadas += 1;
 
-		} else if (entrada == 3 && jogando.getTurno() == TipoTurno.ATAQUE) {
-			batalha = true;
-			atacar(jogando, observando);
-		} else {
-			System.out.printf("Comando inválido\n", jogando.getNome());
-			System.out.println();
-			pegarEntrada(jogando, observando);
+			entrada = Leitor.lerInt();
+			finished = true;
+
+			if(entrada == 1){
+				finished = sumonar(jogando, observando);
+				if(finished == true){
+					passadas = 0;
+				}
+			} else if (entrada == 2) {
+				System.out.printf("%s passou a vez\n\n", jogando.getNome());
+				System.out.println();
+				passadas += 1;
+			} else if (entrada == 3 && jogando.getTurno() == TipoTurno.ATAQUE) {
+				batalha = true;
+				atacar(jogando, observando);
+			} else {
+				System.out.printf("Comando inválido\n\n");
+				finished = false;
+			}
 		}
+
 	}
 
 
@@ -218,7 +222,6 @@ public class Game {
 	 */
 	private void defender(Jogador defensor, Jogador atacante) {
 		int entrada, posicao;
-		Scanner scan;
 		Carta cartaEscolhida;
 
 		if(defensor.getQtdEvocadas() >= 1){
@@ -253,14 +256,16 @@ public class Game {
 	/**
 	 * O jogador vai sumonar uma carta. Para isso, vai gastar mana e escolher
 	 * uma que está em sua mão.
+	 * Devolve true se uma carta foi sumonada e false do contrario.
 	 */
-	private void sumonar(Jogador jogando, Jogador observando){
+	private boolean sumonar(Jogador jogando, Jogador observando){
 		Carta cartaEscolhida = jogando.escolherCarta();
 
 		if(cartaEscolhida != null){
 			cartaEscolhida.usarCarta(jogando, observando);
+			return true;
 		} else {
-			pegarEntrada(jogando, observando);
+			return false;
 		}
 	}
 

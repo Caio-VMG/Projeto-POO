@@ -34,35 +34,6 @@ public class Jogador {
         evocadas = new ArrayList<>();
     }
 
-    /**
-     * O defensor escolhe a unidade para evocar.
-     */
-    public Carta escolherUnidade(){
-        int entrada = 0;
-        imprimeMao();
-        Scanner scan = new Scanner(System.in);
-
-        Carta carta = null;
-        while(carta == null){
-            entrada = scan.nextInt();
-            if(entrada == 0){
-                return null;
-            }
-            carta = mao.get(entrada - 1);
-            carta = carta.getUnidade();
-        }
-        
-        //precisa de escolherUnidade quando já temos escolherCarta?
-
-        if(canSummon(carta)) {
-            manaAtual -= carta.getCusto();
-            return mao.remove(entrada - 1);
-        } else {
-            System.out.println("Não há mana suficiente.");
-            return null;
-        }
-    }
-
 
     //========================= Manipulação de Cartas/Deck =========================
 
@@ -152,24 +123,15 @@ public class Jogador {
      * Se houver mana o suficiente, retorna a carta escolhida.
      */
     public Carta escolherCarta(){
-        int entrada = 0;
         Impressora impressora = new Impressora();
         impressora.imprimeMao(this);
+        System.out.println("Pressione 0 para voltar.");
 
-        boolean leituraValida = false;
-        do {
-            try {
-                Scanner scan = new Scanner(System.in);
-                entrada = scan.nextInt();
-                leituraValida = true;
-            } catch (Exception InputMismatchException) {
-                System.out.println("Entrada inválida");
-            }
-        }while(!leituraValida);
+        int entrada = Leitor.lerInt();
 
         Carta carta;
 
-        if(entrada <= mao.size()) {
+        if(entrada - 1 < mao.size() && entrada > 0) {
         	carta = mao.get(entrada - 1);
         	if(carta.canSummon(manaAtual, manaFeitico)) {
         	    manaFeitico = carta.calcularCustoManaFeitico(manaFeitico);
