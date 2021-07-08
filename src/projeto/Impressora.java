@@ -11,12 +11,12 @@ public class Impressora {
         System.out.println();
         System.out.printf("Mão de %s:\n", jogador.getNome());
 
-        ArrayList<Carta> Mao = jogador.getMao();
-        int tamanho = calcularTamanhoBarra(Mao);
+        ArrayList<Carta> mao = jogador.getMao();
+        int tamanho = calcularTamanhoBarra(mao);
 
         imprimeBarra(tamanho);
         int i = 1;
-        for(Carta carta: Mao){
+        for(Carta carta: mao){
             if(i % 5 == 0){
                 System.out.println();
             }

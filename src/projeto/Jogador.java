@@ -17,8 +17,8 @@ public class Jogador {
     private TipoTurno turno;
 
     //const.
-    private final int maxEvocadas = 6;
-    private final int maxUnidades = 4;
+    protected final int maxEvocadas = 6;
+    protected final int maxUnidades = 4;
 
     private ArrayList<Carta> mao;
     private ArrayList<Carta> evocadas; // Cartas que ja foram compradas.
@@ -63,14 +63,10 @@ public class Jogador {
      * O jogador realiza a primeira compra ao iniciar o jogo.
      */
     public void primeiraCompra(){
-        //Scanner scan = new Scanner(System.in);
-
         for(int i = 0; i < maxUnidades; i++){
             pegarCarta();
         }
         trocarCartas();
-        //System.out.println("Pressiona qualquer botão para avançar.");
-        //scan.next();
     }
 
 
@@ -157,7 +153,7 @@ public class Jogador {
     /**
      * Atualizar valores de mana após a compra de uma carta.
      */
-    private void atualizarMana(Carta carta){
+    protected void atualizarMana(Carta carta){
         manaFeitico = carta.calcularCustoManaFeitico(manaFeitico);
         manaAtual = carta.calcularCustoNormal(manaFeitico, manaAtual);
     }
@@ -207,7 +203,7 @@ public class Jogador {
      * Retorna true se for o caso, false do contrario.
      */
     private boolean checarEntradaMao(int entrada){
-        if(entrada > 0 && entrada < mao.size()){
+        if(entrada > 0 && entrada <= mao.size()){
             return mao.get(entrada - 1).ehTrocavel();
         } else {
             return false;
@@ -408,6 +404,10 @@ public class Jogador {
 
     //========================= Getters =========================
 
+    public boolean isConsciente(){
+        return true;
+    }
+
     public String getTurnoString(){
         if(turno == TipoTurno.ATAQUE){
             return "Ataque";
@@ -462,6 +462,15 @@ public class Jogador {
     
     public void addCartaMao(Carta carta) {
     	this.mao.add(carta);
+    }
+
+
+    public int tomarDecisao(){
+        return 2;
+    }
+
+    public void sumonarAleatoriamente(){
+
     }
 
 }
