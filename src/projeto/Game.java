@@ -75,7 +75,7 @@ public class Game {
 						realizarTurno(defensor, atacante);
 					} else {
 						if(defensor.getQtdEvocadas() > 0) {
-							realizarTurno(defensor, atacante);
+							perguntarDefesa(defensor, atacante);
 						}
 					}
 				}

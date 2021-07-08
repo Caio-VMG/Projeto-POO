@@ -16,19 +16,11 @@ public class ZeraPoderInimigo extends Efeito {
 	public ZeraPoderInimigo(){
 		super.nome = "Zera Pode Inimigo";
 	}
-
-	private void imprimeEvocadas(Jogador jogador) {
-		ArrayList<Carta> aux = jogador.getEvocadas();
-		for(int i = 0; i < aux.size(); i++) {
-	   		System.out.printf("[%d] - %s\n", i + 1, aux.get(i).getNome());
-	   	}
-	   	System.out.println("");
-	}
 	
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida, TipoChamada tipo) {
 		System.out.printf("Escolha um adversário para zerar o poder\n");
-		imprimeEvocadas(defensor);
+		defensor.imprimeEvocadas();
 		Scanner ler = new Scanner(System.in);
 		int escolha = ler.nextInt();
 		while(escolha > defensor.getEvocadas().size() || escolha < 1) {

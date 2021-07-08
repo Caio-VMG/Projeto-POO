@@ -42,7 +42,11 @@ public class Impressora {
 
     private int calcularTamanhoBarra(ArrayList<Carta> mao){
         int tamanho = 0;
-        for(int i = 0; i < 4; i++){
+        int max = 4;
+        if (mao.size() < 4) {
+        	max = mao.size();
+        }
+        for(int i = 0; i < max; i++){
             String nome = mao.get(i).getNome();
             tamanho += 4 + nome.length() + 5 + 3 + 8;
         }

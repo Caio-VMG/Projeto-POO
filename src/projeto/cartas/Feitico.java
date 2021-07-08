@@ -6,6 +6,7 @@ import java.util.Scanner;
 import projeto.Jogador;
 import projeto.cartas.efeitos.AtacaTodosInimigos;
 import projeto.cartas.efeitos.Efeito;
+import projeto.cartas.efeitos.TipoChamada;
 
 public class Feitico extends Carta{
 	private ArrayList<Efeito> efeitos;
@@ -74,7 +75,7 @@ public class Feitico extends Carta{
 			for(int i = 0; i < atacante.getQtdEvocadas(); i++) {
 				Unidade escolhida = (Unidade)atacante.getEvocadas().get(i);
 				for(int j = 0; i < efeitos.size(); i++) {
-					efeitos.get(j).aplicarEfeito(atacante, defensor, escolhida);
+					efeitos.get(j).aplicarEfeito(atacante, defensor, escolhida, TipoChamada.FEITICO);
 				}
 			}
 		}
@@ -89,7 +90,7 @@ public class Feitico extends Carta{
 			}
 			Unidade escolhida = (Unidade)atacante.getEvocadas().get(escolha - 1);
 			for(int i = 0; i < efeitos.size(); i++) {
-				efeitos.get(i).aplicarEfeito(atacante, defensor, escolhida);
+				efeitos.get(i).aplicarEfeito(atacante, defensor, escolhida, TipoChamada.FEITICO);
 			}
 		}
 		else if(tipo == TipoFeitico.ADVERSARIO) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import projeto.Jogador;
 import projeto.cartas.efeitos.Efeito;
+import projeto.cartas.efeitos.TipoChamada;
 
 public class Unidade extends Carta{
     protected int vidaMaxima;
@@ -62,8 +63,9 @@ public class Unidade extends Carta{
     @Override
     public void usarCarta(Jogador jogador1, Jogador jogador2) {
 		jogador1.sumonar(this);
-		//Se a carta tiver efeitos, a gente coloca pra ativar aqui
-		//pensar como implementar efeitos que ativam na morte
+		for (int i = 0; i < efeitos.size(); i++) {
+			efeitos.get(i).aplicarEfeito(jogador1, jogador2, this, TipoChamada.EVOCADA);
+		}
     }
 
     public void confereEfeitoKill(Jogador jogador) {
@@ -134,7 +136,11 @@ public class Unidade extends Carta{
 	@Override
     public Carta getUnidade(){
     	return this;
-	}	
+	}
+	
+	public ArrayList<Efeito> getEfeitos(){
+		return this.efeitos;
+	}
 	
 	//======================== Setters ========================
 	
@@ -204,7 +210,7 @@ public class Unidade extends Carta{
 	 * Nome - [vida|dano]
 	 */
 	public void printUnidade(){
-		System.out.printf("%s - [%d|%d]", super.getNome(), vida, poder);
+		System.out.printf("%s - [%d|%d] ", super.getNome(), vida, poder);
 	}
 
 	@Override

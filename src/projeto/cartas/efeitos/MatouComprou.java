@@ -15,17 +15,12 @@ public class MatouComprou extends Efeito {
 		super.nome = "Matou Comprou";
 	}
 
-	private void imprimeEvocadas(Jogador jogador) {
-		ArrayList<Carta> aux = jogador.getEvocadas();
-		for(int i = 0; i < aux.size(); i++) {
-	   		System.out.printf("[%d] - %s\n", i + 1, aux.get(i).getNome());
-	   	}
-	   	System.out.println("");
-	}
 	
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
-		escolhida.addEfeito(this);
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida, TipoChamada tipo) {
+		if (!escolhida.getEfeitos().contains(this)) {
+			escolhida.addEfeito(this);
+		}
 	}
 	
 	@Override

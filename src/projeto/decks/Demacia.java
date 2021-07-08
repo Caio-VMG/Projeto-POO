@@ -21,6 +21,7 @@ public class Demacia extends Deck {
             int valor = random.nextInt(11);
             if (valor == 0) {
                 Campeao garen = new Campeao("Garen", 5, 5, 5);
+                garen.addEfeito(new Regeneracao());
                 this.add(garen);
             } else if (valor == 1) {
                 Unidade tiana = new Unidade("Tiana", 8, 7, 7);
