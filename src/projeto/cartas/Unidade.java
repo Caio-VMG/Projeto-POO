@@ -233,6 +233,9 @@ public class Unidade extends Carta{
 		return super.getNome().length() + 3 + 3 + 4;
 	}
 
+	public boolean ehTrocavel(){
+		return true;
+	}
     
     
 }

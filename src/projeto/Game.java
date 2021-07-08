@@ -135,9 +135,13 @@ public class Game {
 			finished = true;
 
 			if(entrada == 1){
-				finished = sumonar(jogando, observando);
-				if(finished == true){
-					passadas = 0;
+				if(jogando.getQtdEvocadas() == 6){
+					finished = substituirCartas(jogando);
+				} else {
+					finished = sumonar(jogando, observando);
+					if(finished == true){
+						passadas = 0;
+					}
 				}
 			} else if (entrada == 2) {
 				System.out.printf("%s passou a vez\n\n", jogando.getNome());
@@ -154,6 +158,32 @@ public class Game {
 
 	}
 
+	/**
+	 * Quando atinge o limite de cartas evocadas, o jogador tem a opcao de substituir.
+	 * Retorna true se essa opcao for selecionada
+	 * Retorna false do contrario.
+	 */
+	private boolean substituirCartas(Jogador jogando){
+		System.out.printf("Atingiu o limite de cartas evocadas\n");
+		System.out.printf("Deseja substituir uma carga?\n[1] Sim [2] Não\n");
+		int entrada = Leitor.lerInt();
+
+		boolean trocou = false;
+		boolean finished = false;
+
+		while(!finished){
+			finished = true;
+			if(entrada == 1){
+				trocou = jogando.definirSubstituicao();
+			} else if(entrada == 2){
+
+			} else{
+				finished = false;
+				System.out.println("Entrada Inválida");
+			}
+		}
+		return trocou;
+	}
 
 	/**
 	 * Se o atacante decidir atacar, então o defensor pode decidir

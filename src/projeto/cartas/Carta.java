@@ -44,6 +44,8 @@ public abstract class Carta {
     }
     
     public abstract boolean ehElusivo();
+
+    public abstract boolean ehTrocavel();
     
 
 

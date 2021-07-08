@@ -124,18 +124,17 @@ public class Jogador {
      * Se houver mana o suficiente, retorna a carta escolhida.
      */
     public Carta escolherCarta(){
+        Carta carta;
         Impressora impressora = new Impressora();
         impressora.imprimeMao(this);
         System.out.println("Digite -1 para voltar.");
         System.out.println("Digite 0 para ver detalhes das cartas.");
         int entrada = Leitor.lerInt();
 
-        if(entrada == 0){
+        if(entrada == 0) {
             printDetalhesCartas();
             entrada = Leitor.lerInt();
         }
-
-        Carta carta;
 
         if(entrada - 1 < mao.size() && entrada > 0) {
             carta = mao.get(entrada - 1);
@@ -164,22 +163,90 @@ public class Jogador {
     }
 
     /**
+     * Escolhe duas cartas para serem substituidas, entre uma evocada e uma ainda nao
+     * evocada.
+     * Retorna true se a substituicao for bem sucedido, devolve false do contrario.
+     */
+    public boolean definirSubstituicao(){
+        int entrada;
+        boolean finished = false;
+        Carta substituta = null;
+        Carta evocada = null;
+
+        System.out.println("Escolha a carta nova carta.");
+        Impressora impressora = new Impressora();
+        impressora.imprimeMao(this);
+        while(!finished){
+            entrada = Leitor.lerInt();
+            if(checarEntradaMao(entrada)){
+                substituta = mao.get(entrada - 1);
+                finished = true;
+            } else {
+                System.out.println("A troca não é válida.");
+            }
+        }
+
+        finished = false;
+        System.out.println("Escolha a carta que sera trocada.");
+        imprimeEvocadas();
+        while(!finished){
+            entrada = Leitor.lerInt();
+            if(checarEntradaEvocadas(entrada)){
+                evocada = evocadas.get(entrada - 1);
+                finished = true;
+            } else {
+                System.out.println("A troca não é válida.");
+            }
+        }
+
+        return substituirCarta(evocada, substituta);
+    }
+
+    /**
+     * Checa se a entrada passada é condizente com os indices da mao.
+     * Retorna true se for o caso, false do contrario.
+     */
+    private boolean checarEntradaMao(int entrada){
+        if(entrada > 0 && entrada < mao.size()){
+            return mao.get(entrada - 1).ehTrocavel();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checa se a entrada corresponde a uma carta evocada.
+     */
+    private boolean checarEntradaEvocadas(int entrada){
+        if(entrada > 0 && entrada < getQtdEvocadas()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Se o jogador já tem 6 cartas evocadas, então
      * pode escolher substituir uma das evocadas por uma carta da sua mão
-     * pagando apenas a diferença na mana
+     * pagando apenas a diferença na mana.
+     * Retorna true se a substituicao for bem sucedida.
+     * Retorna false se nao for bem sucedida.
      */
-    private void substituirCarta(Carta evocada, Carta substituta){
+    private boolean substituirCarta(Carta evocada, Carta substituta){
         int diferenca = substituta.getCusto() - evocada.getCusto();
+        boolean trocou = true;
         if(diferenca >= 0){
             if(diferenca <= manaAtual){
                 manaAtual -= diferenca;
                 trocarCartaEvocada(evocada, substituta);
             } else {
                 System.out.println("Não há mana suficiente.");
+                trocou = false;
             }
         } else {
             trocarCartaEvocada(evocada, substituta);
         }
+        return trocou;
     }
 
 

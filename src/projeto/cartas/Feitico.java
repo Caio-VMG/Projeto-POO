@@ -79,4 +79,8 @@ public class Feitico extends Carta{
 	public boolean ehElusivo() {
 		return false;
 	}
+
+	public boolean ehTrocavel(){
+		return false;
+	}
 }
