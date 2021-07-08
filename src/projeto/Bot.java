@@ -35,6 +35,7 @@ public class Bot extends Jogador {
      */
     @Override
     public int tomarDecisao(){
+        int valor = 0;
         ArrayList<Integer> decisoesPossiveis = new ArrayList<>();
         ArrayList<Carta> possiveisEvocacoes = checarMao();
 
@@ -47,7 +48,9 @@ public class Bot extends Jogador {
         decisoesPossiveis.add(2);
 
         Random random = new Random();
-        int valor = random.nextInt(possiveisEvocacoes.size()) + 1;
+        if(possiveisEvocacoes.size() > 0){
+            valor = random.nextInt(possiveisEvocacoes.size());
+        }
 
         return decisoesPossiveis.get(valor);
     }
@@ -56,14 +59,14 @@ public class Bot extends Jogador {
      * Sumona uma das cartas da mao aleatoriamente.
      */
     @Override
-    public void sumonarAleatoriamente(){
+    public void sumonarAleatoriamente(Jogador jogando, Jogador observando){
         ArrayList<Carta> possiveisEvocacoes = checarMao();
         Random random = new Random();
         int valor = random.nextInt(possiveisEvocacoes.size());
         Carta carta = possiveisEvocacoes.get(valor);
         atualizarMana(carta);
         super.getMao().remove(carta);
-        super.getEvocadas().add(carta);
+        carta.usarCarta(jogando, observando);
     }
 
 
@@ -84,12 +87,17 @@ public class Bot extends Jogador {
 
 
     @Override
+    /**
+     * Escolhe uma das cartas
+     */
     public Carta escolherCartaBatalha(int entrada){
+        Random random = new Random();
         ArrayList<Carta> evocadas = super.getEvocadas();
-        if(evocadas.size() == 0){
+
+        int opcao = random.nextInt(2);
+        if(evocadas.size() == 0 || opcao == 1){
             return null;
         } else {
-            Random random = new Random();
             int valor = random.nextInt(evocadas.size());
             return evocadas.get(valor);
         }

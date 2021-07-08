@@ -100,8 +100,7 @@ public class Jogador {
                     substituirCartadaMao(i-1);
                     trocadas++;
                 } else {
-                    System.out.println("Esta carta já foi trocada.");
-                    System.out.println();
+                    System.out.println("Esta carta já foi trocada.\n");
                 }
             }
             if (terminou && trocadas > 0) {
@@ -469,7 +468,7 @@ public class Jogador {
         return 2;
     }
 
-    public void sumonarAleatoriamente(){
+    public void sumonarAleatoriamente(Jogador jogando, Jogador observando){
 
     }
 

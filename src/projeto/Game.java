@@ -31,7 +31,7 @@ public class Game {
 		System.out.println("Game started!\n");
 
 		iniciarMesa();
-		iniciarJogadores();
+		iniciarJogadores(true);
 		Jogador atacante = jogador1;
 		Jogador defensor = jogador2;
 
@@ -106,6 +106,11 @@ public class Game {
 
 	// ============================== Funções de Interação com Jogadores ==============================
 
+
+	/**
+	 * Em cada turno, o jogador toma uma decisao e é simulado um
+	 * comportamento do Bot.
+	 */
 	private void realizarTurno(Jogador jogando, Jogador observando){
 		if(jogando.isConsciente()){
 			pegarEntrada(jogando, observando);
@@ -114,12 +119,18 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Um bot escolhe toma uma decisao em um determinado round.
+	 * Entre sumonar, passar a vez ou atacar.
+	 * O bot sempre toma uma decisao condizente com o que é
+	 * possível fazer.
+	 */
 	private void simularComportamento(Jogador jogando, Jogador observando){
 		// A decisao nao permite voltar atras,
 		// o bot sempre toma uma decisao possivel.
 		int decisao = jogando.tomarDecisao();
 		if(decisao == 1){
-			jogando.sumonarAleatoriamente();
+			jogando.sumonarAleatoriamente(jogando, observando);
 			passadas = 0;
 		} else if (decisao == 2){
 			System.out.printf("%s passou a vez\n\n", jogando.getNome());
@@ -131,8 +142,8 @@ public class Game {
 				if(escolhida == null){
 					finished = true;
 				}
+				mesa.adicionarAtacante((Unidade) escolhida);
 			}
-
 		}
 	}
 
@@ -366,6 +377,14 @@ public class Game {
 	private void iniciarJogadores(){
 		this.jogador1 = new Jogador(DeckFactory.obterDeck(0), "Player1");
 		this.jogador2 = new Jogador(DeckFactory.obterDeck(1), "Player2");
+
+		jogador1.setTurno(TipoTurno.ATAQUE);
+		jogador2.setTurno(TipoTurno.DEFESA);
+	}
+
+	private void iniciarJogadores(boolean bots){
+		this.jogador1 = new Jogador(DeckFactory.obterDeck(0), "Player1");
+		this.jogador2 = new Bot(DeckFactory.obterDeck(0), "Player2");
 
 		jogador1.setTurno(TipoTurno.ATAQUE);
 		jogador2.setTurno(TipoTurno.DEFESA);
