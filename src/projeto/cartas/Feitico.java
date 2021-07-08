@@ -13,7 +13,7 @@ public class Feitico extends Carta{
 	private TipoFeitico tipo;
 	
 	
-	public Feitico(String nome, int custo, TipoFeitico tipo/*, Efeito efeito*/) {
+	public Feitico(String nome, int custo, TipoFeitico tipo) {
 		super(nome, custo);
 		this.efeitos = new ArrayList<>();
 		this.tipo = tipo;
@@ -80,7 +80,7 @@ public class Feitico extends Carta{
 			}
 		}
 		else if(tipo == TipoFeitico.UNICO && atacante.getQtdEvocadas() > 0) {
-			System.out.printf("Escolha um aliado para usar", this.getNome());
+			System.out.printf("Escolha um aliado para usar %s\n", super.getNome());
 			atacante.imprimeEvocadas();
 			Scanner ler = new Scanner(System.in);
 			int escolha = ler.nextInt();
@@ -94,7 +94,9 @@ public class Feitico extends Carta{
 			}
 		}
 		else if(tipo == TipoFeitico.ADVERSARIO) {
-			
+			for(int i = 0; i < efeitos.size(); i++) {
+				efeitos.get(i).aplicarEfeito(atacante, defensor, null, TipoChamada.FEITICO);
+			}
 		}
 		else {
 			System.out.println("Você não possui cartas evocadas para usar feitiço");

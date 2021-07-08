@@ -41,6 +41,9 @@ public class Mesa {
 		for(int i = 0; i < qtdAtacantes; i++) {
 			if(defensores.get(i) == null) {
 				defensor.sofrerDanoNexus(atacantes.get(i).getDano());
+				if (atacantes.get(i).getAtaqueDuplo()) {
+					defensor.sofrerDanoNexus(atacantes.get(i).getDano());
+				}
 			}
 			else {
 				Unidade.batalhaIndividual(atacantes.get(i), defensores.get(i));

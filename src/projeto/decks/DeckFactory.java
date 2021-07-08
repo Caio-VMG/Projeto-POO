@@ -5,9 +5,10 @@ public class DeckFactory {
     public static Deck obterDeck(int i){
         Deck deck = null;
         if(i == 0){
-            deck = new Demacia("deckDummy");
+            deck = new Demacia("Demacia");
+        } else if(i == 1) {
+        	deck = new Noxus("Noxus");
         }
-        // else if(i == 2)
         // retorna outro tipo de deck
         return deck;
     }

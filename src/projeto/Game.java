@@ -365,7 +365,7 @@ public class Game {
 
 	private void iniciarJogadores(){
 		this.jogador1 = new Jogador(DeckFactory.obterDeck(0), "Player1");
-		this.jogador2 = new Jogador(DeckFactory.obterDeck(0), "Player2");
+		this.jogador2 = new Jogador(DeckFactory.obterDeck(1), "Player2");
 
 		jogador1.setTurno(TipoTurno.ATAQUE);
 		jogador2.setTurno(TipoTurno.DEFESA);
