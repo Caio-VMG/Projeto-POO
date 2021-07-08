@@ -28,6 +28,7 @@ public class Mesa {
 		confereMortes(atacante);
 		confereMortes(defensor);
 		removerMortos();
+		passarTurnoEfeitos();
 		limparMesa(atacante, defensor);
 		
 	}
@@ -99,6 +100,20 @@ public class Mesa {
 				}
 			}
 
+		}
+	}
+	
+	private void passarTurnoEfeitos() {
+		for(int i = 0; i < qtdAtacantes; i++) {
+			if (atacantes.get(i) != null) {
+				atacantes.get(i).passarTurnoEfeitos();
+			}
+		}
+		
+		for (int i = 0; i < qtdDefensores; i++){
+			if (defensores.get(i) != null) {
+				defensores.get(i).passarTurnoEfeitos();
+			}
 		}
 	}
 

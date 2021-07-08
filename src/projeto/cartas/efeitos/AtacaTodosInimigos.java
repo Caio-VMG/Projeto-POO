@@ -72,4 +72,10 @@ public class AtacaTodosInimigos extends Efeito {
 		for(int i = 0; i < )
 	}
 	 */
+
+	@Override
+	public void passouRodada(Unidade unidade) {
+		// TODO Auto-generated method stub
+		
+	}
 }

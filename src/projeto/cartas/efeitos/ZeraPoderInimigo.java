@@ -11,7 +11,7 @@ import projeto.cartas.Unidade;
 public class ZeraPoderInimigo extends Efeito {
 	private Unidade afetado;
 	private int danoDoAfetado;
-	
+	private int duracao = 1;
 	
 	private void imprimeEvocadas(Jogador jogador) {
 		ArrayList<Carta> aux = jogador.getEvocadas();
@@ -54,5 +54,14 @@ public class ZeraPoderInimigo extends Efeito {
 	
 	@Override
 	public void ativarEfeitoMorte(Jogador jogador) {}
+
+	@Override
+	public void passouRodada(Unidade unidade) {
+		this.duracao -=1;
+		if (this.duracao == 0) {
+			removerEfeito(unidade);
+		}
+		
+	}
 
 }

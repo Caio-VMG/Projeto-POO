@@ -12,10 +12,13 @@ import projeto.cartas.Unidade;
 public class BuffAliadoInvocado extends Efeito {
 	private int poder;
 	private int vida;
+	private int duracao;
 	
 	public BuffAliadoInvocado(int poder, int vida) {
 		this.poder = poder;
 		this.vida = vida;
+		this.duracao = 1;
+		
 	}
 	
 	
@@ -64,5 +67,15 @@ public class BuffAliadoInvocado extends Efeito {
 	
 	@Override
 	public void ativarEfeitoMorte(Jogador jogador) {}
+
+
+	@Override
+	public void passouRodada(Unidade unidade) {
+		this.duracao-=1;
+		if (this.duracao == 0) {
+			removerEfeito(unidade);
+		}
+		
+	}
 
 }
