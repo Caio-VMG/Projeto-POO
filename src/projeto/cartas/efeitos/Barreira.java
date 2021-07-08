@@ -43,6 +43,7 @@ public class Barreira extends Efeito{
 	@Override
 	public void removerEfeito(Unidade unidade) {
 		unidade.removerEfeito(this);
+		unidade.setBarreira(false);
 	}
 	
 	@Override
