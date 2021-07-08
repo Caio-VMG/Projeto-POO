@@ -61,11 +61,16 @@ public class Game {
 				atacante.ganharMana(numRodada);
 				defensor.ganharMana(numRodada);
 				numRodada++;
-				
+
+
 				passadas = 0;
 				while (!batalha && passadas != 2 && !rodadaIsOver) {
 					imprimirTabuleiro();
 					pegarEntrada(atacante, defensor);
+					if(passadas == 2){
+						break;
+					}
+					imprimirTabuleiro();
 					if(batalha == false){
 						pegarEntrada(defensor, atacante);
 					} else {
@@ -74,6 +79,8 @@ public class Game {
 						}
 					}
 				}
+
+
 				mesa.batalhaMesa(atacante, defensor);
 				batalha = false;
 				mesa.inverteMesa();
@@ -277,13 +284,15 @@ public class Game {
 		System.out.println("___________________________________");
 		System.out.printf("Evocadas de %s\n", jogador1.getNome());
 		jogador1.mostrarEvocadas();
+		System.out.println("\n####################################");
 		System.out.printf("Campo de %s\n", jogador1.getTurnoString());
 		mesa.mostrarLado(jogador1);
 		System.out.println("\n");
 		mesa.mostrarLado(jogador2);
 		System.out.printf("\nCampo de %s\n", jogador2.getTurnoString());
+		System.out.println("####################################");
 		jogador2.mostrarEvocadas();
-		System.out.printf("Evocadas de %s\n", jogador2.getNome());
+		System.out.printf("\nEvocadas de %s\n", jogador2.getNome());
 		System.out.println("___________________________________");
 	}
 

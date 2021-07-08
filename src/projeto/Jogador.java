@@ -133,20 +133,20 @@ public class Jogador {
         Carta carta;
 
         if(entrada - 1 < mao.size() && entrada > 0) {
-        	carta = mao.get(entrada - 1);
-        	if(carta.canSummon(manaAtual, manaFeitico)) {
-        	    manaFeitico = carta.calcularCustoManaFeitico(manaFeitico);
-        	    manaAtual = carta.calcularCustoNormal(manaFeitico, manaAtual);
+            carta = mao.get(entrada - 1);
+            if (carta.canSummon(manaAtual, manaFeitico)) {
+                manaFeitico = carta.calcularCustoManaFeitico(manaFeitico);
+                manaAtual = carta.calcularCustoNormal(manaFeitico, manaAtual);
                 return mao.remove(entrada - 1);
             } else {
                 System.out.println("Faltou mana");
                 System.out.println();
                 return null;
             }
-        }
-        else {
-        	System.out.println("Entrada inválida");
-        	System.out.println();
+        } else if (entrada == 0){
+            System.out.println();
+        } else {
+        	System.out.println("Entrada inválida\n");
         }
         return null;
     }
