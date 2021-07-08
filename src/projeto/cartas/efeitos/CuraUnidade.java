@@ -10,6 +10,10 @@ import projeto.cartas.Unidade;
 // Efeito 4
 public class CuraUnidade extends Efeito {
 
+	public CuraUnidade(){
+		super.nome = "Cura Unidade";
+	}
+
 	private static void imprimeEvocadas(Jogador jogador) {
 		ArrayList<Carta> aux = jogador.getEvocadas();
 		for(int i = 0; i < aux.size(); i++) {

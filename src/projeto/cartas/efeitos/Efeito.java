@@ -3,11 +3,7 @@ import projeto.Jogador;
 import projeto.cartas.Unidade;
 
 public abstract class Efeito {
-	//Atributos???
-	
-	public Efeito() {
-		//finge que faz alguma coisa
-	}
+	protected String nome;
 	
 	public abstract void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado);
 	
@@ -18,4 +14,8 @@ public abstract class Efeito {
 	public abstract void ativarEfeitoMorte(Jogador jogador);
 	
 	public abstract void passouRodada(Unidade unidade);
+
+	public void printNome(){
+		System.out.printf("%s",nome);
+	}
 }

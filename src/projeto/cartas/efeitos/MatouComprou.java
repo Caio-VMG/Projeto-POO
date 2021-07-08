@@ -10,7 +10,11 @@ import projeto.cartas.Unidade;
 //Efeito 3
 public class MatouComprou extends Efeito {
 	int duracao = 1;
-	
+
+	public MatouComprou(){
+		super.nome = "Matou Comprou";
+	}
+
 	private void imprimeEvocadas(Jogador jogador) {
 		ArrayList<Carta> aux = jogador.getEvocadas();
 		for(int i = 0; i < aux.size(); i++) {

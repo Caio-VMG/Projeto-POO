@@ -11,7 +11,11 @@ import projeto.cartas.Unidade;
 public class MorreuComprou extends Efeito {
 
 int duracao = 1;
-	
+
+	public MorreuComprou(){
+		super.nome = "Morreu Comprou";
+	}
+
 	private void imprimeEvocadas(Jogador jogador) {
 		ArrayList<Carta> aux = jogador.getEvocadas();
 		for(int i = 0; i < aux.size(); i++) {

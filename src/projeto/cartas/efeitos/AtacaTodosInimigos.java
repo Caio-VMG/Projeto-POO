@@ -13,6 +13,9 @@ public class AtacaTodosInimigos extends Efeito {
 	private int vida;
 	
 	public AtacaTodosInimigos(int poder, int vida) {
+
+		super.nome = "AtacaTodosInimigos";
+
 		this.poder = poder;
 		this.vida = vida;
 	}

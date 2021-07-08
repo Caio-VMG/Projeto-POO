@@ -12,7 +12,11 @@ public class ZeraPoderInimigo extends Efeito {
 	private Unidade afetado;
 	private int danoDoAfetado;
 	private int duracao = 1;
-	
+
+	public ZeraPoderInimigo(){
+		super.nome = "Zera Pode Inimigo";
+	}
+
 	private void imprimeEvocadas(Jogador jogador) {
 		ArrayList<Carta> aux = jogador.getEvocadas();
 		for(int i = 0; i < aux.size(); i++) {

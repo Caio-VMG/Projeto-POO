@@ -13,6 +13,7 @@ public class Barreira extends Efeito{
 	
 	public Barreira(){
 		this.duracao = 1;
+		super.nome = "Barreira";
 	}
 	
 	

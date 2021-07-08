@@ -126,9 +126,15 @@ public class Jogador {
     public Carta escolherCarta(){
         Impressora impressora = new Impressora();
         impressora.imprimeMao(this);
-        System.out.println("Pressione 0 para voltar.");
-
+        System.out.println("Digite -1 para voltar.");
+        System.out.println("Digite 0 para ver detalhes das cartas.");
         int entrada = Leitor.lerInt();
+
+        if(entrada == 0){
+            printDetalhesCartas();
+        }
+
+        entrada = Leitor.lerInt();
 
         Carta carta;
 
@@ -139,11 +145,10 @@ public class Jogador {
                 manaAtual = carta.calcularCustoNormal(manaFeitico, manaAtual);
                 return mao.remove(entrada - 1);
             } else {
-                System.out.println("Faltou mana");
-                System.out.println();
+                System.out.println("Faltou mana\n");
                 return null;
             }
-        } else if (entrada == 0){
+        } else if (entrada == -1){
             System.out.println();
         } else {
         	System.out.println("Entrada inválida\n");
@@ -298,6 +303,14 @@ public class Jogador {
         }
         System.out.println();
         System.out.println("=================================================================================");
+        System.out.println();
+    }
+
+    private void printDetalhesCartas(){
+        for(Carta carta: mao){
+            carta.printDetalhes();
+            System.out.println();
+        }
         System.out.println();
     }
 

@@ -8,6 +8,7 @@ public class AtaqueAoNexus extends Efeito{
 
     public AtaqueAoNexus(int dano){
         this.dano = dano;
+        super.nome = "AtaqueAoNexus";
     }
 
     @Override

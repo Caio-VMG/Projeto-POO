@@ -11,12 +11,16 @@ import projeto.cartas.Unidade;
 // Efeito 5
 public class Dobradinha extends Efeito {
 
+	public Dobradinha(){
+		super.nome = "Dobradinha";
+	}
+
 	private void imprimeEvocadas(Jogador jogador) {
 		ArrayList<Carta> aux = jogador.getEvocadas();
 		for(int i = 0; i < aux.size(); i++) {
 	   		System.out.printf("[%d] - %s\n", i + 1, aux.get(i).getNome());
 	   	}
-	   	System.out.println("");
+	   	System.out.println();
 	}	
 	
 	

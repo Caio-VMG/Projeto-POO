@@ -48,6 +48,17 @@ public class Feitico extends Carta{
 		System.out.printf("%s (%d)", super.getNome(), super.getCusto());
 	}
 
+	public void printDetalhes() {
+		System.out.printf("%s (%d) - ", super.getNome(), super.getCusto());
+		if(!efeitos.isEmpty()) {
+			System.out.printf("Efeitos: ");
+			for (Efeito efeito : efeitos) {
+				efeito.printNome();
+				System.out.printf(" ");
+			}
+		}
+	}
+
 	public void mostrarCarta(){
 
 	}

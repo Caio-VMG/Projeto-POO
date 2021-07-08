@@ -18,7 +18,7 @@ public class BuffAliadoInvocado extends Efeito {
 		this.poder = poder;
 		this.vida = vida;
 		this.duracao = 1;
-		
+		super.nome = "Buff Aliado Invocado";
 	}
 	
 	

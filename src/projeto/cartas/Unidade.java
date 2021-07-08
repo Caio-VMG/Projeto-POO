@@ -208,6 +208,19 @@ public class Unidade extends Carta{
 	}
 
 	@Override
+	public void printDetalhes() {
+		System.out.printf("%s [%d|%d] (%d)", super.getNome(), vida, poder, super.getCusto());
+		if(!efeitos.isEmpty())	{
+			System.out.printf(" - Efeitos: ");
+			for (Efeito efeito: efeitos){
+				efeito.printNome();
+				System.out.printf(" ");
+			}
+		}
+
+	}
+
+	@Override
 	public void printCarta(){
 		System.out.printf("%s [%d|%d] (%d)", super.getNome(), vida, poder, super.getCusto());
 	}

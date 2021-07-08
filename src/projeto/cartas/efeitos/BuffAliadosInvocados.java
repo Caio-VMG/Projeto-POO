@@ -14,6 +14,7 @@ public class BuffAliadosInvocados extends Efeito {
 	public BuffAliadosInvocados(int poder, int vida) {
 		this.poder = poder;
 		this.vida = vida;
+		super.nome = "Buff Aliados Invocados";
 	}
 	
 	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {

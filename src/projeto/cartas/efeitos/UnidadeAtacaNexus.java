@@ -10,6 +10,10 @@ import projeto.cartas.Unidade;
 //Efeito 7
 public class UnidadeAtacaNexus extends Efeito {
 
+	public UnidadeAtacaNexus(){
+		super.nome = "Unidade Ataca Nexus";
+	}
+
 	private static void imprimeEvocadas(Jogador jogador) {
 		ArrayList<Carta> aux = jogador.getEvocadas();
 		for(int i = 0; i < aux.size(); i++) {
