@@ -160,7 +160,7 @@ public class Game {
 	 * se defender ou não.
 	 */
 	private void perguntarDefesa(Jogador defensor, Jogador atacante){
-		int entrada = 0;
+		int entrada;
 
 		System.out.printf("Turno de Defesa do %s\nEscolha uma opção:\n", defensor.getNome());
 		System.out.printf("[1] Defender \t [2] Passar\n");

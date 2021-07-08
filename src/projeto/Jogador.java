@@ -132,17 +132,15 @@ public class Jogador {
 
         if(entrada == 0){
             printDetalhesCartas();
+            entrada = Leitor.lerInt();
         }
-
-        entrada = Leitor.lerInt();
 
         Carta carta;
 
         if(entrada - 1 < mao.size() && entrada > 0) {
             carta = mao.get(entrada - 1);
             if (carta.canSummon(manaAtual, manaFeitico)) {
-                manaFeitico = carta.calcularCustoManaFeitico(manaFeitico);
-                manaAtual = carta.calcularCustoNormal(manaFeitico, manaAtual);
+                atualizarMana(carta);
                 return mao.remove(entrada - 1);
             } else {
                 System.out.println("Faltou mana\n");
@@ -158,17 +156,43 @@ public class Jogador {
 
 
     /**
-     * Retorna true se o jogador tem mana o suficiente para sumonar a carta.
-     * Retorn false do contrario.
+     * Atualizar valores de mana após a compra de uma carta.
      */
-    private boolean canSummon(Carta carta){
-        if(manaAtual >= carta.getCusto()){
-            return true;
+    private void atualizarMana(Carta carta){
+        manaFeitico = carta.calcularCustoManaFeitico(manaFeitico);
+        manaAtual = carta.calcularCustoNormal(manaFeitico, manaAtual);
+    }
+
+    /**
+     * Se o jogador já tem 6 cartas evocadas, então
+     * pode escolher substituir uma das evocadas por uma carta da sua mão
+     * pagando apenas a diferença na mana
+     */
+    private void substituirCarta(Carta evocada, Carta substituta){
+        int diferenca = substituta.getCusto() - evocada.getCusto();
+        if(diferenca >= 0){
+            if(diferenca <= manaAtual){
+                manaAtual -= diferenca;
+                trocarCartaEvocada(evocada, substituta);
+            } else {
+                System.out.println("Não há mana suficiente.");
+            }
         } else {
-            return false;
+            trocarCartaEvocada(evocada, substituta);
         }
     }
-    
+
+
+    /**
+     * Troca uma carta evocada por uma carta da mao.
+     */
+    private void trocarCartaEvocada(Carta evocada, Carta substituta){
+        evocadas.remove(evocada);
+        mao.remove(substituta);
+        mao.add(evocada);
+        evocadas.add(substituta);
+    }
+
     /**
      * Quando o jogador não possui mana suficiente pra evocar nenhuma carta
      * e não possui nenhuma carta evocada, então ele não tem nenhuma jogada possível.
