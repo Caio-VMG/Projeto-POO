@@ -23,24 +23,8 @@ public class UnidadeAtacaNexus extends Efeito {
 	}
 	
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
-		System.out.printf("Escolha uma unidade atacar o nexus inimigo\n");
-		imprimeEvocadas(beneficiado);
-		Scanner ler = new Scanner(System.in);
-		int escolha = ler.nextInt();
-		while(escolha > beneficiado.getEvocadas().size() || escolha < 1) {
-			System.out.println("Escolha inv�lida");
-			escolha = ler.nextInt();
-		}
-		Unidade aux = (Unidade)beneficiado.getEvocadas().get(escolha - 1);
-		Jogador naoBeneficiado;
-		if(beneficiado.equals(atacante)) {
-			naoBeneficiado = defensor;
-		}
-		else {
-			naoBeneficiado = atacante;
-		}
-		naoBeneficiado.sofrerDanoNexus(aux.getDano());
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+		defensor.sofrerDanoNexus(escolhida.getDano());
 	}
 		
 	@Override

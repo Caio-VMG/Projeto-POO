@@ -4,6 +4,7 @@ import java.util.Random;
 
 import projeto.cartas.Campeao;
 import projeto.cartas.Feitico;
+import projeto.cartas.TipoFeitico;
 import projeto.cartas.Unidade;
 import projeto.cartas.efeitos.*;
 
@@ -47,20 +48,19 @@ public class Noxus extends Deck {
                 NoxianoI.addElusivo();
                 this.add(NoxianoI);
             } else if (valor == 7) {
-                Feitico LacoI = new Feitico("Laço de irmãos", 2);
-                LacoI.addEfeito(new BuffAliadoInvocado(2, 0));
+                Feitico LacoI = new Feitico("Laço de irmãos", 3, TipoFeitico.MULTUO);
                 LacoI.addEfeito(new BuffAliadoInvocado(2, 0));
                 this.add(LacoI);
             } else if (valor == 8) {
-                Feitico equiparM = new Feitico("Equipar machado", 0);
+                Feitico equiparM = new Feitico("Equipar machado", 0, TipoFeitico.UNICO);
                 equiparM.addEfeito(new BuffAliadoInvocado(1, 0));
                 this.add(equiparM);
             } else if (valor == 9) {
-                Feitico incentivar = new Feitico("Incentivar", 2);
+                Feitico incentivar = new Feitico("Incentivar", 2, TipoFeitico.MULTUO);
                 incentivar.addEfeito(new BuffAliadosInvocados(1, 0));
                 this.add(incentivar);
             } else{
-                Feitico dizimar = new Feitico("Dizimar", 5);
+                Feitico dizimar = new Feitico("Dizimar", 5, TipoFeitico.ADVERSARIO);
                 dizimar.addEfeito(new AtaqueAoNexus(4));
                 this.add(dizimar);
             }

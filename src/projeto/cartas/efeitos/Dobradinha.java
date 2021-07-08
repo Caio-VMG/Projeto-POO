@@ -25,25 +25,12 @@ public class Dobradinha extends Efeito {
 	
 	
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
-		//precisamos tratar o caso em que o beneficiado não tem nenhuma carta evocada
-		if(beneficiado.getQtdEvocadas() > 0){
-			System.out.printf("Escolha uma carta para ganhar o efeito Dobradinha\n");
-			imprimeEvocadas(beneficiado);
-			Scanner ler = new Scanner(System.in);
-			int escolha = ler.nextInt();
-			while(escolha > beneficiado.getEvocadas().size() || escolha < 1) {
-				System.out.println("Escolha inv�lida");
-				escolha = ler.nextInt();
-			}
-			Unidade aux = (Unidade)beneficiado.getEvocadas().get(escolha - 1);
-			aux.aumentarDano(aux.getDano());
-			aux.aumentarVidaMaxima(aux.getVidaMaxima());
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+		escolhida.aumentarDano(escolhida.getDano());
+		escolhida.aumentarVidaMaxima(escolhida.getVidaMaxima());
 		}
 		//aux.addEfeito(this);
 		//acho que não precisa adicionar na lista de efeitos, já que o efeito é instantâneo, certo?
-		
-	}
 
 	@Override
 	public void removerEfeito(Unidade unidade) {}

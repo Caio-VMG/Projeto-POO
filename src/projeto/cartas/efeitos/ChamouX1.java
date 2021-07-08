@@ -28,39 +28,23 @@ public class ChamouX1 extends Efeito {
 	}
 	
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
-		System.out.printf("Escolha um aliado para um combate imediato\n");
-		imprimeEvocadas(beneficiado);
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+		System.out.println("Escolha um oponente para um combate imediato");
+		imprimeEvocadas(defensor);
 		Scanner ler = new Scanner(System.in);
 		int escolha = ler.nextInt();
-		while(escolha > beneficiado.getEvocadas().size() || escolha < 1) {
+		while(escolha > defensor.getEvocadas().size() || escolha < 1) {
 			System.out.println("Escolha inv�lida");
 			escolha = ler.nextInt();
 		}
-		Unidade aux = (Unidade)beneficiado.getEvocadas().get(escolha - 1);
+		Unidade afetado = (Unidade)defensor.getEvocadas().get(escolha - 1);
+		Unidade.batalhaIndividual(escolhida, afetado);
 		
-		System.out.printf("Escolha um adversário para um combate imediato\n");
-		Jogador naoBeneficiado;
-		if(beneficiado.equals(atacante)) {
-			naoBeneficiado = defensor;
+		if(escolhida.getVida() <= 0) {
+			mensagemMorte(escolhida);
 		}
-		else {
-			naoBeneficiado = atacante;
-		}
-		imprimeEvocadas(naoBeneficiado);
-		escolha = ler.nextInt();
-		while(escolha > naoBeneficiado.getEvocadas().size() || escolha < 1) {
-			System.out.println("Escolha inv�lida");
-			escolha = ler.nextInt();
-		}
-		Unidade aux2 = (Unidade)naoBeneficiado.getEvocadas().get(escolha - 1);
-		Unidade.batalhaIndividual(aux, aux2);
-		
-		if(aux.getVida() <= 0) {
-			mensagemMorte(aux);
-		}
-		if(aux2.getVida() <= 0) {
-			mensagemMorte(aux2);
+		if(afetado.getVida() <= 0) {
+			mensagemMorte(afetado);
 		}
 	}
 

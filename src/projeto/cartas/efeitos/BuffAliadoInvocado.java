@@ -36,22 +36,10 @@ public class BuffAliadoInvocado extends Efeito {
 	 * retorna false se o efeito não pode ser aplicado.
 	 */
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
-
-		System.out.printf("Escolha uma carta para ganhar +%d de dano e +%d de vida\n", this.poder, this.vida);
-		imprimeEvocadas(beneficiado);
-
-		int escolha = Leitor.lerInt();
-
-		while(escolha > beneficiado.getEvocadas().size() || escolha < 1) {
-			System.out.println("Escolha inválida");
-			Leitor.lerInt();
-		}
-
-		Unidade aux = (Unidade)beneficiado.getEvocadas().get(escolha - 1);
-		aux.aumentarDano(this.poder);
-		aux.aumentarVida(this.vida);
-		aux.addEfeito(this);
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+		escolhida.aumentarDano(this.poder);
+		escolhida.aumentarVida(this.vida);
+		escolhida.addEfeito(this);
 	}
 
 	@Override

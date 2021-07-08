@@ -26,23 +26,16 @@ public class ZeraPoderInimigo extends Efeito {
 	}
 	
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
 		System.out.printf("Escolha um adversário para zerar o poder\n");
-		Jogador naoBeneficiado;
-		if(beneficiado.equals(atacante)) {
-			naoBeneficiado = defensor;
-		}
-		else {
-			naoBeneficiado = atacante;
-		}
-		imprimeEvocadas(naoBeneficiado);
+		imprimeEvocadas(defensor);
 		Scanner ler = new Scanner(System.in);
 		int escolha = ler.nextInt();
-		while(escolha > naoBeneficiado.getEvocadas().size() || escolha < 1) {
+		while(escolha > defensor.getEvocadas().size() || escolha < 1) {
 			System.out.println("Escolha inv�lida");
 			escolha = ler.nextInt();
 		}
-		Unidade aux = (Unidade)naoBeneficiado.getEvocadas().get(escolha - 1);
+		Unidade aux = (Unidade)defensor.getEvocadas().get(escolha - 1);
 		this.afetado = aux;
 		this.danoDoAfetado = aux.getDano();
 		aux.diminuiDano(aux.getDano());

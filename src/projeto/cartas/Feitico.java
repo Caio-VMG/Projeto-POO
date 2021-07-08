@@ -1,6 +1,7 @@
 package projeto.cartas;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import projeto.Jogador;
 import projeto.cartas.efeitos.AtacaTodosInimigos;
@@ -8,10 +9,14 @@ import projeto.cartas.efeitos.Efeito;
 
 public class Feitico extends Carta{
 	private ArrayList<Efeito> efeitos;
+	private TipoFeitico tipo;
 	
-	public Feitico(String nome, int custo/*, Efeito efeito*/) {
+	
+	public Feitico(String nome, int custo, TipoFeitico tipo/*, Efeito efeito*/) {
 		super(nome, custo);
 		this.efeitos = new ArrayList<>();
+		this.tipo = tipo;
+		
 	}
 
 	@Override
@@ -65,10 +70,38 @@ public class Feitico extends Carta{
 
 	@Override
 	public void usarCarta(Jogador atacante, Jogador defensor) {
-		for(int i = 0; i < efeitos.size(); i++) {
-			efeitos.get(i).aplicarEfeito(atacante, defensor, atacante);
+		if(tipo == TipoFeitico.MULTUO && atacante.getQtdEvocadas() > 0) {
+			for(int i = 0; i < atacante.getQtdEvocadas(); i++) {
+				Unidade escolhida = (Unidade)atacante.getEvocadas().get(i);
+				for(int j = 0; i < efeitos.size(); i++) {
+					efeitos.get(j).aplicarEfeito(atacante, defensor, escolhida);
+				}
+			}
+		}
+		else if(tipo == TipoFeitico.UNICO && atacante.getQtdEvocadas() > 0) {
+			System.out.printf("Escolha um aliado para usar", this.getNome());
+			atacante.imprimeEvocadas();
+			Scanner ler = new Scanner(System.in);
+			int escolha = ler.nextInt();
+			while(escolha > atacante.getEvocadas().size() || escolha < 1) {
+				System.out.println("Escolha inv�lida");
+				escolha = ler.nextInt();
+			}
+			Unidade escolhida = (Unidade)atacante.getEvocadas().get(escolha - 1);
+			for(int i = 0; i < efeitos.size(); i++) {
+				efeitos.get(i).aplicarEfeito(atacante, defensor, escolhida);
+			}
+		}
+		else if(tipo == TipoFeitico.ADVERSARIO) {
+			
+		}
+		else {
+			System.out.println("Você não possui cartas evocadas para usar feitiço");
+			atacante.addCartaMao(this);
+			atacante.ganharMana(this.getCusto());
 		}
 	}
+	
 
 	@Override
 	public Carta getUnidade(){

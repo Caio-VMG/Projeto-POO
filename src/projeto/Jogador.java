@@ -459,5 +459,9 @@ public class Jogador {
     public void setTurno(TipoTurno turno) {
         this.turno = turno;
     }
+    
+    public void addCartaMao(Carta carta) {
+    	this.mao.add(carta);
+    }
 
 }

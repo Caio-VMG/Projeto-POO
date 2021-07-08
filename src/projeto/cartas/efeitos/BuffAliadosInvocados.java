@@ -17,14 +17,10 @@ public class BuffAliadosInvocados extends Efeito {
 		super.nome = "Buff Aliados Invocados";
 	}
 	
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
-		ArrayList<Carta> aux = beneficiado.getEvocadas();
-		for(int i = 0; i < aux.size(); i++) {
-			Unidade aux2 = (Unidade)aux.get(i);
-			aux2.aumentarDano(this.poder);
-			aux2.aumentarVida(this.vida);
-			aux2.addEfeito(this);
-		}
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+		escolhida.aumentarDano(this.poder);
+		escolhida.aumentarVida(this.vida);
+		escolhida.addEfeito(this);
 	}
 
 	@Override

@@ -29,29 +29,17 @@ public class AtacaTodosInimigos extends Efeito {
 	}	
 
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
-		//tratar o caso em que o atacante ou defensor não tem nenhuma evocada
-		if(atacante.getQtdEvocadas() > 0 && defensor.getQtdEvocadas() > 0) {
-			System.out.printf("Escolha uma carta para ganhar Julgar os adversários\n");
-			imprimeEvocadas(beneficiado);
-			Scanner ler = new Scanner(System.in);
-			int escolha = ler.nextInt();
-			while(escolha > beneficiado.getEvocadas().size() || escolha < 1) {
-				System.out.println("Escolha inv�lida");
-				escolha = ler.nextInt();
-			}
-			Unidade aux = (Unidade)beneficiado.getEvocadas().get(escolha - 1);
-			ArrayList<Carta> aux2 = defensor.getEvocadas();
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+		if(defensor.getQtdEvocadas() > 0) {
+			ArrayList<Carta> afetado = defensor.getEvocadas();
 			for(int i = 0; i < defensor.getQtdEvocadas(); i++) {
-				Unidade danificado = (Unidade)aux2.get(i);
-				danificado.sofrerDano(aux.getDano());
-			}
-		
-			
-			
+				Unidade danificado = (Unidade)afetado.get(i);
+				danificado.sofrerDano(escolhida.getDano());
+			}	
 		}
-		
-		
+		else {
+			defensor.sofrerDanoNexus(escolhida.getDano());
+		}
 	}
 
 	@Override

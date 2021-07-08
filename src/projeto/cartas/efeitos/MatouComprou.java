@@ -24,17 +24,8 @@ public class MatouComprou extends Efeito {
 	}
 	
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Jogador beneficiado) {
-		System.out.printf("Escolha uma carta para ganhar o efeito MatouComprou\n");
-		imprimeEvocadas(beneficiado);
-		Scanner ler = new Scanner(System.in);
-		int escolha = ler.nextInt();
-		while(escolha > beneficiado.getEvocadas().size() || escolha < 1) {
-			System.out.println("Escolha inv�lida");
-			escolha = ler.nextInt();
-		}
-		Unidade aux = (Unidade)beneficiado.getEvocadas().get(escolha - 1);
-		aux.addEfeito(this);
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+		escolhida.addEfeito(this);
 	}
 	
 	@Override
