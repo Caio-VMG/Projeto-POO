@@ -42,14 +42,14 @@ public class Bot extends Jogador {
         if(!possiveisEvocacoes.isEmpty()){
             decisoesPossiveis.add(1);
         }
-        if(super.getQtdEvocadas() > 0){
+        if(super.getQtdEvocadas() > 0 && super.getTurno() == TipoTurno.ATAQUE){
             decisoesPossiveis.add(3);
         }
         decisoesPossiveis.add(2);
 
         Random random = new Random();
         if(possiveisEvocacoes.size() > 0){
-            valor = random.nextInt(possiveisEvocacoes.size());
+            valor = random.nextInt(decisoesPossiveis.size());
         }
 
         return decisoesPossiveis.get(valor);
@@ -78,7 +78,7 @@ public class Bot extends Jogador {
         ArrayList<Carta> possiveisCartas = new ArrayList<>();
         ArrayList<Carta> mao = super.getMao();
         for(Carta carta: mao){
-            if(super.getMana() >= carta.getCusto()){
+            if(super.getMana() >= carta.getCusto() && carta.ehTrocavel()){
                 possiveisCartas.add(carta);
             }
         }
@@ -94,12 +94,14 @@ public class Bot extends Jogador {
         Random random = new Random();
         ArrayList<Carta> evocadas = super.getEvocadas();
 
-        int opcao = random.nextInt(2);
+        int opcao = random.nextInt(2);// Aqui é aleatório se ele vai escolher algum personagem ou nao.
         if(evocadas.size() == 0 || opcao == 1){
             return null;
         } else {
             int valor = random.nextInt(evocadas.size());
-            return evocadas.get(valor);
+            Carta escolhida = evocadas.get(valor);
+            evocadas.remove(escolhida);
+            return escolhida;
         }
     }
 

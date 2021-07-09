@@ -31,7 +31,7 @@ public class Game {
 		System.out.println("Game started!\n");
 
 		iniciarMesa();
-		iniciarJogadores();
+		iniciarJogadores(true);
 		Jogador atacante = jogador1;
 		Jogador defensor = jogador2;
 
@@ -80,8 +80,8 @@ public class Game {
 					}
 				}
 
-
-				mesa.batalhaMesa(atacante, defensor);
+				if(batalha == true)
+					mesa.batalhaMesa(atacante, defensor);
 				batalha = false;
 				mesa.inverteMesa();
 				if(defensor.getVida() <= 0) {
@@ -137,13 +137,17 @@ public class Game {
 			passadas += 1;
 		} else {
 			boolean finished = false;
+			int cartasEscolhidas = 0;
 			while(!finished){
 				Carta escolhida = jogando.escolherCartaBatalha(0);
-				if(escolhida == null){
+				if(escolhida == null && cartasEscolhidas != 0){
 					finished = true;
+				} else if(escolhida != null) {
+					cartasEscolhidas++;
+					mesa.adicionarAtacante((Unidade) escolhida);
 				}
-				mesa.adicionarAtacante((Unidade) escolhida);
 			}
+			batalha = true;
 		}
 	}
 
@@ -156,7 +160,7 @@ public class Game {
 		
 		//cheats
 		//jogando.alterarManaFeitico(50);
-		jogando.setMana(50);
+		//jogando.setMana(50);
 		
 		int entrada;
 		boolean finished = false;
