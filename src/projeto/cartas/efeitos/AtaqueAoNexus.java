@@ -1,4 +1,4 @@
-package projeto.cartas.efeitos;
+ package projeto.cartas.efeitos;
 
 import projeto.Jogador;
 import projeto.cartas.Unidade;
