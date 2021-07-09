@@ -46,6 +46,7 @@ public class Mesa {
 				if (atacantes.get(i).getAtaqueDuplo()) {
 					defensor.sofrerDanoNexus(atacantes.get(i).getDano());
 				}
+				atacantes.get(i).aumentaAtaque();
 			}
 			else {
 				Unidade.batalhaIndividual(atacantes.get(i), defensores.get(i));
@@ -54,8 +55,7 @@ public class Mesa {
 						defensor.sofrerDanoNexus(atacantes.get(i).getDano());
 					} else {
 						Unidade.batalhaIndividual(atacantes.get(i), defensores.get(i));
-					}
-					
+					}	
 				}
 			}
 		}
@@ -120,7 +120,6 @@ public class Mesa {
 					qtdDefensores--;
 				}
 			}
-
 		}
 	}
 	

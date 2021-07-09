@@ -31,13 +31,12 @@ public class Game {
 		System.out.println("Game started!\n");
 
 		iniciarMesa();
-		iniciarJogadores(true);
+		iniciarJogadores();
 		Jogador atacante = jogador1;
 		Jogador defensor = jogador2;
 
 
 		while (!exitSelected) {
-
 			jogador1.primeiraCompra();
 			jogador2.primeiraCompra();
 			
@@ -159,8 +158,8 @@ public class Game {
 	private void pegarEntrada(Jogador jogando, Jogador observando){
 		
 		//cheats
-		//jogando.alterarManaFeitico(50);
-		//jogando.setMana(50);
+		jogando.alterarManaFeitico(50);
+		jogando.setMana(50);
 		
 		int entrada;
 		boolean finished = false;
@@ -305,26 +304,36 @@ public class Game {
 	private void defender(Jogador defensor, Jogador atacante) {
 		int entrada, posicao;
 		Carta cartaEscolhida;
+		boolean terminado = false;
 
 		if(defensor.getQtdEvocadas() >= 1){
-			while(mesa.getQtdAtacantes() > mesa.getQtdDefensores() && defensor.getQtdEvocadas() >= 1){
+			while(mesa.getQtdAtacantes() > mesa.getQtdDefensores() && defensor.getQtdEvocadas() >= 1 && !terminado){
 				defensor.imprimeEvocadas();
 
 				entrada = Leitor.lerInt();
-
 				cartaEscolhida = defensor.escolherCartaBatalha(entrada);
 				if (cartaEscolhida != null) {
 					mesa.printMesa();
-					System.out.println("Escolha a posição do defensor\n");
+					System.out.println("Escolha a posição do defensor ou digite 0 para cancelar a defesa\n");
 					posicao = Leitor.lerInt();
-
-					while (posicao < 1 || posicao > mesa.getQtdAtacantes() || !mesa.posEhValida(posicao, cartaEscolhida)) {
+					
+					if(posicao == 0) {
+						terminado = true;
+					}
+					
+					while ((posicao < 1 || posicao > mesa.getQtdAtacantes() || !mesa.posEhValida(posicao, cartaEscolhida)) && !terminado) {
 						System.out.println("Posição inválida");
 						mesa.printMesa();
-						System.out.println("Escolha a posição do defensor\n");
+						System.out.println("Escolha a posição do defensor ou digite 0 para cancelar a defesa\n");
 						posicao = Leitor.lerInt();
-					} 
-					mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
+						if(posicao == 0) {
+							terminado = true;
+						}
+					}
+					if(!terminado) {
+						mesa.adicionarDefensor((Unidade) cartaEscolhida, posicao);
+						terminado = true;
+					}
 					
 				} else {
 					System.out.println("Entrada Inválida.");

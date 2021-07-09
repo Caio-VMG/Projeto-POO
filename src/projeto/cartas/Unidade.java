@@ -263,5 +263,9 @@ public class Unidade extends Carta{
 	public boolean ehEvoluivel() {
 		return false;
 	}
+	
+	public void aumentaAtaque() {
+		this.ataques++;
+	}
     
 }
