@@ -1,6 +1,7 @@
 package projeto;
 
 import projeto.cartas.Unidade;
+import projeto.cartas.Campeao;
 import projeto.cartas.Carta;
 import projeto.cartas.TipoTurno;
 import projeto.cartas.Unidade;
@@ -25,10 +26,11 @@ public class Mesa {
 	public void batalhaMesa(Jogador atacante, Jogador defensor) {
 		
 		batalhar(defensor);		
-		confereMortes(atacante);
-		confereMortes(defensor);
+		confereMortes(atacante, defensor);
+		confereMortes(defensor, atacante);
 		removerMortos();
 		passarTurnoEfeitos();
+		conferirEvolucoes();
 		limparMesa(atacante, defensor);
 		
 	}
@@ -64,14 +66,14 @@ public class Mesa {
 	 * efeitos de morte/kill caso isso ocorra. Caso uma unidade morra, ela é retirada
 	 * da array de atacantes/defensores e é "deletada" do jogo.
 	*/
-	private void confereMortes(Jogador jogador) {
+	private void confereMortes(Jogador jogador1, Jogador jogador2) {
 		
-		if (jogador.getTurno() == TipoTurno.ATAQUE) {
+		if (jogador1.getTurno() == TipoTurno.ATAQUE) {
 			for(int i = 0; i < qtdAtacantes; i++) {
 				if(atacantes.get(i).getVida() <= 0) {
 					mensagemMorte(atacantes.get(i));
-					atacantes.get(i).confereEfeitoMorte(jogador);
-					defensores.get(i).confereEfeitoKill(jogador);
+					atacantes.get(i).confereEfeitoMorte(jogador1);
+					defensores.get(i).confereEfeitoKill(jogador2);
 				}
 			}
 		} else {
@@ -79,13 +81,29 @@ public class Mesa {
 				if(defensores.get(i) != null) {
 					if(defensores.get(i).getVida() <= 0) {
 						mensagemMorte(defensores.get(i));
-						defensores.get(i).confereEfeitoMorte(jogador);
-						atacantes.get(i).confereEfeitoKill(jogador);
+						defensores.get(i).confereEfeitoMorte(jogador1);
+						atacantes.get(i).confereEfeitoKill(jogador2);
 					}
 				}
 			}
 		}
 		
+	}
+	
+	private void conferirEvolucoes() {
+		for (int i = 0; i < qtdAtacantes; i++ ) {
+			if (atacantes.get(i).ehEvoluivel()) {
+				Campeao c = (Campeao)atacantes.get(i);
+				c.tentarEvoluir();
+			}
+		}
+		
+		for (int i = 0; i < 4; i++ ) {
+			if (defensores.get(i) != null && defensores.get(i).ehEvoluivel()) {
+				Campeao c = (Campeao)defensores.get(i);
+				c.tentarEvoluir();
+			}
+		}
 	}
 
 	private void removerMortos(){

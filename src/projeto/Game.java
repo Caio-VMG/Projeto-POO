@@ -31,7 +31,7 @@ public class Game {
 		System.out.println("Game started!\n");
 
 		iniciarMesa();
-		iniciarJogadores(true);
+		iniciarJogadores();
 		Jogador atacante = jogador1;
 		Jogador defensor = jogador2;
 

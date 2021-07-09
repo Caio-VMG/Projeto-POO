@@ -2,7 +2,9 @@ package projeto.decks;
 
 import projeto.cartas.Campeao;
 import projeto.cartas.Feitico;
+import projeto.cartas.TipoCondicao;
 import projeto.cartas.TipoFeitico;
+import projeto.cartas.Traco;
 import projeto.cartas.Unidade;
 import projeto.cartas.efeitos.*;
 
@@ -20,7 +22,11 @@ public class Demacia extends Deck {
         for (int i = 0; i<40; i++) {
             int valor = random.nextInt(11);
             if (valor == 0) {
-                Campeao garen = new Campeao("Garen", 5, 5, 5);
+                Campeao garen = new Campeao("Garen", 5, 5, 5, TipoCondicao.ATAQUES);
+                garen.addCondAtk(2);
+                garen.addHpEvo(1);
+                garen.addPoderEvo(1);
+                garen.addTracoEvo(Traco.ELUSIVO);
                 garen.addEfeito(new Regeneracao());
                 this.add(garen);
             } else if (valor == 1) {
