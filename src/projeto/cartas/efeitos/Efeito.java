@@ -6,7 +6,7 @@ import projeto.cartas.Unidade;
 public abstract class Efeito {
 	protected String nome;
 	
-	public abstract void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida);
+	public abstract void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida, TipoChamada tipo);
 	
 	public abstract void removerEfeito(Unidade unidade);
 	

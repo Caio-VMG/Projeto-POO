@@ -11,12 +11,12 @@ public class Impressora {
         System.out.println();
         System.out.printf("Mão de %s:\n", jogador.getNome());
 
-        ArrayList<Carta> Mao = jogador.getMao();
-        int tamanho = calcularTamanhoBarra(Mao);
+        ArrayList<Carta> mao = jogador.getMao();
+        int tamanho = calcularTamanhoBarra(mao);
 
         imprimeBarra(tamanho);
         int i = 1;
-        for(Carta carta: Mao){
+        for(Carta carta: mao){
             if(i % 5 == 0){
                 System.out.println();
             }
@@ -42,7 +42,11 @@ public class Impressora {
 
     private int calcularTamanhoBarra(ArrayList<Carta> mao){
         int tamanho = 0;
-        for(int i = 0; i < 4; i++){
+        int max = 4;
+        if (mao.size() < 4) {
+        	max = mao.size();
+        }
+        for(int i = 0; i < max; i++){
             String nome = mao.get(i).getNome();
             tamanho += 4 + nome.length() + 5 + 3 + 8;
         }

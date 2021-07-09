@@ -20,26 +20,18 @@ public class BuffAliadoInvocado extends Efeito {
 		this.duracao = 1;
 		super.nome = "Buff Aliado Invocado";
 	}
-	
-	
-	private void imprimeEvocadas(Jogador jogador) {
-		ArrayList<Carta> aux = jogador.getEvocadas();
-		for(int i = 0; i < aux.size(); i++) {
-	   		System.out.printf("[%d] - %s\n", i + 1, aux.get(i).getNome());
-	   	}
-	   	System.out.println("");
-	}
-
 
 	/**
 	 * Retorna true se o efeito for aplicado corretamente,
 	 * retorna false se o efeito não pode ser aplicado.
 	 */
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida, TipoChamada tipo) {
 		escolhida.aumentarDano(this.poder);
 		escolhida.aumentarVida(this.vida);
-		escolhida.addEfeito(this);
+		if (!escolhida.getEfeitos().contains(this)) {
+			escolhida.addEfeito(this);
+		}
 	}
 
 	@Override

@@ -13,14 +13,6 @@ public class ChamouX1 extends Efeito {
 	public ChamouX1(){
 		super.nome = "Chamou X1";
 	}
-
-	private void imprimeEvocadas(Jogador jogador) {
-		ArrayList<Carta> aux = jogador.getEvocadas();
-		for(int i = 0; i < aux.size(); i++) {
-	   		System.out.printf("[%d] - %s\n", i + 1, aux.get(i).getNome());
-	   	}
-	   	System.out.println();
-	}
 	
 	private static void mensagemMorte(Unidade derrotada) {
 		System.out.printf("%s foi derrotado(a)\n", derrotada.getNome());
@@ -28,9 +20,9 @@ public class ChamouX1 extends Efeito {
 	}
 	
 	@Override
-	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida) {
+	public void aplicarEfeito(Jogador atacante, Jogador defensor, Unidade escolhida, TipoChamada tipo) {
 		System.out.println("Escolha um oponente para um combate imediato");
-		imprimeEvocadas(defensor);
+		defensor.imprimeEvocadas();
 		Scanner ler = new Scanner(System.in);
 		int escolha = ler.nextInt();
 		while(escolha > defensor.getEvocadas().size() || escolha < 1) {

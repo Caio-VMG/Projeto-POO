@@ -31,7 +31,7 @@ public class Game {
 		System.out.println("Game started!\n");
 
 		iniciarMesa();
-		iniciarJogadores();
+		iniciarJogadores(true);
 		Jogador atacante = jogador1;
 		Jogador defensor = jogador2;
 
@@ -66,13 +66,13 @@ public class Game {
 				passadas = 0;
 				while (!batalha && passadas != 2 && !rodadaIsOver) {
 					imprimirTabuleiro();
-					pegarEntrada(atacante, defensor);
+					realizarTurno(atacante, defensor);
 					if(passadas == 2){
 						break;
 					}
 					imprimirTabuleiro();
 					if(batalha == false){
-						pegarEntrada(defensor, atacante);
+						realizarTurno(defensor, atacante);
 					} else {
 						if(defensor.getQtdEvocadas() > 0) {
 							perguntarDefesa(defensor, atacante);
@@ -80,8 +80,8 @@ public class Game {
 					}
 				}
 
-
-				mesa.batalhaMesa(atacante, defensor);
+				if(batalha == true)
+					mesa.batalhaMesa(atacante, defensor);
 				batalha = false;
 				mesa.inverteMesa();
 				if(defensor.getVida() <= 0) {
@@ -105,6 +105,51 @@ public class Game {
 
 
 	// ============================== Funções de Interação com Jogadores ==============================
+
+
+	/**
+	 * Em cada turno, o jogador toma uma decisao e é simulado um
+	 * comportamento do Bot.
+	 */
+	private void realizarTurno(Jogador jogando, Jogador observando){
+		if(jogando.isConsciente()){
+			pegarEntrada(jogando, observando);
+		} else {
+			simularComportamento(jogando, observando);
+		}
+	}
+
+	/**
+	 * Um bot escolhe toma uma decisao em um determinado round.
+	 * Entre sumonar, passar a vez ou atacar.
+	 * O bot sempre toma uma decisao condizente com o que é
+	 * possível fazer.
+	 */
+	private void simularComportamento(Jogador jogando, Jogador observando){
+		// A decisao nao permite voltar atras,
+		// o bot sempre toma uma decisao possivel.
+		int decisao = jogando.tomarDecisao();
+		if(decisao == 1){
+			jogando.sumonarAleatoriamente(jogando, observando);
+			passadas = 0;
+		} else if (decisao == 2){
+			System.out.printf("%s passou a vez\n\n", jogando.getNome());
+			passadas += 1;
+		} else {
+			boolean finished = false;
+			int cartasEscolhidas = 0;
+			while(!finished){
+				Carta escolhida = jogando.escolherCartaBatalha(0);
+				if(escolhida == null && cartasEscolhidas != 0){
+					finished = true;
+				} else if(escolhida != null) {
+					cartasEscolhidas++;
+					mesa.adicionarAtacante((Unidade) escolhida);
+				}
+			}
+			batalha = true;
+		}
+	}
 
 	/**
 	 * A aplicação obtem as entradas do jogador.
@@ -145,7 +190,6 @@ public class Game {
 				}
 			} else if (entrada == 2) {
 				System.out.printf("%s passou a vez\n\n", jogando.getNome());
-				System.out.println();
 				passadas += 1;
 			} else if (entrada == 3 && jogando.getTurno() == TipoTurno.ATAQUE) {
 				batalha = true;
@@ -165,7 +209,7 @@ public class Game {
 	 */
 	private boolean substituirCartas(Jogador jogando){
 		System.out.printf("Atingiu o limite de cartas evocadas\n");
-		System.out.printf("Deseja substituir uma carga?\n[1] Sim [2] Não\n");
+		System.out.printf("Deseja substituir uma carta?\n[1] Sim [2] Não\n");
 		int entrada = Leitor.lerInt();
 
 		boolean trocou = false;
@@ -336,7 +380,15 @@ public class Game {
 
 	private void iniciarJogadores(){
 		this.jogador1 = new Jogador(DeckFactory.obterDeck(0), "Player1");
-		this.jogador2 = new Jogador(DeckFactory.obterDeck(0), "Player2");
+		this.jogador2 = new Jogador(DeckFactory.obterDeck(1), "Player2");
+
+		jogador1.setTurno(TipoTurno.ATAQUE);
+		jogador2.setTurno(TipoTurno.DEFESA);
+	}
+
+	private void iniciarJogadores(boolean bots){
+		this.jogador1 = new Jogador(DeckFactory.obterDeck(0), "Player1");
+		this.jogador2 = new Bot(DeckFactory.obterDeck(0), "Player2");
 
 		jogador1.setTurno(TipoTurno.ATAQUE);
 		jogador2.setTurno(TipoTurno.DEFESA);

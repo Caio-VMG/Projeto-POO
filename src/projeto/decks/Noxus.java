@@ -4,6 +4,7 @@ import java.util.Random;
 
 import projeto.cartas.Campeao;
 import projeto.cartas.Feitico;
+import projeto.cartas.TipoCondicao;
 import projeto.cartas.TipoFeitico;
 import projeto.cartas.Unidade;
 import projeto.cartas.efeitos.*;
@@ -36,8 +37,11 @@ public class Noxus extends Deck {
                 ballista.addEfeito(new AtaqueAoNexus(2));
                 this.add(ballista);
             } else if (valor == 4) {
-                Campeao darius = new Campeao("Darius", 6, 6, 6);
-                darius.addElusivo();
+                Campeao darius = new Campeao("Darius", 6, 6, 6, TipoCondicao.KILLS);
+                darius.addCondKill(1);
+                darius.addPoderEvo(4);
+                darius.addHpEvo(2);
+                darius.addEfeitoEvo(new MatouComprou());
                 this.add(darius);
             } else if (valor == 5) {
                 Unidade NoxianoB = new Unidade("Noxiano Bajulador", 1, 2, 1);

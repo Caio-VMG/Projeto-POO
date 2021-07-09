@@ -4,19 +4,23 @@ import java.util.ArrayList;
 
 import projeto.Jogador;
 import projeto.cartas.efeitos.Efeito;
+import projeto.cartas.efeitos.TipoChamada;
 
 public class Unidade extends Carta{
     protected int vidaMaxima;
 	protected int vida;
     protected int poder;
-    private ArrayList<Efeito> efeitos;
-    private int kills;
+    private ArrayList<Efeito> efeitos;    
     private boolean elusivo;
     private boolean furia;
     private boolean ataqueDuplo;
     private boolean barreira;
     private int poderFuria;
     private int vidaFuria;
+    protected int kills;
+    protected int ataques = 0;
+	protected int danoSofrido = 0;
+	protected int danoCausado = 0;
 
     //Construtor para quando a carta tem efeito e tem tra�o
     public Unidade(String nome, int custo, int vida, int poder) {
@@ -35,17 +39,31 @@ public class Unidade extends Carta{
     	
     	if (unidade1.getBarreira()) {
     		unidade1.setBarreira(false);
+    		unidade2.ataques+=1;
     	} else {
-    		 unidade1.vida -= unidade2.poder;
+    		atualizaStatus(unidade1, unidade2);
     	}
     	
     	if (unidade2.getBarreira()) {
     		unidade2.setBarreira(false);
+    		unidade1.ataques +=1;
     	} else {
-    		unidade2.vida -= unidade1.poder;
+    		atualizaStatus(unidade2, unidade1);
     	}
     	
-        if(unidade1.vida <= 0) {
+    	confereFuria(unidade1, unidade2);
+        
+    }
+    
+    private static void atualizaStatus(Unidade unidade1, Unidade unidade2) {
+    	 unidade1.vida -= unidade2.poder;
+		 unidade1.danoSofrido += unidade2.poder;
+		 unidade2.ataques +=1;
+		 unidade2.danoCausado += unidade2.poder;
+    }
+
+    private static void confereFuria(Unidade unidade1, Unidade unidade2) {
+    	if(unidade1.vida <= 0) {
         	if (unidade2.getFuria() && unidade2.getVida() >= 0) {
         		unidade2.ativarFuria();
         	}
@@ -58,12 +76,13 @@ public class Unidade extends Carta{
         	unidade1.kills++;
         }
     }
-
+    
     @Override
     public void usarCarta(Jogador jogador1, Jogador jogador2) {
 		jogador1.sumonar(this);
-		//Se a carta tiver efeitos, a gente coloca pra ativar aqui
-		//pensar como implementar efeitos que ativam na morte
+		for (int i = 0; i < efeitos.size(); i++) {
+			efeitos.get(i).aplicarEfeito(jogador1, jogador2, this, TipoChamada.EVOCADA);
+		}
     }
 
     public void confereEfeitoKill(Jogador jogador) {
@@ -134,7 +153,11 @@ public class Unidade extends Carta{
 	@Override
     public Carta getUnidade(){
     	return this;
-	}	
+	}
+	
+	public ArrayList<Efeito> getEfeitos(){
+		return this.efeitos;
+	}
 	
 	//======================== Setters ========================
 	
@@ -204,7 +227,7 @@ public class Unidade extends Carta{
 	 * Nome - [vida|dano]
 	 */
 	public void printUnidade(){
-		System.out.printf("%s - [%d|%d]", super.getNome(), vida, poder);
+		System.out.printf("%s - [%d|%d] ", super.getNome(), vida, poder);
 	}
 
 	@Override
@@ -237,5 +260,8 @@ public class Unidade extends Carta{
 		return true;
 	}
     
+	public boolean ehEvoluivel() {
+		return false;
+	}
     
 }
