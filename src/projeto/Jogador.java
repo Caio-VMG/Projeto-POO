@@ -259,7 +259,7 @@ public class Jogador {
      * Quando o jogador não possui mana suficiente pra evocar nenhuma carta
      * e não possui nenhuma carta evocada, então ele não tem nenhuma jogada possível.
      * PS: esse método ainda não está sendo usado.
-     */
+     
     private boolean podeJogar() {
     	int count = 0;
     	for(int i = 0; i < mao.size(); i++) {
@@ -273,7 +273,7 @@ public class Jogador {
     	}
     	return true;
     }
-
+	*/
 
     /**
      * A carta passada é adicionada na lista de cartas evocadas do jogador.
@@ -287,8 +287,7 @@ public class Jogador {
     /**
      * Coloca uma carta na mesa para batalhar.
      */
-    public Carta
-    escolherCartaBatalha(int entrada) {
+    public Carta escolherCartaBatalha(int entrada) {
         if(entrada <= getQtdEvocadas()){
             Carta cartaEscolhida = evocadas.get(entrada - 1);
             evocadas.remove(entrada - 1);
@@ -381,7 +380,7 @@ public class Jogador {
      * Imprime todas as cartas que estão na mão do jogador
      * com um respectivo índice.
      */
-    private void imprimeMao() {
+    /*private void imprimeMao() {
         System.out.println();
         System.out.printf("Mão de %s:\n", this.nome);
         System.out.println("=================================================================================");
@@ -391,7 +390,7 @@ public class Jogador {
         System.out.println();
         System.out.println("=================================================================================");
         System.out.println();
-    }
+    }*/
 
     private void printDetalhesCartas(){
         for(Carta carta: mao){
