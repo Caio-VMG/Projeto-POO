@@ -1,16 +1,9 @@
 package projeto;
 
-import projeto.cartas.*;
-import projeto.cartas.efeitos.AtacaTodosInimigos;
-import projeto.cartas.efeitos.BuffAliadoInvocado;
-import projeto.cartas.efeitos.ChamouX1;
-import projeto.cartas.efeitos.CuraUnidade;
-import projeto.cartas.efeitos.Dobradinha;
-import projeto.decks.Deck;
-import projeto.decks.DeckFactory;
-
 import java.util.Random;
-import java.util.Scanner;
+
+import projeto.cartas.*;
+import projeto.decks.DeckFactory;
 
 public class Game {
 	private Jogador jogador1;
@@ -27,11 +20,10 @@ public class Game {
 	public void start() {
 		exitSelected = batalha = false;
 		passadas = 0;
-
-		System.out.println("Game started!\n");
-
 		iniciarMesa();
-		iniciarJogadores();
+		
+		escolherModo();		
+		
 		Jogador atacante = jogador1;
 		Jogador defensor = jogador2;
 
@@ -386,20 +378,74 @@ public class Game {
 		this.mesa = new Mesa();
 		mesa.preencheMesa();
 	}
-
-	private void iniciarJogadores(){
-		this.jogador1 = new Jogador(DeckFactory.obterDeck(0), "Player1");
-		this.jogador2 = new Jogador(DeckFactory.obterDeck(1), "Player2");
-
+	
+	
+	//Função responsável por escolher o modo de jogo, lendo uma entrada do jogador
+	private void escolherModo() {
+		boolean finished = false;
+		while (!finished) {
+			System.out.println("Escolha o modo de jogo: \n"
+					+ "[1] - Jogador VS BOT\n"
+					+ "[2] - Jogador VS Jogador\n"
+					+ "[3] - BOT VS BOT\n");
+			int entrada = Leitor.lerInt();
+			finished = true;
+			if(entrada == 1){
+				iniciarJogadores(1);
+			} else if (entrada == 2) {
+				iniciarJogadores(2);
+			} else if (entrada == 3) {
+				iniciarJogadores(3);
+			} else {
+				System.out.printf("Comando inválido\n\n");
+				finished = false;
+			}
+		}
+	}
+	
+	//Função responsável por inicializar os jogadores. Recebe um inteiro, que representa o modo de jogo e define que tipo de jogadores
+	//devem ser inicializados
+	private void iniciarJogadores(int modo){
+		Random random = new Random();
+		int deckRandom = random.nextInt(2) + 1;
+		int deckRandom2 = random.nextInt(2) + 1;
+		if (modo == 1) {	
+			this.jogador1 = escolherDeck("Player1");
+			this.jogador2 = new Bot(DeckFactory.obterDeck(deckRandom), "Player2");			
+		} else if (modo == 2) {			
+			this.jogador1 = escolherDeck("Player1");
+			this.jogador2 = escolherDeck("Player2");
+		} else if (modo == 3) {
+			this.jogador1 = new Bot(DeckFactory.obterDeck(deckRandom), "Player1");		
+			this.jogador2 = new Bot(DeckFactory.obterDeck(deckRandom2), "Player2");		
+		}
+		
 		jogador1.setTurno(TipoTurno.ATAQUE);
 		jogador2.setTurno(TipoTurno.DEFESA);
 	}
-
-	private void iniciarJogadores(boolean bots){
-		this.jogador1 = new Jogador(DeckFactory.obterDeck(0), "Player1");
-		this.jogador2 = new Bot(DeckFactory.obterDeck(0), "Player2");
-
-		jogador1.setTurno(TipoTurno.ATAQUE);
-		jogador2.setTurno(TipoTurno.DEFESA);
+	
+	//Função na qual o jogador escolhe o seu deck, recebe uma String que representa o nome do jogador e realiza uma leitura
+	//para que o jogador consiga especificar qual deck quer usar
+	public Jogador escolherDeck(String player) {
+		boolean finished = false;
+		Jogador jogador;
+		while (!finished) {
+			System.out.printf("Escolha o seu deck %s: \n"
+					+ "[1] - Demacia\n"
+					+ "[2] - Noxus\n", player);
+			int entrada = Leitor.lerInt();
+			finished = true;
+			if (entrada == 1) {
+				jogador = new Jogador(DeckFactory.obterDeck(1), player);
+				return jogador;				
+			} else if (entrada == 2){
+				jogador = new Jogador(DeckFactory.obterDeck(2), player);
+				return jogador;
+			} else {
+				System.out.printf("Comando inválido\n\n");
+				finished = false;
+			}
+		}
+		return null;
 	}
 }
