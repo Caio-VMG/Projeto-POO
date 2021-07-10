@@ -3,9 +3,7 @@ package projeto;
 import projeto.cartas.Carta;
 import projeto.cartas.TipoTurno;
 import projeto.decks.Deck;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Jogador {
 	private String nome;

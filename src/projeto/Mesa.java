@@ -4,7 +4,6 @@ import projeto.cartas.Unidade;
 import projeto.cartas.Campeao;
 import projeto.cartas.Carta;
 import projeto.cartas.TipoTurno;
-import projeto.cartas.Unidade;
 
 import java.util.ArrayList;
 

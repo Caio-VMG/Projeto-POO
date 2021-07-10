@@ -1,10 +1,6 @@
 package projeto.cartas.efeitos;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import projeto.Jogador;
-import projeto.cartas.Carta;
 import projeto.cartas.Unidade;
 
 //Efeito 11

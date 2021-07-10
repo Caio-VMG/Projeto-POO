@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import projeto.Jogador;
-import projeto.cartas.efeitos.AtacaTodosInimigos;
 import projeto.cartas.efeitos.Efeito;
 import projeto.cartas.efeitos.TipoChamada;
 

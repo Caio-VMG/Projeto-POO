@@ -1,6 +1,5 @@
 package projeto.cartas.efeitos;
 import projeto.Jogador;
-import projeto.cartas.Carta;
 import projeto.cartas.Unidade;
 
 public abstract class Efeito {

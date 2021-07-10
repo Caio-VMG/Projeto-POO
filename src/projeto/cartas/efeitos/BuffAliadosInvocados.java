@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import projeto.Jogador;
 import projeto.cartas.Carta;
-import projeto.cartas.Feitico;
-import projeto.cartas.TipoFeitico;
 import projeto.cartas.Unidade;
 
 // Efeito 1
