@@ -1,5 +1,5 @@
 package projeto.cartas;
 
 public enum TipoFeitico {
-	UNICO, MULTUO, ADVERSARIO
+	UNICO, MUTUO, ADVERSARIO
 }

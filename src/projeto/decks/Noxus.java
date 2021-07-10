@@ -52,7 +52,7 @@ public class Noxus extends Deck {
                 NoxianoI.addElusivo();
                 this.add(NoxianoI);
             } else if (valor == 7) {
-                Feitico LacoI = new Feitico("Laço de irmãos", 3, TipoFeitico.MULTUO);
+                Feitico LacoI = new Feitico("Laço de irmãos", 3, TipoFeitico.MUTUO);
                 LacoI.addEfeito(new BuffAliadoInvocado(2, 0));
                 this.add(LacoI);
             } else if (valor == 8) {
@@ -60,7 +60,7 @@ public class Noxus extends Deck {
                 equiparM.addEfeito(new BuffAliadoInvocado(1, 0));
                 this.add(equiparM);
             } else if (valor == 9) {
-                Feitico incentivar = new Feitico("Incentivar", 2, TipoFeitico.MULTUO);
+                Feitico incentivar = new Feitico("Incentivar", 2, TipoFeitico.MUTUO);
                 incentivar.addEfeito(new BuffAliadosInvocados(1, 0));
                 this.add(incentivar);
             } else{
