@@ -71,7 +71,7 @@ public class Feitico extends Carta{
 
 	@Override
 	public void usarCarta(Jogador atacante, Jogador defensor) {
-		if(tipo == TipoFeitico.MULTUO && atacante.getQtdEvocadas() > 0) {
+		if(tipo == TipoFeitico.MUTUO && atacante.getQtdEvocadas() > 0) {
 			for(int i = 0; i < atacante.getQtdEvocadas(); i++) {
 				Unidade escolhida = (Unidade)atacante.getEvocadas().get(i);
 				for(int j = 0; i < efeitos.size(); i++) {
