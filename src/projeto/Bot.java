@@ -2,6 +2,7 @@ package projeto;
 
 import projeto.cartas.Carta;
 import projeto.cartas.TipoTurno;
+import projeto.cartas.Unidade;
 import projeto.decks.Deck;
 
 import java.util.ArrayList;
@@ -13,20 +14,35 @@ public class Bot extends Jogador {
         super(deck, nome);
     }
 
-    @Override
+    //================== Manejamento de cartas ==================
+
     /**
      * O bot realiza a primeira compra ao iniciar o jogo.
      */
+    @Override
     public void primeiraCompra(){
         for(int i = 0; i < super.maxUnidades; i++){
             pegarCarta();
         }
     }
 
-    @Override
-    public boolean isConsciente() {
-        return false;
+    /**
+     * Adiciona todas as cartas da mao que podem ser
+     * evocadas em uma lista e retorna essa lista.
+     */
+    private ArrayList<Carta> checarMao(){
+        ArrayList<Carta> possiveisCartas = new ArrayList<>();
+        ArrayList<Carta> mao = super.getMao();
+        for(Carta carta: mao){
+            if(super.getMana() >= carta.getCusto() && carta.ehTrocavel()){
+                possiveisCartas.add(carta);
+            }
+        }
+        return possiveisCartas;
     }
+
+    //====================== Tomada de Decisoes ======================
+
 
     /**
      * O bot ira determinar as decisoes possiveis
@@ -68,27 +84,12 @@ public class Bot extends Jogador {
         carta.usarCarta(jogando, observando);
     }
 
-
     /**
-     * Adiciona todas as cartas da mao que podem ser
-     * evocadas em uma lista e retorna essa lista.
+     * Escolhe uma das cartas sumonadas aleatoriamente. A função
+     * pode retornar null se todas as cartas tiverem sido evocadas ou
+     * se o Bot decidir não sumonar mais cartas.
      */
-    private ArrayList<Carta> checarMao(){
-        ArrayList<Carta> possiveisCartas = new ArrayList<>();
-        ArrayList<Carta> mao = super.getMao();
-        for(Carta carta: mao){
-            if(super.getMana() >= carta.getCusto() && carta.ehTrocavel()){
-                possiveisCartas.add(carta);
-            }
-        }
-        return possiveisCartas;
-    }
-
-
     @Override
-    /**
-     * Escolhe uma das cartas
-     */
     public Carta escolherCartaBatalha(int entrada){
         Random random = new Random();
         ArrayList<Carta> evocadas = super.getEvocadas();
@@ -104,6 +105,29 @@ public class Bot extends Jogador {
         }
     }
 
+    @Override
+    public int escolherPosicao(Mesa mesa){
+        boolean temPosValidas = false;
+        ArrayList<Integer> posicoes = new ArrayList<>();
+        for(int i = 0;i < mesa.getQtdAtacantes(); i++){
+            Unidade atacante = mesa.getAtacante(i);
+            Unidade defensor = mesa.getDefensor(i);
+            if(atacante != null && defensor == null) {
+                posicoes.add(i);
+                temPosValidas = true;
+            }
+        }
+        if(temPosValidas){
+            Random random = new Random();
+            return posicoes.get(random.nextInt(posicoes.size()));
+        } else {
+            return -1;
+        }
+    }
 
+    @Override
+    public boolean isConsciente() {
+        return false;
+    }
 
 }

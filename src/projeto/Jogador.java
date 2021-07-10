@@ -9,22 +9,18 @@ public class Jogador {
 	private String nome;
     private int nexus;
     private int manaAtual;
-    private int manaTotal;
     private int manaFeitico;
     private Deck deck;
     private TipoTurno turno;
 
-    //const.
-    protected final int maxEvocadas = 6;
     protected final int maxUnidades = 4;
 
     private ArrayList<Carta> mao;
-    private ArrayList<Carta> evocadas; // Cartas que ja foram compradas.
+    private ArrayList<Carta> evocadas;
 
     public Jogador(Deck deck, String nome){
     	this.nome = nome;
         this.deck = deck;
-        this.manaTotal = 0;
         this.manaAtual = 0;
         this.manaFeitico = 0;
         this.nexus = 20;
@@ -78,7 +74,6 @@ public class Jogador {
         boolean terminou = false;
 
         ArrayList<Integer> cartasTrocadas = new ArrayList<>();
-        //imprimeMao();
         Impressora impressora = new Impressora();
         impressora.imprimeMao(this);
         System.out.println("Quais cartas serão trocadas? (Digite 0 quando finalizar)");
@@ -155,6 +150,8 @@ public class Jogador {
         manaAtual = carta.calcularCustoNormal(manaFeitico, manaAtual);
     }
 
+    //=================== Substituicao de cartas ===================
+
     /**
      * Escolhe duas cartas para serem substituidas, entre uma evocada e uma ainda nao
      * evocada.
@@ -191,9 +188,9 @@ public class Jogador {
                 System.out.println("A troca não é válida.");
             }
         }
-
         return substituirCarta(evocada, substituta);
     }
+
 
     /**
      * Checa se a entrada passada é condizente com os indices da mao.
@@ -211,11 +208,7 @@ public class Jogador {
      * Checa se a entrada corresponde a uma carta evocada.
      */
     private boolean checarEntradaEvocadas(int entrada){
-        if(entrada > 0 && entrada < getQtdEvocadas()){
-            return true;
-        } else {
-            return false;
-        }
+        return entrada > 0 && entrada < getQtdEvocadas();
     }
 
     /**
@@ -242,7 +235,6 @@ public class Jogador {
         return trocou;
     }
 
-
     /**
      * Troca uma carta evocada por uma carta da mao.
      */
@@ -253,25 +245,6 @@ public class Jogador {
         evocadas.add(substituta);
     }
 
-    /**
-     * Quando o jogador não possui mana suficiente pra evocar nenhuma carta
-     * e não possui nenhuma carta evocada, então ele não tem nenhuma jogada possível.
-     * PS: esse método ainda não está sendo usado.
-     
-    private boolean podeJogar() {
-    	int count = 0;
-    	for(int i = 0; i < mao.size(); i++) {
-    		Carta aux = mao.get(i);
-    		if(!mao.get(i).canSummon(manaAtual, manaFeitico)) {
-    			count++;
-    		}
-    	}
-    	if((count == mao.size()) && this.evocadas.size() == 0) {
-    		return false;
-    	}
-    	return true;
-    }
-	*/
 
     /**
      * A carta passada é adicionada na lista de cartas evocadas do jogador.
@@ -316,8 +289,6 @@ public class Jogador {
     	else {
     		this.manaAtual += valor;
     	}
-        //this.manaAtual = this.manaTotal;
-        this.manaTotal = this.manaAtual;
     }
 
 
@@ -374,22 +345,6 @@ public class Jogador {
     }
 
 
-    /**
-     * Imprime todas as cartas que estão na mão do jogador
-     * com um respectivo índice.
-     */
-    /*private void imprimeMao() {
-        System.out.println();
-        System.out.printf("Mão de %s:\n", this.nome);
-        System.out.println("=================================================================================");
-        for(int i = 0; i < mao.size(); i++) {
-            mao.get(i).printCarta(i + 1);
-        }
-        System.out.println();
-        System.out.println("=================================================================================");
-        System.out.println();
-    }*/
-
     private void printDetalhesCartas(){
         for(Carta carta: mao){
             carta.printDetalhes();
@@ -398,6 +353,20 @@ public class Jogador {
         System.out.println();
     }
 
+    //=================== Auxiliares ===================
+
+
+    public int tomarDecisao(){
+        return 2;
+    }
+
+    public void sumonarAleatoriamente(Jogador jogando, Jogador observando){
+
+    }
+
+    public int escolherPosicao(Mesa mesa){
+        return 0;
+    }
 
     //========================= Getters =========================
 
@@ -444,13 +413,8 @@ public class Jogador {
 
     //========================= Setters  =========================
 
-
     public void setMana(int pontos) {
     	this.manaAtual = pontos;
-    }
-
-    public void setDeck(Deck deck){
-        this.deck = deck;
     }
 
     public void setTurno(TipoTurno turno) {
@@ -459,15 +423,6 @@ public class Jogador {
     
     public void addCartaMao(Carta carta) {
     	this.mao.add(carta);
-    }
-
-
-    public int tomarDecisao(){
-        return 2;
-    }
-
-    public void sumonarAleatoriamente(Jogador jogando, Jogador observando){
-
     }
 
 }

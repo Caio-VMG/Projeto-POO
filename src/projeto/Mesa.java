@@ -92,9 +92,11 @@ public class Mesa {
 	
 	private void conferirEvolucoes() {
 		for (int i = 0; i < qtdAtacantes; i++ ) {
-			if (atacantes.get(i).ehEvoluivel()) {
-				Campeao c = (Campeao)atacantes.get(i);
-				c.tentarEvoluir();
+			if(atacantes.get(i) != null){
+				if (atacantes.get(i).ehEvoluivel()) {
+					Campeao c = (Campeao)atacantes.get(i);
+					c.tentarEvoluir();
+				}
 			}
 		}
 		
@@ -110,13 +112,13 @@ public class Mesa {
 		for(int i = 0; i < 4; i++) {
 			if(atacantes.get(i) != null){
 				if(atacantes.get(i).getVida() <= 0) {
-					atacantes.remove(i);
+					atacantes.set(i, null);
 					qtdAtacantes--;
 				}
 			}
 			if(defensores.get(i) != null){
 				if(defensores.get(i).getVida() <= 0) {
-					defensores.remove(i);
+					defensores.set(i, null);
 					qtdDefensores--;
 				}
 			}
@@ -145,7 +147,7 @@ public class Mesa {
 	 * Adiciona uma Unidade no lado de ataque da mesa.
 	 */
 	public void adicionarAtacante(Unidade unidade) {
-		atacantes.add(qtdAtacantes, unidade);
+		atacantes.set(qtdAtacantes, unidade);
 		this.qtdAtacantes++;
 	}
 
@@ -159,15 +161,6 @@ public class Mesa {
     }
 
 
-	/**
-	 * Cada atacante vai atacar um defensor, se este estiver na coluna, ou
-	 * o nexus do "defensor", se não houver defensor.
-	 */
-	public int temAtacante() {
-		return this.qtdAtacantes;
-	}
-
-
 	//===================== Manipulação da Mesa =====================
 
 
@@ -177,9 +170,10 @@ public class Mesa {
 		this.defensores = aux;
 	}
 	
-	/*Rece um jogador e retorna as cartas em atacantes ou defensores para sua
+	/**
+	 * Recebe um jogador e retorna as cartas em atacantes ou defensores para sua
 	 * mão, de acordo com seu TipoTurno
-	 * */
+	 */
 	public void devolverCartas(Jogador jogador) {
 		
 		if (jogador.getTurno() == TipoTurno.ATAQUE) {
@@ -281,6 +275,13 @@ public class Mesa {
 
 	//======================== Getters ========================
 
+	public Unidade getAtacante(int i){
+		return atacantes.get(i);
+	}
+
+	public Unidade getDefensor(int i){
+		return defensores.get(i);
+	}
 
 	public int getQtdDefensores() {
 		return qtdDefensores;

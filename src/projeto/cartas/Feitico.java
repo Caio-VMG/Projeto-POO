@@ -21,11 +21,7 @@ public class Feitico extends Carta{
 
 	@Override
 	public boolean canSummon(int manaAtual, int manaFeitico) {
-		if(this.getCusto() > manaAtual + manaFeitico){
-			return false;
-		} else {
-			return true;
-		}
+		return this.getCusto() <= manaAtual + manaFeitico;
 	}
 
 	public int calcularCustoManaFeitico(int manaFeitico){
@@ -84,7 +80,7 @@ public class Feitico extends Carta{
 			Scanner ler = new Scanner(System.in);
 			int escolha = ler.nextInt();
 			while(escolha > atacante.getEvocadas().size() || escolha < 1) {
-				System.out.println("Escolha inv�lida");
+				System.out.println("Escolha inválida");
 				escolha = ler.nextInt();
 			}
 			Unidade escolhida = (Unidade)atacante.getEvocadas().get(escolha - 1);

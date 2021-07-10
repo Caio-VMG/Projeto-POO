@@ -22,7 +22,7 @@ public class Unidade extends Carta{
 	protected int danoSofrido = 0;
 	protected int danoCausado = 0;
 
-    //Construtor para quando a carta tem efeito e tem tra�o
+    //Construtor para quando a carta tem efeito e tem traço
     public Unidade(String nome, int custo, int vida, int poder) {
     	super(nome, custo);
     	this.vida = vida;
@@ -86,24 +86,20 @@ public class Unidade extends Carta{
     }
 
     public void confereEfeitoKill(Jogador jogador) {
-    	for(int i = 0; i < efeitos.size(); i++) {
-    		efeitos.get(i).ativarEfeitoKill(jogador);
-    	}
+		for (int i = 0; i < efeitos.size(); i++) {
+			efeitos.get(i).ativarEfeitoKill(jogador);
+		}
     }
     
     public void confereEfeitoMorte(Jogador jogador) {
-    	for(int i = 0; i < efeitos.size(); i++) {
-    		efeitos.get(i).ativarEfeitoMorte(jogador);
-    	}
+		for (int i = 0; i < efeitos.size(); i++) {
+			efeitos.get(i).ativarEfeitoMorte(jogador);
+		}
     }
 
 	@Override
 	public boolean canSummon(int manaAtual, int manaFeitico) {
-		if(this.getCusto() > manaAtual){
-			return false;
-		} else {
-			return true;
-		}
+		return this.getCusto() <= manaAtual;
 	}
 
 	public int calcularCustoManaFeitico(int manaFeitico){
@@ -250,10 +246,6 @@ public class Unidade extends Carta{
 
 	public void mostrarCarta(){
 		printUnidade();
-	}
-
-	public int getSizeString(){
-		return super.getNome().length() + 3 + 3 + 4;
 	}
 
 	public boolean ehTrocavel(){

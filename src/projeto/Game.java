@@ -12,13 +12,12 @@ public class Game {
 
 	private int passadas;
 	private boolean batalha;
-	private boolean exitSelected;
 
 	// ============================== START ==============================
 
 
 	public void start() {
-		exitSelected = batalha = false;
+		boolean exitSelected = batalha = false;
 		passadas = 0;
 		iniciarMesa();
 		
@@ -33,9 +32,8 @@ public class Game {
 			jogador2.primeiraCompra();
 			
 			int numRodada = 1;
-			//Começa o loop
 			boolean rodadaIsOver = false;
-			while (!rodadaIsOver) {
+			while (!rodadaIsOver) { // Loop das rodadas
 				
 				Jogador aux = atacante;
 				atacante = defensor;
@@ -55,23 +53,28 @@ public class Game {
 
 
 				passadas = 0;
-				while (!batalha && passadas != 2) {
-					imprimirTabuleiro();
+				imprimirTabuleiro();
+				while (!batalha && passadas != 2) { // Loop dos turnos
 					realizarTurno(atacante, defensor);
 					if(passadas == 2){
 						break;
 					}
 					imprimirTabuleiro();
-					if(batalha == false){
+					if(!batalha){
 						realizarTurno(defensor, atacante);
 					} else {
 						if(defensor.getQtdEvocadas() > 0) {
-							perguntarDefesa(defensor, atacante);
+							if(defensor.isConsciente()){
+								perguntarDefesa(defensor);
+							} else {
+								simularDefesa(defensor);
+							}
 						}
 					}
+					imprimirTabuleiro();
 				}
 
-				if(batalha == true)
+				if(batalha)
 					mesa.batalhaMesa(atacante, defensor);
 				batalha = false;
 				mesa.inverteMesa();
@@ -90,17 +93,17 @@ public class Game {
 				}
 			}
 		exitSelected = true;
-		System.out.println("Game terminated. Bye!");
+		System.out.println("Fim de Jogo! Obrigado por Jogar!");
 		}
 	}
 
 
-	// ============================== Funções de Interação com Jogadores ==============================
+	// ============================== Funções de Turnos ==============================
 
 
 	/**
-	 * Em cada turno, o jogador toma uma decisao e é simulado um
-	 * comportamento do Bot.
+	 * Se jogando for um jogador propriamente, a entrada dele é coletada.
+	 * Se for um bot, um comportamento de decisão é simulado
 	 */
 	private void realizarTurno(Jogador jogando, Jogador observando){
 		if(jogando.isConsciente()){
@@ -110,37 +113,9 @@ public class Game {
 		}
 	}
 
-	/**
-	 * Um bot escolhe toma uma decisao em um determinado round.
-	 * Entre sumonar, passar a vez ou atacar.
-	 * O bot sempre toma uma decisao condizente com o que é
-	 * possível fazer.
-	 */
-	private void simularComportamento(Jogador jogando, Jogador observando){
-		// A decisao nao permite voltar atras,
-		// o bot sempre toma uma decisao possivel.
-		int decisao = jogando.tomarDecisao();
-		if(decisao == 1){
-			jogando.sumonarAleatoriamente(jogando, observando);
-			passadas = 0;
-		} else if (decisao == 2){
-			System.out.printf("%s passou a vez\n\n", jogando.getNome());
-			passadas += 1;
-		} else {
-			boolean finished = false;
-			int cartasEscolhidas = 0;
-			while(!finished){
-				Carta escolhida = jogando.escolherCartaBatalha(0);
-				if(escolhida == null && cartasEscolhidas != 0){
-					finished = true;
-				} else if(escolhida != null) {
-					cartasEscolhidas++;
-					mesa.adicionarAtacante((Unidade) escolhida);
-				}
-			}
-			batalha = true;
-		}
-	}
+
+	// ============================== Funções de Decisão dos Jogadores ==============================
+
 
 	/**
 	 * A aplicação obtem as entradas do jogador.
@@ -148,11 +123,11 @@ public class Game {
 	 * O defensor pode escolher entre: Sumonar ou Passar.
 	 */
 	private void pegarEntrada(Jogador jogando, Jogador observando){
-		
+
 		//cheats
 		jogando.alterarManaFeitico(50);
 		jogando.setMana(50);
-		
+
 		int entrada;
 		boolean finished = false;
 
@@ -163,9 +138,8 @@ public class Game {
 					"[1] - Sumonar\n" +
 					"[2] - Passar a vez\n", jogando.getNome());
 			if(jogando.getTurno() == TipoTurno.ATAQUE){
-				System.out.printf("[3] - Ataque\n");
+				System.out.printf("[3] - Ataque\n\n");
 			}
-			System.out.println();
 
 			entrada = Leitor.lerInt();
 			finished = true;
@@ -175,7 +149,7 @@ public class Game {
 					finished = substituirCartas(jogando);
 				} else {
 					finished = sumonar(jogando, observando);
-					if(finished == true){
+					if(finished){
 						passadas = 0;
 					}
 				}
@@ -192,6 +166,34 @@ public class Game {
 		}
 
 	}
+
+
+	/**
+	 * Se o atacante decidir atacar, então o defensor pode decidir
+	 * se defender ou não.
+	 */
+	private void perguntarDefesa(Jogador defensor){
+		int entrada;
+
+		System.out.printf("Turno de Defesa do %s\nEscolha uma opção:\n", defensor.getNome());
+		System.out.printf("[1] Defender \t [2] Passar\n");
+
+		entrada = Leitor.lerInt();
+
+		boolean valido = false;
+		do{
+			if(entrada == 1){
+				defender(defensor);
+				valido = true;
+			} else if (entrada == 2) {
+				valido = true;
+			} else {
+				System.out.println("Entrada inválida.");
+			}
+		}while(!valido);
+
+	}
+
 
 	/**
 	 * Quando atinge o limite de cartas evocadas, o jogador tem a opcao de substituir.
@@ -220,33 +222,62 @@ public class Game {
 		return trocou;
 	}
 
+	// ============================== Funções de Simulação dos Bots ==============================
+
 	/**
-	 * Se o atacante decidir atacar, então o defensor pode decidir
-	 * se defender ou não.
+	 * Um bot escolhe tomar uma decisao em um determinado turno.
+	 * Entre sumonar, passar a vez ou atacar.
+	 * O bot sempre toma uma decisao condizente com o que é possível fazer.
 	 */
-	private void perguntarDefesa(Jogador defensor, Jogador atacante){
-		int entrada;
-
-		System.out.printf("Turno de Defesa do %s\nEscolha uma opção:\n", defensor.getNome());
-		System.out.printf("[1] Defender \t [2] Passar\n");
-
-		entrada = Leitor.lerInt();
-
-		boolean valido = false;
-		do{
-			if(entrada == 1){
-				defender(defensor, atacante);
-				valido = true;
-			} else if (entrada == 2) {
-				valido = true;
-			} else {
-				System.out.println("Entrada inválida.");
+	private void simularComportamento(Jogador jogando, Jogador observando){
+		int decisao = jogando.tomarDecisao();
+		if(decisao == 1){
+			jogando.sumonarAleatoriamente(jogando, observando);
+			passadas = 0;
+		} else if (decisao == 2){
+			System.out.printf("%s passou a vez\n\n", jogando.getNome());
+			passadas += 1;
+		} else {
+			boolean finished = false;
+			int cartasEscolhidas = 0;
+			while(!finished){
+				Carta escolhida = jogando.escolherCartaBatalha(0);
+				if(escolhida == null && cartasEscolhidas != 0) {
+					finished = true;
+				}else if(mesa.getQtdAtacantes() == 4 && escolhida != null){
+					finished = true;
+					jogando.getMao().add(escolhida);
+				} else if(escolhida != null) {
+					cartasEscolhidas++;
+					mesa.adicionarAtacante((Unidade) escolhida);
+				}
 			}
-		}while(!valido);
-
+			batalha = true;
+		}
 	}
 
+
+	private void simularDefesa(Jogador defensor){
+		boolean finished = false;
+		while(!finished){
+			Carta escolhida = defensor.escolherCartaBatalha(0);
+			if(escolhida != null){
+				int pos = defensor.escolherPosicao(mesa);
+				if(pos == -1){
+					defensor.addCartaMao(escolhida);
+					finished = true;
+				} else {
+					mesa.adicionarDefensor((Unidade) escolhida, pos + 1);
+				}
+			} else {
+				finished = true;
+			}
+		}
+	}
+
+
 	// ============================== Funções de Batalha ==============================
+
 
 	/**
 	 * O atacante escolhe de 1 até no máximo 4 cartas para colocar
@@ -293,7 +324,7 @@ public class Game {
 	 * ele deve escolher quais as unidades sumonadas vão batalhar
 	 * contra cada uma das unidades de ataque.
 	 */
-	private void defender(Jogador defensor, Jogador atacante) {
+	private void defender(Jogador defensor) {
 		int entrada, posicao;
 		Carta cartaEscolhida;
 		boolean terminado = false;
@@ -355,9 +386,12 @@ public class Game {
 
 	// ============================== Impressão do Tabuleiro ==============================
 
+	/**
+	 * Imprime o tabuleiro mostrando todas as cartas evocadas e a mesa de batalha.
+	 */
 	private void imprimirTabuleiro(){
-		System.out.println("___________________________________");
-		System.out.printf("Evocadas de %s\n", jogador1.getNome());
+		System.out.println("\n\n___________________________________");
+		System.out.printf("Evocadas de %s (Vida: %d|Mana: %d)\n", jogador1.getNome(),jogador1.getVida(), jogador1.getMana());
 		jogador1.mostrarEvocadas();
 		System.out.println("\n####################################");
 		System.out.printf("Campo de %s\n", jogador1.getTurnoString());
@@ -367,20 +401,24 @@ public class Game {
 		System.out.printf("\nCampo de %s\n", jogador2.getTurnoString());
 		System.out.println("####################################");
 		jogador2.mostrarEvocadas();
-		System.out.printf("\nEvocadas de %s\n", jogador2.getNome());
+		System.out.printf("\nEvocadas de %s (Vida: %d|Mana: %d)\n", jogador2.getNome(),jogador2.getVida(), jogador2.getMana());
 		System.out.println("___________________________________");
 	}
 
 
 	// ============================== Inicialização ==============================
 
+	/**
+	 * A mesa é preenchida com cartas vazias.
+	 */
 	private void iniciarMesa(){
 		this.mesa = new Mesa();
 		mesa.preencheMesa();
 	}
-	
-	
-	//Função responsável por escolher o modo de jogo, lendo uma entrada do jogador
+
+	/**
+	 * Ao iniciar o modo de jogo é definido, lendo a entrada do jogador.
+	 */
 	private void escolherModo() {
 		boolean finished = false;
 		while (!finished) {
@@ -402,9 +440,13 @@ public class Game {
 			}
 		}
 	}
-	
-	//Função responsável por inicializar os jogadores. Recebe um inteiro, que representa o modo de jogo e define que tipo de jogadores
-	//devem ser inicializados
+
+
+	/**
+	 * Função responsável por inicializar os jogadores.
+	 * Recebe um inteiro, que representa o modo de jogo e define que tipo de jogadores
+	 * devem ser inicializados
+	 */
 	private void iniciarJogadores(int modo){
 		Random random = new Random();
 		int deckRandom = random.nextInt(2) + 1;
@@ -423,9 +465,12 @@ public class Game {
 		jogador1.setTurno(TipoTurno.ATAQUE);
 		jogador2.setTurno(TipoTurno.DEFESA);
 	}
-	
-	//Função na qual o jogador escolhe o seu deck, recebe uma String que representa o nome do jogador e realiza uma leitura
-	//para que o jogador consiga especificar qual deck quer usar
+
+	/**
+	 * Função na qual o jogador escolhe o seu deck, recebe uma String
+	 * que representa o nome do jogador e realiza uma leitura
+	 * para que o jogador consiga especificar qual deck quer usar
+	 */
 	public Jogador escolherDeck(String player) {
 		boolean finished = false;
 		Jogador jogador;

@@ -19,14 +19,6 @@ public abstract class Carta {
 
     public abstract int calcularCustoNormal(int manaFeitico, int manaNormal);
 
-    public void printCarta(){
-        System.out.printf(" %s (%d) \t ", this.nome, this.custo);
-    }
-
-    public void printCarta(int i){
-        System.out.printf("[%d] %s (%d) \t ", i , this.nome, this.custo);
-    }
-
     public abstract void printDetalhes();
 
     public abstract void mostrarCarta();
@@ -46,8 +38,6 @@ public abstract class Carta {
     public abstract boolean ehElusivo();
 
     public abstract boolean ehTrocavel();
-    
-
 
     /**
      * Devolve a unidade.
@@ -55,6 +45,8 @@ public abstract class Carta {
      */
     public abstract Carta getUnidade();
 
-
+    public void printCarta(){
+        System.out.printf(" %s (%d) \t ", this.nome, this.custo);
+    }
 
 }

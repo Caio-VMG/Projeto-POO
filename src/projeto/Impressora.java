@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class Impressora {
 
 
+    /**
+     * Imprime a mao de um jogador com uma barra separadora
+     */
     public void imprimeMao(Jogador jogador){
         System.out.println();
         System.out.printf("Mão de %s:\n", jogador.getNome());
@@ -33,6 +36,9 @@ public class Impressora {
         imprimeBarra(tamanho);
     }
 
+    /**
+     * Imprime a barra de separacao
+     */
     public void imprimeBarra(int tamanhoBarra){
         for(int i = 0; i < tamanhoBarra; i++){
             System.out.printf("=");
@@ -40,6 +46,9 @@ public class Impressora {
         System.out.println();
     }
 
+    /**
+     * Calcula o tamanho da barra que é usada na impressao da mao do jogador
+     */
     private int calcularTamanhoBarra(ArrayList<Carta> mao){
         int tamanho = 0;
         int max = 4;
