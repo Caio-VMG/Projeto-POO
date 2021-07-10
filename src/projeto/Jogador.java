@@ -287,7 +287,8 @@ public class Jogador {
     /**
      * Coloca uma carta na mesa para batalhar.
      */
-    public Carta escolherCartaBatalha(int entrada) {
+    public Carta
+    escolherCartaBatalha(int entrada) {
         if(entrada <= getQtdEvocadas()){
             Carta cartaEscolhida = evocadas.get(entrada - 1);
             evocadas.remove(entrada - 1);

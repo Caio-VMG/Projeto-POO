@@ -63,7 +63,7 @@ public class Game {
 
 
 				passadas = 0;
-				while (!batalha && passadas != 2 && !rodadaIsOver) {
+				while (!batalha && passadas != 2) {
 					imprimirTabuleiro();
 					realizarTurno(atacante, defensor);
 					if(passadas == 2){

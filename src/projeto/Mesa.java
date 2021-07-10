@@ -35,9 +35,10 @@ public class Mesa {
 		
 	}
 
-	/*Vai receber o jogador defendendo e realizar a batalha entre cada  personagem 
-	atacante e cada personagem defensor causando dano no nexus do defensor caso 
-	não tenha um defensor na posição onde o atacante está atacando
+	/**
+	 * Vai receber o jogador defendendo e realizar a batalha entre cada  personagem
+	 * 	atacante e cada personagem defensor causando dano no nexus do defensor caso
+	 * 	não tenha um defensor na posição onde o atacante está atacando
 	*/
 	private void batalhar(Jogador defensor) {
 		for(int i = 0; i < qtdAtacantes; i++) {
