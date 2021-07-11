@@ -125,8 +125,8 @@ public class Game {
 	private void pegarEntrada(Jogador jogando, Jogador observando){
 
 		//cheats
-		jogando.alterarManaFeitico(50);
-		jogando.setMana(50);
+		//jogando.alterarManaFeitico(50);
+		//jogando.setMana(50);
 
 		int entrada;
 		boolean finished = false;
