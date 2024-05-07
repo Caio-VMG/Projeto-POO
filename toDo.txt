@@ -1,0 +1,1 @@
+1) Trocar uma carta da mao por uma carta evocada quando for atingido o maximo.
